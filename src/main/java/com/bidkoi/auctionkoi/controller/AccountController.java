@@ -7,6 +7,7 @@ import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.service.IAccountService;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,7 +22,7 @@ public class AccountController {
     IAccountService iAccountService;
 
     @PostMapping("/register")
-    ApiResponse<AccountDTO> register(@RequestBody AccountCreationRequest request) {
+    ApiResponse<AccountDTO> register(@RequestBody @Valid AccountCreationRequest request) {
         return ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
     }
 
