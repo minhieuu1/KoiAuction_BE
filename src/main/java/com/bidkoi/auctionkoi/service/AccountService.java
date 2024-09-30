@@ -20,6 +20,8 @@ import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -33,6 +35,7 @@ public class AccountService implements IAccountService {
 
     IAccountRepository iAccountRepository;
     IAccountMapper iAccountMapper;
+    PasswordEncoder passwordEncoder;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -48,6 +51,7 @@ public class AccountService implements IAccountService {
         }
 
         Account account = iAccountMapper.toAccount(request);
+        account.setPassword(this.passwordEncoder.encode(request.getPassword()));
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
@@ -56,6 +60,11 @@ public class AccountService implements IAccountService {
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        if(!authenticated) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
 
         var token = generateToken(request.getUsername());
         return LoginResponse.builder()
