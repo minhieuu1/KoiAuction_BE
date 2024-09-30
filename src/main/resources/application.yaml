@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet: { context-path: /BidKoi }
+
+spring:
+  datasource:
+    driver-class-name: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    url: "jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=AuctionKoi"
+    username: "sa"
+    password: "12345"
+  jpa:
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.SQLServerDialect"
+    hibernate:
+      ddl-auto: none
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "26327612706-f4e75v844jqi6qipokagih29rm53sphs.apps.googleusercontent.com"
+            client-secret: "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"
+
+
+jwt:
+  signerKey: "0g0avXnDMtvyD/NQA5jLi3d6/xYtNwMlYsETTarZ6g8smHtHp+p6u2Pa4r1Zpyzr"
