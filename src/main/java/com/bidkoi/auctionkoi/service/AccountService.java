@@ -2,6 +2,8 @@ package com.bidkoi.auctionkoi.service;
 
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
+import com.bidkoi.auctionkoi.exception.AppException;
+import com.bidkoi.auctionkoi.exception.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAccountMapper;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
@@ -38,7 +40,12 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDTO createAccount(AccountCreationRequest request) {
-
+        if (iAccountRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        else if(iAccountRepository.existsByEmail(request.getEmail())) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
 
         Account account = iAccountMapper.toAccount(request);
 
@@ -48,7 +55,7 @@ public class AccountService implements IAccountService {
     @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(request.getUsername());
         return LoginResponse.builder()
