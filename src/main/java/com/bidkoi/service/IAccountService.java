@@ -19,7 +19,4 @@ public interface IAccountService {
     Optional<Bidder> getBidderById(String accountId);
 
 
-
-
-
 }

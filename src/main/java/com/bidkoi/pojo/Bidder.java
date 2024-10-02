@@ -15,7 +15,6 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bidder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
