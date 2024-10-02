@@ -13,6 +13,9 @@ public enum ErrorCode {
     PHONE_INVALID(400,"Phone number must be 10 characters"),
     UNAUTHENTICATED(401,"Invalid username or password!"),
     INVALID_EMAIL(400,"Invalid email address!"),
+    KOI_NOT_FOUND(400,"Koi not found!"),
+    BREEDER_NOT_FOUND(400,"Breeder not found!"),
+    STATUS_ERROR(400,"Status error!"),
     ;
     int code;
     String message;
