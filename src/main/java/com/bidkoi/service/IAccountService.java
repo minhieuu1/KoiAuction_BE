@@ -18,5 +18,7 @@ public interface IAccountService {
 
     Optional<Bidder> getBidderById(String accountId);
 
+    public BidderDTO updateProfile(String accountID, BidderDTO bidderDTO);
+
 
 }

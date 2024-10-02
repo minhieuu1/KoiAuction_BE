@@ -99,6 +99,46 @@ public class AccountService implements IAccountService {
         return iBidderRepository.findByAccountId(accountId);
     }
 
+    @Override
+    public BidderDTO updateProfile(String accountId, BidderDTO bidderDTO) {
+        Account account = iAccountRepository.findById(accountId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        Bidder bidder = iBidderRepository.findByAccountId(account.getId())
+                .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
+
+        // Cập nhật thông tin trong Bidder
+        bidder.setFirstname(bidderDTO.getFirstname());
+        bidder.setLastname(bidderDTO.getLastname());
+        bidder.setGender(bidderDTO.getGender());
+        bidder.setBirthday(bidderDTO.getBirthday());
+        bidder.setAddress(bidderDTO.getAddress());
+
+
+        account.setEmail(bidderDTO.getEmail());
+        account.setPhone(bidderDTO.getPhone());
+        bidder.setEmail(account.getEmail());
+        bidder.setPhone(account.getPhone());
+
+        bidder.setAccount(account); // Liên kết lại với Account
+
+        iAccountRepository.save(account);
+        iBidderRepository.save(bidder);
+
+        BidderDTO updatedBidderDTO = BidderDTO.builder()
+                .firstname(bidder.getFirstname())
+                .lastname(bidder.getLastname())
+                .gender(bidder.getGender())
+                .email(account.getEmail())
+                .phone(account.getPhone())
+                .birthday(bidder.getBirthday())
+                .address(bidder.getAddress())
+                .build();
+
+        return updatedBidderDTO;
+    }
+
+
 
     private String generateToken(String username) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
