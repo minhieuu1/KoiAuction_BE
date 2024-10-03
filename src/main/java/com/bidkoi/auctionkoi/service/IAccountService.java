@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.service;
 
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
+import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
@@ -18,4 +19,7 @@ public interface IAccountService {
    Optional<Account> getAccountById(String id);
 
    Optional<Bidder> getBidderById(String accountId);
+
+   public BidderDTO updateProfile(String accountID, BidderDTO bidderDTO);
+
 }
