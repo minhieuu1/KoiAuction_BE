@@ -8,6 +8,7 @@ import com.bidkoi.auctionkoi.exception.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAccountMapper;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
+import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
@@ -166,6 +167,21 @@ public class AccountService implements IAccountService {
                 .build();
 
         return updatedBidderDTO;
+    }
+
+    @Override
+    public void updatePassword(String accountId, UpdatePasswordRequest updatePasswordRequest) {
+
+        Account account = iAccountRepository.findById(accountId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+
+        if (!passwordEncoder.matches(updatePasswordRequest.getCurrentPassword(), account.getPassword())) {
+            throw new AppException(ErrorCode.INVALID_CURRENT_PASSWORD);
+        }
+        // Cập nhật password
+        account.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
+        iAccountRepository.save(account);
     }
 
 
