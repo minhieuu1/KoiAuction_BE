@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
+import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
@@ -39,6 +40,12 @@ public class AccountController {
     public ResponseEntity<Optional<Bidder>> getBidderByID(@PathVariable String accountId){
         Optional<Bidder> account = iAccountService.getBidderById(accountId);
         return ResponseEntity.ok(account);
+    }
+
+    @PutMapping("/update-profile/{accountId}")
+    public ResponseEntity<BidderDTO> updateProfile(@PathVariable String accountId, @RequestBody BidderDTO bidderDTO) {
+        BidderDTO updatedProfile = iAccountService.updateProfile(accountId, bidderDTO);
+        return ResponseEntity.ok(updatedProfile);
     }
 
 }
