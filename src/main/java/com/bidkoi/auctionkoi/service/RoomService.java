@@ -22,12 +22,11 @@ public class RoomService implements IRoomService {
     IKoiRepository ikoiRepo;
 
     @Override
-    public RoomDTO createRoom(Long koiId) {
+    public RoomDTO createRoom(String koiId) {
         Room room = new Room();
         room.setKoi(ikoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND)));
         return roomMapper.toRoomDTO(iroomRepo.save(room));
-//        return null;
     }
 
 

@@ -1,15 +1,15 @@
-package com.bidkoi.auctionkoi.dto;
+package com.bidkoi.auctionkoi.payload.request;
 
-import com.bidkoi.auctionkoi.pojo.Breeder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KoiDTO {
+public class KoiRequest {
+
     String koiId;
     Double length;
     String varieties;
@@ -21,5 +21,4 @@ public class KoiDTO {
     int method;
     Double initialPrice;
     Double finalPrice;
-    Breeder breeder;
 }

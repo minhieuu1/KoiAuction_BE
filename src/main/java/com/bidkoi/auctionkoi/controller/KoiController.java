@@ -3,6 +3,7 @@ package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.KoiDTO;
 import com.bidkoi.auctionkoi.payload.request.KoiCreationRequest;
+import com.bidkoi.auctionkoi.payload.request.KoiRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.KoiResponse;
 import com.bidkoi.auctionkoi.pojo.Breeder;
@@ -24,7 +25,7 @@ public class KoiController {
     IKoiService service;
 
     @PostMapping("/create/{breederId}")
-    ApiResponse<KoiDTO> create(@RequestBody KoiCreationRequest request,@PathVariable Long breederId) {
+    ApiResponse<KoiDTO> create(@RequestBody KoiRequest request, @PathVariable Long breederId) {
         return ApiResponse.<KoiDTO>builder()
                 .data(service.createKoi(request,breederId))
                 .build();
@@ -35,11 +36,31 @@ public class KoiController {
         return service.getAllKois();
     }
 
+//    @GetMapping("/{koiId}/{breederId}")
+//    ApiResponse<KoiDTO> get(@PathVariable Long koiId,@PathVariable Long breederId) {
+//        return ApiResponse.<KoiDTO>builder()
+//                data(service.getKoiById())
+//                .build();
+//    }
+
     @PutMapping("/{koiId}")
-    KoiResponse<KoiDTO> updateStatus(@PathVariable Long koiId , @RequestBody int status){
+    KoiResponse<KoiDTO> updateStatus(@PathVariable String koiId , @RequestBody int status){
         return KoiResponse.<KoiDTO>builder()
                 .koi(service.getKoiById(koiId))
                 .status(service.updateStatus(koiId,status))
                 .build();
+    }
+
+    @PutMapping("/update/{koiId}")
+    ApiResponse<KoiDTO> update(@PathVariable String koiId , @RequestBody KoiRequest request){
+        return ApiResponse.<KoiDTO>builder()
+                .data(service.updateKoi(koiId,request))
+                .build();
+    }
+
+    @DeleteMapping("/del/{koiId}")
+    String delete(@PathVariable String koiId){
+        service.deleteKoi(koiId);
+        return "Deleted";
     }
 }

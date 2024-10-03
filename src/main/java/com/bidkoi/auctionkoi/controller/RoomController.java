@@ -17,7 +17,7 @@ public class RoomController {
     IRoomService roomService;
 
     @PostMapping("/create/{koiId}")
-    ApiResponse<RoomDTO> createRoom(@PathVariable Long koiId) {
+    ApiResponse<RoomDTO> createRoom(@PathVariable String koiId) {
         return ApiResponse.<RoomDTO>builder()
                 .data(roomService.createRoom(koiId))
                 .build();
