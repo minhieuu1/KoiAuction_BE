@@ -12,15 +12,16 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Koi {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KoiID")
-    Long id;
+    String koiId;
     Double length;
     String varieties;
     String age;
     String sex;
     String image;
+    String video;
     String description;
+    int method;
     @Column(name = "Initial_price")
     Double initialPrice;
     @Column(name = "Final_price")
