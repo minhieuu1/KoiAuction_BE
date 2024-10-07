@@ -4,6 +4,7 @@ import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
+import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
@@ -28,13 +29,18 @@ public class AccountController {
     IAccountService iAccountService;
 
     @PostMapping("/register")
-    ApiResponse<AccountDTO> register(@RequestBody @Valid AccountCreationRequest request) {
+    ApiResponse<AccountDTO> register(@RequestBody @Valid RegisterRequest request) {
+        return ApiResponse.<AccountDTO>builder().data(iAccountService.register(request)).build();
+    }
+
+    @PostMapping("/create")
+    ApiResponse<AccountDTO> create(@RequestBody @Valid AccountCreationRequest request) {
         return ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
     }
 
     @PostMapping("/login")
-    LoginResponse login(@RequestBody LoginRequest loginDTO) {
-        return iAccountService.login(loginDTO);
+    LoginResponse login(@RequestBody LoginRequest request) {
+        return iAccountService.login(request);
     }
 
     @GetMapping("/view/{accountId}")

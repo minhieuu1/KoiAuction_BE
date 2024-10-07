@@ -4,14 +4,16 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
-import com.bidkoi.auctionkoi.exception.ErrorCode;
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAccountMapper;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
+import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
+import com.bidkoi.auctionkoi.enums.Role;
 import com.bidkoi.auctionkoi.repository.IAccountRepository;
 import com.bidkoi.auctionkoi.repository.IBidderRepository;
 import com.nimbusds.jose.*;
@@ -49,7 +51,7 @@ public class AccountService implements IAccountService {
     protected String SIGNER_KEY;
 
     @Override
-    public AccountDTO createAccount(AccountCreationRequest request) {
+    public AccountDTO register(RegisterRequest request) {
         if (iAccountRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
@@ -59,33 +61,54 @@ public class AccountService implements IAccountService {
 
         Account account = iAccountMapper.toAccount(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-
+//        account.setRole(Role.fromValue(request.getRole()));
         account = iAccountRepository.save(account);
 
-        Bidder bidder = new Bidder();
-        bidder.setAccount(account);
-        bidder = iBidderRepository.save(bidder);
+
+
+//        Bidder bidder = new Bidder();
+//        bidder.setAccount(account);
+//        bidder = iBidderRepository.save(bidder);
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
 
     @Override
+    public AccountDTO createAccount(AccountCreationRequest request) {
+        if (iAccountRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+        Account account = iAccountMapper.toAccountCreation(request);
+        account.setPassword(this.passwordEncoder.encode(request.getPassword()));
+        account.setRole(Role.fromValue(request.getRole()));
+        account = iAccountRepository.save(account);
+
+
+        return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
+    }
+
+//    @Override
+//    public AccountDTO createAccount(AccountCreationRequest request,int role) {
+//        Account account = iAccountMapper.toAccount(request);
+//        account.setPassword(this.passwordEncoder.encode(request.getPassword()));
+//        return null;
+//    }
+
+    @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USER));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if(!authenticated) {
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new AppException(ErrorCode.UNAUTHENTICATED_PASSWORD);
         }
 
-        var token = generateToken(request.getUsername());
+        var token = generateToken(user.getId(), user.getUsername(), user.getEmail(), user.getPhone());
         return LoginResponse.builder()
                 .token(token)
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phone(user.getPhone())
+                .role(user.getRole())
                 .build();
     }
 
@@ -95,16 +118,19 @@ public class AccountService implements IAccountService {
     }
 
 
-    private String generateToken(String username) {
+    String generateToken(String accountId, String username, String email, String phone) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(accountId)
                 .issuer("BidKoi.com")
                 .issueTime(new Date())
                 .issueTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
+                .claim("username", username)
+                .claim("email", email)
+                .claim("phone", phone)
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
