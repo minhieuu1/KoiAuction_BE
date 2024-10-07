@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,4 +23,13 @@ public class Account implements Serializable {
     String email;
     @Column(name = "Phone_number")
     String phone;
+    int role = 0;
+
+    public Role getRole() {
+        return Role.fromValue(role);
+    }
+
+    public void setRole(Role role) {
+        this.role = role.getValue();
+    }
 }

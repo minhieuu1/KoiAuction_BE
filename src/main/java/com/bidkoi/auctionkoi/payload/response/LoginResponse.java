@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.payload.response;
 
+import com.bidkoi.auctionkoi.enums.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,8 +11,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginResponse {
     String token;
-    String id;
-    String username;
-    String email;
-    String phone;
+    Role role;
 }
