@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ErrorCode {
     USER_EXISTED(422,"Username already existed!"),
+
     USER_NOT_FOUND(404,"User not found"),
     EMAIL_EXISTED(422, "Email already existed!"),
     USERNAME_INVALID(400,"Username must be between 8 and 16 characters"),
@@ -26,7 +27,6 @@ public enum ErrorCode {
     BID_ID_NOT_FOUND(404, "Bid ID not found!!!"),
     BIDDER_NOT_FOUND(404, "Bidder not found!!!"),
     ;
-
 
     int code;
     String message;

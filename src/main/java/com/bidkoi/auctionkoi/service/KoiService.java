@@ -6,7 +6,7 @@ import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IKoiMapper;
 import com.bidkoi.auctionkoi.payload.request.KoiRequest;
-import com.bidkoi.auctionkoi.enums.StatusRequest;
+import com.bidkoi.auctionkoi.enums.KoiStatus;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.repository.IBreederRepository;
@@ -50,34 +50,33 @@ public class KoiService implements IKoiService {
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND)));
     }
 
-
-//    @Override
-//    public KoiDTO getKoiById(Long koiId,Long breederId) {
-//        Koi koi = KoiRepo.findById(koiId).
-//                orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
-//        Breeder breeder = breederRepo.findById(breederId).
-//                orElseThrow(()->new AppException(ErrorCode.BREEDER_NOT_FOUND));
-//        koi.setBreeder(breeder);
-//        return mapper.toKoiDTO(koi);
-//
-//    }
+    @Override
+    public List<Koi> getKoiByBreederId(Long breederId) {
+        Breeder breeder = breederRepo.findById(breederId).
+                orElseThrow(()-> new AppException(ErrorCode.BREEDER_NOT_FOUND));
+        return KoiRepo.findByBreeder(breeder);
+    }
 
     @Override
-    public String updateStatus(String koiId, int value) {
-        String status="Pending";
-        if(value != 0 && value != 1 && value != 2){
+    public void approveKoi(String koiId) {
+        Koi koi = KoiRepo.findById(koiId)
+                .orElseThrow(()-> new AppException(ErrorCode.BREEDER_NOT_FOUND));
+        if(koi.getStatus() != KoiStatus.PENDING){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
-        Koi koi = KoiRepo.findById(koiId).
-                orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND));
-        koi.setStatus(value);
-        for(StatusRequest request:StatusRequest.values()){
-            if(request.getValue() == value){
-                status = request.getStatus();
-            }
-        }
+        koi.setStatus(KoiStatus.ACCEPTED);
         KoiRepo.save(koi);
-        return status;
+    }
+
+    @Override
+    public void rejectKoi(String koiId) {
+        Koi koi = KoiRepo.findById(koiId)
+                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+        if(koi.getStatus() != KoiStatus.PENDING){
+            throw new AppException(ErrorCode.STATUS_ERROR);
+        }
+        koi.setStatus(KoiStatus.SOLD);
+        KoiRepo.save(koi);
     }
 
     @Override
