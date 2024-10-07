@@ -1,4 +1,4 @@
-package com.bidkoi.auctionkoi.pojo;
+package com.bidkoi.auctionkoi.enums;
 
 public enum AuctionStatus {
     PENDING,

@@ -1,4 +1,4 @@
-package com.bidkoi.auctionkoi.payload.request;
+package com.bidkoi.auctionkoi.enums;
 
 import lombok.AccessLevel;
 import lombok.Getter;

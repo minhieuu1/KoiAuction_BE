@@ -4,7 +4,7 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
-import com.bidkoi.auctionkoi.exception.ErrorCode;
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAccountMapper;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
