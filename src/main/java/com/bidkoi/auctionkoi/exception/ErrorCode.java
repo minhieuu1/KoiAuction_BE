@@ -14,8 +14,8 @@ public enum ErrorCode {
     PHONE_INVALID(400,"Phone number must be 10 characters"),
     UNAUTHENTICATED(401,"Invalid username or password!"),
     INVALID_EMAIL(401,"Invalid email address!"),
-    KOI_NOT_FOUND(404,"Koi not found!"),
-    BREEDER_NOT_FOUND(404,"Breeder not found!"),
+    KOI_NOT_FOUND(400,"Koi not found!"),
+    BREEDER_NOT_FOUND(400,"Breeder not found!"),
     STATUS_ERROR(401,"Status error!"),
     KOI_ID_EXISTED(422,"Koi ID already existed!"),
     INVALID_CURRENT_PASSWORD(401, "Invalid current password!!!"),  //Bad Request
