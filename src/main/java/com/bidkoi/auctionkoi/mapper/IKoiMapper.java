@@ -3,7 +3,6 @@ package com.bidkoi.auctionkoi.mapper;
 
 
 import com.bidkoi.auctionkoi.dto.KoiDTO;
-import com.bidkoi.auctionkoi.payload.request.KoiCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.KoiRequest;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import org.mapstruct.Mapper;

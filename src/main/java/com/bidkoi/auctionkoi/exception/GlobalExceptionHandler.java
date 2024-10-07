@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.exception;
 
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
