@@ -17,9 +17,9 @@ public class RoomController {
     IRoomService roomService;
 
     @PostMapping("/create/{koiId}")
-    ApiResponse<RoomDTO> createRoom(@PathVariable String koiId) {
+    ApiResponse<RoomDTO> createRoom(@PathVariable String koiId, @RequestBody RoomDTO roomDTO) {
         return ApiResponse.<RoomDTO>builder()
-                .data(roomService.createRoom(koiId))
+                .data(roomService.createRoom(koiId, roomDTO))
                 .build();
     }
 }
