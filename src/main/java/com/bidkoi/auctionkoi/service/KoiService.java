@@ -3,10 +3,10 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.KoiDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
-import com.bidkoi.auctionkoi.exception.ErrorCode;
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IKoiMapper;
 import com.bidkoi.auctionkoi.payload.request.KoiRequest;
-import com.bidkoi.auctionkoi.payload.request.StatusRequest;
+import com.bidkoi.auctionkoi.enums.StatusRequest;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.repository.IBreederRepository;
