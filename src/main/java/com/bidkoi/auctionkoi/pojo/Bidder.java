@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -24,13 +25,12 @@ public class Bidder {
     @Column(name = "Last_name")
     String lastname;
     String gender;
-    String address;
 //    String phone;
 //    String email;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date birthday;
-
+    String address;
     @OneToOne
     @JoinColumn(name = "AccountID", referencedColumnName = "AccountID")
     Account account;

@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.KoiStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,4 +32,12 @@ public class Koi {
     @ManyToOne
     @JoinColumn(name = "BreederID",referencedColumnName = "BreederID")
     Breeder breeder;
+
+    public KoiStatus getStatus() {
+        return KoiStatus.fromValue(status);
+    }
+
+    public void setStatus(KoiStatus status) {
+        this.status = status.getValue();
+    }
 }
