@@ -4,6 +4,7 @@ import com.bidkoi.auctionkoi.dto.RoomDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.exception.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IRoomMapper;
+import com.bidkoi.auctionkoi.pojo.AuctionStatus;
 import com.bidkoi.auctionkoi.pojo.Room;
 import com.bidkoi.auctionkoi.repository.IKoiRepository;
 import com.bidkoi.auctionkoi.repository.IRoomRepository;
@@ -22,14 +23,16 @@ public class RoomService implements IRoomService {
     IKoiRepository ikoiRepo;
 
     @Override
-    public RoomDTO createRoom(String koiId) {
+    public RoomDTO createRoom(String koiId, RoomDTO roomDTO) {
         Room room = new Room();
         room.setKoi(ikoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND)));
+
+        room.setType(roomDTO.getType());
+        room.setStartTime(roomDTO.getStartTime());
+        room.setEndTime(roomDTO.getEndTime());
+        room.setStatus(AuctionStatus.PENDING);
         return roomMapper.toRoomDTO(iroomRepo.save(room));
     }
-
-
-
 
 }
