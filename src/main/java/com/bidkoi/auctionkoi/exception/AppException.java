@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.exception;
 
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,7 +2,7 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.RoomDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
-import com.bidkoi.auctionkoi.exception.ErrorCode;
+import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IRoomMapper;
 import com.bidkoi.auctionkoi.pojo.AuctionStatus;
 import com.bidkoi.auctionkoi.pojo.Room;

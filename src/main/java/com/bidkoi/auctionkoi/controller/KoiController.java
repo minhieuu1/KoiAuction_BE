@@ -2,11 +2,8 @@ package com.bidkoi.auctionkoi.controller;
 
 
 import com.bidkoi.auctionkoi.dto.KoiDTO;
-import com.bidkoi.auctionkoi.payload.request.KoiCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.KoiRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
-import com.bidkoi.auctionkoi.payload.response.KoiResponse;
-import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.service.IKoiService;
 import lombok.AccessLevel;
@@ -36,19 +33,9 @@ public class KoiController {
         return service.getAllKois();
     }
 
-//    @GetMapping("/{koiId}/{breederId}")
-//    ApiResponse<KoiDTO> get(@PathVariable Long koiId,@PathVariable Long breederId) {
-//        return ApiResponse.<KoiDTO>builder()
-//                data(service.getKoiById())
-//                .build();
-//    }
-
-    @PutMapping("/{koiId}")
-    KoiResponse<KoiDTO> updateStatus(@PathVariable String koiId , @RequestBody int status){
-        return KoiResponse.<KoiDTO>builder()
-                .koi(service.getKoiById(koiId))
-                .status(service.updateStatus(koiId,status))
-                .build();
+    @GetMapping("/breeder/{breederId}")
+    public List<Koi> getKoiByBreeder(@PathVariable Long breederId) {
+        return service.getKoiByBreederId(breederId);
     }
 
     @PutMapping("/update/{koiId}")
