@@ -1,8 +1,11 @@
 package com.bidkoi.auctionkoi.dto;
 
+import com.bidkoi.auctionkoi.pojo.AuctionStatus;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -10,6 +13,12 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomDTO {
-    Long no;
+    Long roomId;
+    String type;
+
     Koi koi;
+    Long auctionId;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
+    AuctionStatus status;
 }

@@ -18,11 +18,12 @@ public class Bid {
 
     @ManyToOne
     @JoinColumn(name = "BidderID", referencedColumnName = "BidderID")
-    Bidder bidderID;
-
+    Bidder bidder;
 
     @ManyToOne
-    @JoinColumn(name = "Room_No",referencedColumnName = "Room_No")
-    Room roomNo;
+    @JoinColumn(name = "RoomID",referencedColumnName = "RoomID")
+    Room room;
+
+    Double amount;
 
 }
