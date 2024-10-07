@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface IBreederService {
-//    BreederDTO createBreeder(Breeder breeder);
+//    BreederDTO createBreeder(BreederR breeder);
 
     List<Breeder> getAllBreeders();
 }
