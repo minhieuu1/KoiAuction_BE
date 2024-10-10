@@ -1,14 +1,14 @@
 package com.bidkoi.auctionkoi.controller;
 
+import com.bidkoi.auctionkoi.dto.BreederDTO;
+import com.bidkoi.auctionkoi.payload.request.BreederRequest;
+import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.service.IBreederService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +23,12 @@ public class BreederController {
     @GetMapping
     List<Breeder> getAllBreeders() {
         return service.getAllBreeders();
+    }
+
+    @PutMapping("/update/{accountId}")
+    ApiResponse<BreederDTO> updateBreeder(@PathVariable String accountId,@RequestBody BreederRequest request) {
+        return ApiResponse.<BreederDTO>builder()
+                .data(service.updateBreeder(accountId,request))
+                .build();
     }
 }
