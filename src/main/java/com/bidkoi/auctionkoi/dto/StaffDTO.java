@@ -1,10 +1,6 @@
 package com.bidkoi.auctionkoi.dto;
 
 import com.bidkoi.auctionkoi.pojo.Account;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,10 +9,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BreederDTO {
+public class StaffDTO {
 
-    Long breederID;
-    String name;
-    String address;
+    Long staffId;
+    String firstName;
+    String lastName;
+    String gender;
     Account account;
 }
+
