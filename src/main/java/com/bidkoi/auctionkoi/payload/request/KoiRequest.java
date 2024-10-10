@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KoiRequest {
 
-    String koiId;
     Double length;
     String varieties;
     String age;

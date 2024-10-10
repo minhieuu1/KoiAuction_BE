@@ -39,14 +39,14 @@ public class KoiController {
     }
 
     @PutMapping("/update/{koiId}")
-    ApiResponse<KoiDTO> update(@PathVariable String koiId , @RequestBody KoiRequest request){
+    ApiResponse<KoiDTO> update(@PathVariable Long koiId , @RequestBody KoiRequest request){
         return ApiResponse.<KoiDTO>builder()
                 .data(service.updateKoi(koiId,request))
                 .build();
     }
 
     @DeleteMapping("/del/{koiId}")
-    String delete(@PathVariable String koiId){
+    String delete(@PathVariable Long koiId){
         service.deleteKoi(koiId);
         return "Deleted";
     }

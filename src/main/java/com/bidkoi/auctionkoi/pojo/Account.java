@@ -25,6 +25,10 @@ public class Account implements Serializable {
     String phone;
     int role = 0;
 
+//    @OneToOne
+//    @JoinColumn(name = "WalletID", referencedColumnName = "WalletID")
+//    Wallet wallet;
+
     public Role getRole() {
         return Role.fromValue(role);
     }
