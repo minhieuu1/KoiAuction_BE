@@ -13,8 +13,9 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Koi {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KoiID")
-    String koiId;
+    Long koiId;
     Double length;
     String varieties;
     String age;

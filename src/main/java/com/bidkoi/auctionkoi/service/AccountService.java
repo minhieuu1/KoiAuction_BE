@@ -11,11 +11,9 @@ import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
-import com.bidkoi.auctionkoi.pojo.Account;
-import com.bidkoi.auctionkoi.pojo.Bidder;
+import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.enums.Role;
-import com.bidkoi.auctionkoi.repository.IAccountRepository;
-import com.bidkoi.auctionkoi.repository.IBidderRepository;
+import com.bidkoi.auctionkoi.repository.*;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -44,7 +42,10 @@ public class AccountService implements IAccountService {
     IAccountRepository iAccountRepository;
     IAccountMapper iAccountMapper;
     IBidderRepository iBidderRepository;
+    IBreederRepository breederRepo;
+    IStaffRepository staffRepo;
     PasswordEncoder passwordEncoder;
+    IWalletRepository wallerRepo;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -66,9 +67,14 @@ public class AccountService implements IAccountService {
 
 
 
-//        Bidder bidder = new Bidder();
-//        bidder.setAccount(account);
-//        bidder = iBidderRepository.save(bidder);
+        Bidder bidder = new Bidder();
+        bidder.setAccount(account);
+        bidder = iBidderRepository.save(bidder);
+
+        Wallet wallet = new Wallet();
+        wallet.setAccount(account);
+        wallerRepo.save(wallet);
+
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
@@ -78,12 +84,21 @@ public class AccountService implements IAccountService {
         if (iAccountRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-
+        int role = request.getRole();
         Account account = iAccountMapper.toAccountCreation(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
         account.setRole(Role.fromValue(request.getRole()));
         account = iAccountRepository.save(account);
 
+        if(role == 1){
+            Breeder breeder = new Breeder();
+            breeder.setAccount(account);
+            breederRepo.save(breeder);
+        }else{
+            Staff staff = new Staff();
+            staff.setAccount(account);
+            staffRepo.save(staff);
+        }
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
@@ -98,7 +113,7 @@ public class AccountService implements IAccountService {
     @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USER));
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USERNAME));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if(!authenticated) {
