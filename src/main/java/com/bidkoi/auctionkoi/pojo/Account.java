@@ -23,17 +23,6 @@ public class Account implements Serializable {
     String email;
     @Column(name = "Phone_number")
     String phone;
-    int role = 0;
+    String role;
 
-//    @OneToOne
-//    @JoinColumn(name = "WalletID", referencedColumnName = "WalletID")
-//    Wallet wallet;
-
-    public Role getRole() {
-        return Role.fromValue(role);
-    }
-
-    public void setRole(Role role) {
-        this.role = role.getValue();
-    }
 }

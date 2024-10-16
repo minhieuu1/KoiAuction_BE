@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface IBidService {
     Bid createBid(String bidderID, Long roomID);
-    Bidder pickRandomBidder(Long roomID);
+
+
 }

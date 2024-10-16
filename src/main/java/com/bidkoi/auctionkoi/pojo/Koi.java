@@ -28,17 +28,9 @@ public class Koi {
     Double initialPrice;
     @Column(name = "Final_price")
     Double finalPrice;
-    @Builder.Default
-    int status = 0;
+    String status;
     @ManyToOne
     @JoinColumn(name = "BreederID",referencedColumnName = "BreederID")
     Breeder breeder;
 
-    public KoiStatus getStatus() {
-        return KoiStatus.fromValue(status);
-    }
-
-    public void setStatus(KoiStatus status) {
-        this.status = status.getValue();
-    }
 }

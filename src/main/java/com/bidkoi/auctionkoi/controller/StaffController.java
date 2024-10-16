@@ -1,12 +1,11 @@
 package com.bidkoi.auctionkoi.controller;
 
-import com.bidkoi.auctionkoi.dto.BreederDTO;
 import com.bidkoi.auctionkoi.dto.StaffDTO;
-import com.bidkoi.auctionkoi.payload.request.BreederRequest;
 import com.bidkoi.auctionkoi.payload.request.StaffRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.service.IKoiService;
 import com.bidkoi.auctionkoi.service.IStaffService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +34,7 @@ public class StaffController {
     }
 
     @PutMapping("/update/{accountId}")
-    ApiResponse<StaffDTO> updateBreeder(@PathVariable String accountId, @RequestBody StaffRequest request) {
+    ApiResponse<StaffDTO> updateBreeder(@PathVariable String accountId, @RequestBody @Valid StaffRequest request) {
         return ApiResponse.<StaffDTO>builder()
                 .data(service.updateStaff(accountId, request))
                 .build();
