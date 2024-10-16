@@ -18,6 +18,7 @@ public class Breeder {
     @Column(name = "Breeder_name")
     String name;
     String address;
+    String logo;
 
     @OneToOne
     @JoinColumn(name = "AccountID", referencedColumnName = "AccountID")
