@@ -38,4 +38,17 @@ public class AuctionController {
                 .build();
     }
 
+    @PutMapping("/{auctionId}/active")
+    public ApiResponse<AuctionDTO> activateAuction(@PathVariable Long auctionId){
+        return ApiResponse.<AuctionDTO>builder()
+                .data(iAuctionService.updateStatus(auctionId))
+                .build();
+    }
+
+    @GetMapping("/active")
+    public ApiResponse<AuctionDTO> getAuctionActive(){
+        return ApiResponse.<AuctionDTO>builder()
+                .data(iAuctionService.getAuctionActive())
+                .build();
+    }
 }

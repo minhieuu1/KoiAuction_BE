@@ -24,10 +24,14 @@ public class BidController {
                 .build();
     }
 
-    @GetMapping("/random/{roomId}")
-    ApiResponse<Bidder> random(@PathVariable Long roomId) {
-        return ApiResponse.<Bidder>builder()
-                .data(service.pickRandomBidder(roomId))
-                .build();
-    }
+
+
+//    @PostMapping("/bidding/{bidderId}/{roomId}")
+//    ApiResponse<Bid> bidding(@PathVariable Long roomId, @PathVariable String bidderId, @RequestBody double price) {
+//        return ApiResponse.<Bid>builder()
+//                .data(service.bidding(bidderId,roomId,price))
+//                .build();
+//    }
+
+
 }

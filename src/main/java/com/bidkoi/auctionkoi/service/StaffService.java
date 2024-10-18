@@ -6,7 +6,6 @@ import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.mapper.IStaffMapper;
 import com.bidkoi.auctionkoi.payload.request.StaffRequest;
 import com.bidkoi.auctionkoi.pojo.Account;
-import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.pojo.Staff;
 import com.bidkoi.auctionkoi.repository.IAccountRepository;
 import com.bidkoi.auctionkoi.repository.IStaffRepository;
@@ -29,6 +28,10 @@ public class StaffService implements IStaffService {
     public StaffDTO updateStaff(String accountId,StaffRequest request) {
         Account account = accountRepo.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if(accountRepo.existsByEmail(request.getEmail())) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
 
         account.setEmail(request.getEmail());
         account.setPhone(request.getPhone());

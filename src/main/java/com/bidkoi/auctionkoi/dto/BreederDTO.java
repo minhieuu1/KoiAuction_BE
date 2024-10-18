@@ -18,5 +18,6 @@ public class BreederDTO {
     Long breederID;
     String name;
     String address;
+    String logo;
     Account account;
 }

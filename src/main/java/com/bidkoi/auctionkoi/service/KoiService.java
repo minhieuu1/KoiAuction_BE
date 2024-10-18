@@ -30,6 +30,7 @@ public class KoiService implements IKoiService {
     @Override
     public KoiDTO createKoi(KoiRequest request, Long breederId) {
         Koi koi = mapper.toKoi(request);
+        koi.setStatus(String.valueOf(KoiStatus.PENDING));
         Breeder breeder = breederRepo.findById(breederId).
                 orElseThrow(()->new AppException(ErrorCode.BREEDER_NOT_FOUND));
         koi.setBreeder(breeder);
@@ -58,10 +59,10 @@ public class KoiService implements IKoiService {
     public void approveKoi(Long koiId) {
         Koi koi = KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
-        if(koi.getStatus() != KoiStatus.PENDING){
+        if(!koi.getStatus().equals(String.valueOf(KoiStatus.PENDING))){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
-        koi.setStatus(KoiStatus.ACCEPTED);
+        koi.setStatus(String.valueOf(KoiStatus.ACCEPTED));
         KoiRepo.save(koi);
     }
 
@@ -69,10 +70,10 @@ public class KoiService implements IKoiService {
     public void rejectKoi(Long koiId) {
         Koi koi = KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
-        if(koi.getStatus() != KoiStatus.PENDING){
+        if(!koi.getStatus().equals(String.valueOf(KoiStatus.PENDING))){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
-        koi.setStatus(KoiStatus.SOLD);
+        koi.setStatus(String.valueOf(KoiStatus.REJECTED));
         KoiRepo.save(koi);
     }
 

@@ -18,6 +18,7 @@ public enum ErrorCode {
     KOI_NOT_FOUND(400,"Koi not found!"),
     BREEDER_NOT_FOUND(404,"Breeder not found!"),
     STATUS_ERROR(401,"Koi status is not PENDING!"),
+    ROLE_ERROR(401,"Role Error!"),
     KOI_ID_EXISTED(422,"Koi ID already existed!"),
     INVALID_CURRENT_PASSWORD(401, "Invalid current password!!!"),  //Bad Request
     SENDMAIL_FAILED(405, "Can not send email!!!"),
