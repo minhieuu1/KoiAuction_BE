@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -23,6 +25,13 @@ public class StaffService implements IStaffService {
     IStaffRepository staffRepo;
     IStaffMapper mapper;
 
+
+    @Override
+    public StaffDTO getStaff(String accountId) {
+        Account account = accountRepo.findById(accountId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        return mapper.toStaffDTO(staffRepo.findByAccount(account));
+    }
 
     @Override
     public StaffDTO updateStaff(String accountId,StaffRequest request) {
@@ -45,4 +54,6 @@ public class StaffService implements IStaffService {
 
         return mapper.toStaffDTO(staff);
     }
+
+
 }

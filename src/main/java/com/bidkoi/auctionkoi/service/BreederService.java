@@ -15,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,13 @@ public class BreederService implements IBreederService {
     @Override
     public List<Breeder> getAllBreeders() {
         return breederRepo.findAll();
+    }
+
+    @Override
+    public BreederDTO getBreeder(String accountId) {
+        Account account = accountRepo.findById(accountId)
+                .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
+        return mapper.toBreederDTO(breederRepo.findBreederByAccount(account));
     }
 
     @Override

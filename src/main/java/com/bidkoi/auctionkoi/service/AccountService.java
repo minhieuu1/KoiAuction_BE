@@ -27,9 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +44,7 @@ public class AccountService implements IAccountService {
     IStaffRepository staffRepo;
     PasswordEncoder passwordEncoder;
     IWalletRepository wallerRepo;
-
-    @NonFinal
-    @Value("${jwt.signerKey}")
-    protected String SIGNER_KEY;
+    TokenService tokenService;
 
     @Override
     public AccountDTO register(RegisterRequest request) {
@@ -62,7 +57,7 @@ public class AccountService implements IAccountService {
 
         Account account = iAccountMapper.toAccount(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-        account.setRole(String.valueOf(Role.BIDDER));
+        account.setRole(Role.BIDDER);
         account = iAccountRepository.save(account);
 
 
@@ -102,12 +97,12 @@ public class AccountService implements IAccountService {
 
         // Set the role and create the appropriate role entity
         if(Role.BREEDER.name().equals(role)){
-            account.setRole(String.valueOf(Role.BREEDER));
+            account.setRole(Role.BREEDER);
             Breeder breeder = new Breeder();
             breeder.setAccount(account);
             breederRepo.save(breeder);
         }else{
-            account.setRole(String.valueOf(Role.STAFF));
+            account.setRole(Role.STAFF);
             Staff staff = new Staff();
             staff.setAccount(account);
             staffRepo.save(staff);
@@ -127,10 +122,12 @@ public class AccountService implements IAccountService {
             throw new AppException(ErrorCode.UNAUTHENTICATED_PASSWORD);
         }
 
-        var token = generateToken(user.getId(), user.getUsername(), user.getEmail(), user.getPhone());
+        var token = tokenService.generateToken(user);
         return LoginResponse.builder()
                 .token(token)
-                .role(user.getRole())
+                .bidder(iBidderRepository.findBidderByAccount(user))
+                .breeder(breederRepo.findBreederByAccount(user))
+                .staff(staffRepo.findByAccount(user))
                 .build();
     }
 
@@ -140,33 +137,6 @@ public class AccountService implements IAccountService {
     }
 
 
-    String generateToken(String accountId, String username, String email, String phone) {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(accountId)
-                .issuer("BidKoi.com")
-                .issueTime(new Date())
-                .issueTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
-                .claim("username", username)
-                .claim("email", email)
-                .claim("phone", phone)
-                .build();
-        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-
-        JWSObject jwsObject = new JWSObject(header, payload);
-
-        try {
-            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
-            return jwsObject.serialize();
-        } catch (JOSEException e) {
-            log.error("Cannot create token");
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public Optional<Account> getAccountById(String id) {
         return iAccountRepository.findById(id);
@@ -174,8 +144,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public Optional<Bidder> getBidderById(String accountId) {
-//        Account account = iAccountRepository.findById(accountId).
-//                orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
+        Account account = iAccountRepository.findById(accountId).
+                orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
 
         return iBidderRepository.findByAccountId(accountId);
     }
