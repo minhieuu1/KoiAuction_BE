@@ -28,6 +28,7 @@ public enum ErrorCode {
     BID_ID_NOT_FOUND(404, "Bid ID not found!!!"),
     BIDDER_NOT_FOUND(404, "Bidder not found!!!"),
     WINNER_EXISTED(422, "Winner already existed!"),
+    EMPTY_TOKEN(400, "Empty token!"),
     ;
 
     int code;

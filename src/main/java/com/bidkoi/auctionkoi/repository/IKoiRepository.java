@@ -12,5 +12,5 @@ import java.util.List;
 public interface IKoiRepository extends JpaRepository<Koi,Long> {
     boolean existsByKoiId(Long koiId);
     List<Koi> findByBreeder(Breeder breeder);
-    List<Koi> findByMethod(int method);
+
 }
