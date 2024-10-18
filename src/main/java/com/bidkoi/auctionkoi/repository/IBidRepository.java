@@ -12,4 +12,5 @@ import java.util.List;
 public interface IBidRepository extends JpaRepository<Bid,Long> {
     List<Bid> findByBidder(Bidder bidder);
     List<Bid> findByRoom(Room room);
+    Bid findByBidderAndRoom(Bidder bidder, Room room);
 }
