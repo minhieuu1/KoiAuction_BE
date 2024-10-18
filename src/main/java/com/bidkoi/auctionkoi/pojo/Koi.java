@@ -23,12 +23,19 @@ public class Koi {
     String image;
     String video;
     String description;
-    int method;
+
+    @Builder.Default
+    int rating = 0;
+
     @Column(name = "Initial_price")
     Double initialPrice;
+
     @Column(name = "Final_price")
     Double finalPrice;
-    String status;
+
+    @Enumerated(EnumType.STRING)
+    KoiStatus status;
+
     @ManyToOne
     @JoinColumn(name = "BreederID",referencedColumnName = "BreederID")
     Breeder breeder;

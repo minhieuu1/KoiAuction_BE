@@ -16,12 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/koi")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class KoiController {
     IKoiService service;
 
-    @PostMapping("/create/{breederId}")
+    @PostMapping("/creation/{breederId}")
     ApiResponse<KoiDTO> create(@RequestBody KoiRequest request, @PathVariable Long breederId) {
         return ApiResponse.<KoiDTO>builder()
                 .data(service.createKoi(request,breederId))
@@ -45,6 +45,8 @@ public class KoiController {
                 .build();
     }
 
+
+    //coi lai
     @DeleteMapping("/del/{koiId}")
     String delete(@PathVariable Long koiId){
         service.deleteKoi(koiId);

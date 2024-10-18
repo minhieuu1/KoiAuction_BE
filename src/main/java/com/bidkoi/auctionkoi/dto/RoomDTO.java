@@ -15,11 +15,10 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomDTO {
     Long roomId;
-    String type;
 
     Koi koi;
     Long auctionId;
-    LocalDateTime startTime;
-    LocalDateTime endTime;
-    AuctionStatus status;
+//    LocalDateTime startTime;
+//    LocalDateTime endTime;
+//    AuctionStatus status;
 }

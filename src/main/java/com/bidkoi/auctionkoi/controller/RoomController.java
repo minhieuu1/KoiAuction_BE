@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/room")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoomController {
     IRoomService roomService;
 
-    @PostMapping("/create/{koiId}")
+    @PostMapping("/creation/{koiId}")
     ApiResponse<RoomDTO> createRoom(@PathVariable Long koiId) {
         return ApiResponse.<RoomDTO>builder()
                 .data(roomService.createRoom(koiId))
