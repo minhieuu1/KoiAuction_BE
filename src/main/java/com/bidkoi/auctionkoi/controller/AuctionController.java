@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auctions")
+@RequestMapping("/auction")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuctionController {
     IAuctionService iAuctionService;
 
-    @PostMapping("/create")
+    @PostMapping("/creation")
     public ResponseEntity<AuctionDTO> createAuction(@RequestBody AuctionDTO auction){
         return ResponseEntity.ok(iAuctionService.createAuction(auction));
     }
@@ -31,7 +31,7 @@ public class AuctionController {
         return iAuctionService.getAll();
     }
 
-    @PostMapping("/{auctionId}/rooms/{roomId}")
+    @PostMapping("/{auctionId}/room/{roomId}")
     public ApiResponse<RoomDTO> addRoomToAuction(@PathVariable Long auctionId, @PathVariable Long roomId) {
         return ApiResponse.<RoomDTO>builder()
                 .data(iAuctionService.addRoomToAuction(auctionId, roomId))

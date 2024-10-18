@@ -17,7 +17,7 @@ public class KoiRequest {
     String image;
     String video;
     String description;
-    int method;
+    int rating;
     Double initialPrice;
     Double finalPrice;
 }
