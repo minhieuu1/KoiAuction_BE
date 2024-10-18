@@ -24,6 +24,6 @@ public class Bid {
     @JoinColumn(name = "RoomID",referencedColumnName = "RoomID")
     Room room;
 
-    double amount;
+    Double amount;
 
 }
