@@ -62,7 +62,7 @@ public class AccountService implements IAccountService {
 
         Account account = iAccountMapper.toAccount(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-//        account.setRole(Role.fromValue(request.getRole()));
+        account.setRole(String.valueOf(Role.BIDDER));
         account = iAccountRepository.save(account);
 
 
@@ -81,20 +81,33 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountDTO createAccount(AccountCreationRequest request) {
+        String role = request.getRole().toUpperCase();
+
+        // Validate role
+        if (!Role.BREEDER.name().equals(role) && !Role.STAFF.name().equals(role)) {
+            throw new AppException(ErrorCode.ROLE_ERROR);
+        }
+
+        // Check if username already exists
         if (iAccountRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        int role = request.getRole();
+
+        // Map request to Account entity and encode the password
         Account account = iAccountMapper.toAccountCreation(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-        account.setRole(Role.fromValue(request.getRole()));
-        account = iAccountRepository.save(account);
 
-        if(role == 1){
+        // Save account
+        iAccountRepository.save(account);
+
+        // Set the role and create the appropriate role entity
+        if(Role.BREEDER.name().equals(role)){
+            account.setRole(String.valueOf(Role.BREEDER));
             Breeder breeder = new Breeder();
             breeder.setAccount(account);
             breederRepo.save(breeder);
         }else{
+            account.setRole(String.valueOf(Role.STAFF));
             Staff staff = new Staff();
             staff.setAccount(account);
             staffRepo.save(staff);
@@ -103,12 +116,6 @@ public class AccountService implements IAccountService {
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
 
-//    @Override
-//    public AccountDTO createAccount(AccountCreationRequest request,int role) {
-//        Account account = iAccountMapper.toAccount(request);
-//        account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-//        return null;
-//    }
 
     @Override
     public LoginResponse login(LoginRequest request) {

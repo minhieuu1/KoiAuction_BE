@@ -5,6 +5,7 @@ import com.bidkoi.auctionkoi.payload.request.BreederRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.service.IBreederService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,7 @@ public class BreederController {
     }
 
     @PutMapping("/update/{accountId}")
-    ApiResponse<BreederDTO> updateBreeder(@PathVariable String accountId,@RequestBody BreederRequest request) {
+    ApiResponse<BreederDTO> updateBreeder(@PathVariable String accountId,@RequestBody @Valid BreederRequest request) {
         return ApiResponse.<BreederDTO>builder()
                 .data(service.updateBreeder(accountId,request))
                 .build();

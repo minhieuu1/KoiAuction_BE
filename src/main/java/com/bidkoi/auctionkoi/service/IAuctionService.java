@@ -7,8 +7,10 @@ import com.bidkoi.auctionkoi.pojo.Auction;
 import java.util.List;
 
 public interface IAuctionService {
-    public AuctionDTO createAuction(AuctionDTO auctionDTO);
-    public RoomDTO addRoomToAuction(Long auctionId, Long roomId);
+    AuctionDTO createAuction(AuctionDTO auctionDTO);
+    RoomDTO addRoomToAuction(Long auctionId, Long roomId);
+    List<Auction> getAll();
 
-    public List<Auction> getAll();
+    AuctionDTO updateStatus(Long auctionId);
+    AuctionDTO getAuctionActive();
 }
