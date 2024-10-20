@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.AuctionDTO;
 import com.bidkoi.auctionkoi.dto.RoomDTO;
+import com.bidkoi.auctionkoi.payload.request.UpdateAuctionRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Auction;
 import com.bidkoi.auctionkoi.service.IAuctionService;
@@ -37,6 +38,22 @@ public class AuctionController {
                 .data(iAuctionService.addRoomToAuction(auctionId, roomId))
                 .build();
     }
+
+
+    @PutMapping("/update/{auctionId}")
+    public ApiResponse<AuctionDTO> updateAuction(@PathVariable Long auctionId, @RequestBody UpdateAuctionRequest request){
+        return ApiResponse.<AuctionDTO>builder()
+                .data(iAuctionService.updateAuction(auctionId, request))
+                .build();
+    }
+
+    @DeleteMapping("/delete/{auctionId}")
+    String deleteAuction(@PathVariable Long auctionId){
+        iAuctionService.deleteAuction(auctionId);
+        return "Auction deleted successfully!";
+    }
+
+    
 
     @PutMapping("/{auctionId}/active")
     public ApiResponse<AuctionDTO> activateAuction(@PathVariable Long auctionId){

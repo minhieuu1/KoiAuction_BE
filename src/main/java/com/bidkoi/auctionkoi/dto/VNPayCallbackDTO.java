@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WalletDTO {
-
-    Long walletId;
-    Double balance;
+public class VNPayCallbackDTO {
+    private String vnp_TxnRef;
+    private String vnp_ResponseCode;
+    private String vnp_Amount;
 }

@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.service;
 
+
 import com.bidkoi.auctionkoi.dto.BidDTO;
 import com.bidkoi.auctionkoi.dto.PlaceBid;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
@@ -8,11 +9,13 @@ import com.bidkoi.auctionkoi.mapper.IBidMapper;
 import com.bidkoi.auctionkoi.payload.response.Winner;
 import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.repository.*;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +31,10 @@ public class BidService implements IBidService {
     IBidderRepository bidderRepo;
     IRoomRepository roomRepo;
     IWalletRepository walletRepo;
+
     ITransactionRepository transactionRepo;
     IBidMapper mapper;
+
 
     @Override
     public Bid registerBid(String bidderID, Long roomID) {
@@ -40,6 +45,7 @@ public class BidService implements IBidService {
                 orElseThrow(()-> new AppException(ErrorCode.ROOM_NOT_FOUND));
 
         Koi koi = room.getKoi();
+
         double deposit = koi.getInitialPrice()*0.2;
         log.info(String.valueOf(deposit));
 
@@ -64,6 +70,7 @@ public class BidService implements IBidService {
         Bid bid = Bid.builder()
                 .bidder(bidder)
                 .room(room)
+                .amount(request.getAmount())
                 .build();
         return bidRepo.save(bid);
     }

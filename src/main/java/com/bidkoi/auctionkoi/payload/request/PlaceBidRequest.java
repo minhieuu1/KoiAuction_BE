@@ -1,15 +1,13 @@
-package com.bidkoi.auctionkoi.dto;
+package com.bidkoi.auctionkoi.payload.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WalletDTO {
-
-    Long walletId;
-    Double balance;
+public class PlaceBidRequest {
+    Double amount;
 }

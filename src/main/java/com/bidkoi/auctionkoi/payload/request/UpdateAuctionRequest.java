@@ -1,28 +1,20 @@
-package com.bidkoi.auctionkoi.dto;
+package com.bidkoi.auctionkoi.payload.request;
 
-import com.bidkoi.auctionkoi.enums.AuctionStatus;
-import com.bidkoi.auctionkoi.pojo.Room;
-import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuctionDTO {
-
-    Long auctionId;
-
+public class UpdateAuctionRequest {
     LocalDateTime startTime;
     LocalDateTime endTime;
 
-    AuctionStatus status;
-    List<Room> rooms;
+    //String status;
 }
