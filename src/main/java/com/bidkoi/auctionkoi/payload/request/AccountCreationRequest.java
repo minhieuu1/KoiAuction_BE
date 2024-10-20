@@ -15,5 +15,5 @@ public class AccountCreationRequest {
     @Size(min = 8, max = 16,message = "USERNAME_INVALID")
     String username;
     String password;
-    int role;
+    String role;
 }
