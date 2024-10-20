@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.controller;
 
+import com.bidkoi.auctionkoi.payload.request.PlaceBidRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Bid;
 import com.bidkoi.auctionkoi.service.IBidService;
@@ -20,6 +21,21 @@ public class BidController {
     ApiResponse<Bid> create(@PathVariable String bidderId, @PathVariable Long roomId) {
         return ApiResponse.<Bid>builder()
                 .data(service.createBid(bidderId,roomId))
+                .build();
+    }
+
+    @PostMapping("/join/{bidderId}/{roomId}")
+    ApiResponse<Bid> oneBidTime(@PathVariable String bidderId, @PathVariable Long roomId, @RequestBody PlaceBidRequest request){
+        return ApiResponse.<Bid>builder()
+                .data(service.placeBid(bidderId, roomId, request))
+                .build();
+    }
+
+
+    @GetMapping("/winning/{roomId}")
+    public ApiResponse<Bid> getWinningBid(@PathVariable Long roomId) {
+        return ApiResponse.<Bid>builder()
+                .data(service.getWinningBid(roomId))
                 .build();
     }
 }
