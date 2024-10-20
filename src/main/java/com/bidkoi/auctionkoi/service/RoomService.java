@@ -1,10 +1,11 @@
 package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.RoomDTO;
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IRoomMapper;
-import com.bidkoi.auctionkoi.pojo.AuctionStatus;
+
 import com.bidkoi.auctionkoi.pojo.Room;
 import com.bidkoi.auctionkoi.repository.IKoiRepository;
 import com.bidkoi.auctionkoi.repository.IRoomRepository;
@@ -12,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +37,16 @@ public class RoomService implements IRoomService {
         room.setStatus(AuctionStatus.PENDING);
         return roomMapper.toRoomDTO(iroomRepo.save(room));
     }
+
+    @Override
+    public List<Room> getAllRooms() {
+        return iroomRepo.findAll();
+    }
+
+    @Override
+    public void deleteRoom(Long roomId) {
+        iroomRepo.deleteById(roomId);
+    }
+
 
 }
