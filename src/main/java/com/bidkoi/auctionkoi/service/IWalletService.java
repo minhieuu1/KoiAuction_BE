@@ -2,8 +2,6 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.WalletDTO;
 import com.bidkoi.auctionkoi.payload.request.WalletRequest;
-
-import java.util.Map;
 import java.util.UUID;
 
 public interface IWalletService {
@@ -14,4 +12,5 @@ public interface IWalletService {
     void handleVnPayCallback(UUID transactionId, String responseCode, double vnpAmount);
 
     WalletDTO getWallet(String accountId);
+
 }

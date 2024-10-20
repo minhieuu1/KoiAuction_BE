@@ -6,9 +6,10 @@ import com.bidkoi.auctionkoi.pojo.Room;
 import java.util.List;
 
 public interface IRoomService {
-    RoomDTO createRoom(String koiId, RoomDTO roomDTO);
-
-    List<Room> getAllRooms();
 
     void deleteRoom(Long roomId);
+    RoomDTO createRoom(Long koiId);
+    List<Room> getAllRooms();
+    List<Room> getRoomInAuction(Long auctionId);
+
 }

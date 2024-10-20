@@ -9,10 +9,13 @@ import com.bidkoi.auctionkoi.pojo.Transactions;
 import com.bidkoi.auctionkoi.pojo.Wallet;
 import com.bidkoi.auctionkoi.repository.ITransactionsRepository;
 import com.bidkoi.auctionkoi.repository.IWalletRepository;
+import com.bidkoi.auctionkoi.payload.response.ApiResponse;
+
 import com.bidkoi.auctionkoi.service.IWalletService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
@@ -26,12 +29,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/wallet")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
+
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WalletController {
 
     IWalletService walletService;
-
 
 
 //    @PostMapping("/{accountId}")
@@ -77,60 +80,5 @@ public class WalletController {
         WalletDTO wallet = walletService.getWallet(accountId);
         return ResponseEntity.ok(wallet);
     }
-
-
-
-
-
-//    @GetMapping("/callback")
-//    public ResponseEntity<String> paymentCallback(@RequestParam Map<String, String> params) {
-//        log.info("Received params: {}", params);
-//        try {
-//            // Kiểm tra mã phản hồi từ VNPay (00 = thành công)
-//            if (!"00".equals(params.get("vnp_ResponseCode"))) {
-//                return ResponseEntity.badRequest().body("Transaction failed");
-//            }
-//
-//            // Gọi service để xử lý xác thực và cập nhật ví
-//            boolean updated = walletService.processPaymentCallback(params);
-//
-//            if (updated) {
-//                return ResponseEntity.ok("Payment successful");
-//            } else {
-//                return ResponseEntity.badRequest().body("Invalid signature");
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Payment failed");
-//        }
-//    }
-
-//    @GetMapping("/callback")
-//    public ResponseEntity<String> paymentCallback(@RequestParam Map<String, String> params) {
-//        log.info("Received params: {}", params);
-//        try {
-//            // Kiểm tra mã phản hồi từ VNPay (00 = thành công)
-//            String responseCode = params.get("vnp_ResponseCode");
-//            log.info((responseCode));
-//            if (responseCode == null || !"00".equals(responseCode)) {
-//                log.error("Transaction failed with response code: {}", responseCode);
-//                return ResponseEntity.badRequest().body("Transaction failed");
-//            }
-//
-//            // Gọi service để xử lý xác thực và cập nhật ví
-//            boolean updated = walletService.processPaymentCallback(params);
-//
-//            if (updated) {
-//                return ResponseEntity.ok("Payment successful");
-//            } else {
-//                log.error("Invalid signature for params: {}", params);
-//                return ResponseEntity.badRequest().body("Invalid signature");
-//            }
-//        } catch (Exception e) {
-//            log.error("Payment failed due to exception: ", e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Payment failed");
-//        }
-//    }
-
-
 
 }
