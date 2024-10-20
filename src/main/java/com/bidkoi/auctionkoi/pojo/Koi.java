@@ -13,8 +13,9 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Koi {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KoiID")
-    String koiId;
+    Long koiId;
     Double length;
     String varieties;
     String age;
@@ -22,22 +23,20 @@ public class Koi {
     String image;
     String video;
     String description;
-    int method;
+
+    int rating;
+
     @Column(name = "Initial_price")
     Double initialPrice;
+
     @Column(name = "Final_price")
     Double finalPrice;
-    @Builder.Default
-    int status = 0;
+
+    @Enumerated(EnumType.STRING)
+    KoiStatus status;
+
     @ManyToOne
     @JoinColumn(name = "BreederID",referencedColumnName = "BreederID")
     Breeder breeder;
 
-    public KoiStatus getStatus() {
-        return KoiStatus.fromValue(status);
-    }
-
-    public void setStatus(KoiStatus status) {
-        this.status = status.getValue();
-    }
 }

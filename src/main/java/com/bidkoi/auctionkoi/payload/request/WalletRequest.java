@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.payload.request;
 
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

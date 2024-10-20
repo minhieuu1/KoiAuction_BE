@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.dto;
 
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import com.bidkoi.auctionkoi.pojo.Room;
 import jakarta.persistence.Column;
 import lombok.*;
@@ -22,7 +23,6 @@ public class AuctionDTO {
     LocalDateTime startTime;
     LocalDateTime endTime;
 
-    String status;
-
+    AuctionStatus status;
     List<Room> rooms;
 }

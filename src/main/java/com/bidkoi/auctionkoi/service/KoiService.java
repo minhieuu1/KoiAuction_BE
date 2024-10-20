@@ -29,10 +29,8 @@ public class KoiService implements IKoiService {
 
     @Override
     public KoiDTO createKoi(KoiRequest request, Long breederId) {
-        if(KoiRepo.existsByKoiId(request.getKoiId())) {
-            throw new AppException(ErrorCode.KOI_ID_EXISTED);
-        }
         Koi koi = mapper.toKoi(request);
+        koi.setStatus(KoiStatus.PENDING);
         Breeder breeder = breederRepo.findById(breederId).
                 orElseThrow(()->new AppException(ErrorCode.BREEDER_NOT_FOUND));
         koi.setBreeder(breeder);
@@ -45,7 +43,7 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public KoiDTO getKoiById(String koiId) {
+    public KoiDTO getKoiById(Long koiId) {
         return mapper.toKoiDTO(KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND)));
     }
@@ -58,10 +56,10 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public void approveKoi(String koiId) {
+    public void approveKoi(Long koiId) {
         Koi koi = KoiRepo.findById(koiId)
-                .orElseThrow(()-> new AppException(ErrorCode.BREEDER_NOT_FOUND));
-        if(koi.getStatus() != KoiStatus.PENDING){
+                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+        if(!koi.getStatus().equals(KoiStatus.PENDING)){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
         koi.setStatus(KoiStatus.ACCEPTED);
@@ -69,18 +67,18 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public void rejectKoi(String koiId) {
+    public void rejectKoi(Long koiId) {
         Koi koi = KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
-        if(koi.getStatus() != KoiStatus.PENDING){
+        if(!koi.getStatus().equals(KoiStatus.PENDING)){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
-        koi.setStatus(KoiStatus.SOLD);
+        koi.setStatus(KoiStatus.REJECTED);
         KoiRepo.save(koi);
     }
 
     @Override
-    public KoiDTO updateKoi(String koiId, KoiRequest request) {
+    public KoiDTO updateKoi(Long koiId, KoiRequest request) {
         Koi koi = KoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND));
         mapper.updateKoi(koi, request);
@@ -88,7 +86,7 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public void deleteKoi(String koiId) {
+    public void deleteKoi(Long koiId) {
         KoiRepo.deleteById(koiId);
     }
 }

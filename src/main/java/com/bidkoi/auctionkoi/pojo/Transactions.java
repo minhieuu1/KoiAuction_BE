@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -19,7 +20,6 @@ public class Transactions {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "TransactionID")
     UUID transactionId;
-
     double amount;
 
     String description;
@@ -31,7 +31,8 @@ public class Transactions {
     Date date;
 
     @ManyToOne
-    @JoinColumn(name = "WalletID")
+    @JoinColumn(name = "WalletID",referencedColumnName = "WalletID")
     Wallet wallet;
+
 
 }
