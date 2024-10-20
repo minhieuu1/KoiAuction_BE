@@ -22,4 +22,10 @@ public class RoomController {
                 .data(roomService.createRoom(koiId, roomDTO))
                 .build();
     }
+
+    @DeleteMapping("/delete/{roomId}")
+    String deleteRoom(@PathVariable Long roomId) {
+        roomService.deleteRoom(roomId);
+        return "Room deleted successfully!!!";
+    }
 }
