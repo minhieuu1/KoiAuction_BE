@@ -1,5 +1,7 @@
 package com.bidkoi.auctionkoi.payload.response;
 
+import com.bidkoi.auctionkoi.pojo.Bidder;
+import com.bidkoi.auctionkoi.pojo.Koi;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,4 +12,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Winner {
     String username;
+    Bidder bidder;
+    Koi koi;
 }

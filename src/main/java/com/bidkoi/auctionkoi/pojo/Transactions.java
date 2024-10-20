@@ -6,31 +6,28 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Bid {
-
+public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long no;
+    @Column(name = "TransactionID")
+    Long id;
 
-    String username;
+    double amount;
 
-    @ManyToOne
-    @JoinColumn(name = "BidderID", referencedColumnName = "BidderID")
-    Bidder bidder;
-
-    @ManyToOne
-    @JoinColumn(name = "RoomID",referencedColumnName = "RoomID")
-    Room room;
-
-    @Builder.Default
-    Double amount = 0.0;
+    String description;
 
     Date date;
 
+    String type;
+
+    @ManyToOne
+    @JoinColumn(name = "WalletID",referencedColumnName = "WalletID")
+    Wallet wallet;
 }

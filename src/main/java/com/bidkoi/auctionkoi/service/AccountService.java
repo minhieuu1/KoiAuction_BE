@@ -75,6 +75,11 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public List<Account> getAllAccounts() {
+        return iAccountRepository.findAll();
+    }
+
+    @Override
     public AccountDTO createAccount(AccountCreationRequest request) {
         String role = request.getRole().toUpperCase();
 
@@ -125,6 +130,8 @@ public class AccountService implements IAccountService {
         var token = tokenService.generateToken(user);
         return LoginResponse.builder()
                 .token(token)
+                .username(user.getUsername())
+                .role(user.getRole())
                 .bidder(iBidderRepository.findBidderByAccount(user))
                 .breeder(breederRepo.findBreederByAccount(user))
                 .staff(staffRepo.findByAccount(user))
@@ -159,6 +166,7 @@ public class AccountService implements IAccountService {
                 .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
 
         // Cập nhật thông tin trong Bidder
+        bidder.setAvatar(bidderDTO.getAvatar());
         bidder.setFirstname(bidderDTO.getFirstname());
         bidder.setLastname(bidderDTO.getLastname());
         bidder.setGender(bidderDTO.getGender());
@@ -175,6 +183,7 @@ public class AccountService implements IAccountService {
         iBidderRepository.save(bidder);
 
         BidderDTO updatedBidderDTO = BidderDTO.builder()
+                .avatar(bidder.getAvatar())
                 .firstname(bidder.getFirstname())
                 .lastname(bidder.getLastname())
                 .gender(bidder.getGender())

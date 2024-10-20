@@ -24,8 +24,7 @@ public class Koi {
     String video;
     String description;
 
-    @Builder.Default
-    int rating = 0;
+    int rating;
 
     @Column(name = "Initial_price")
     Double initialPrice;

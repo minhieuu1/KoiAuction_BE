@@ -8,6 +8,7 @@ import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
+import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.service.IAccountService;
 
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,6 +40,11 @@ public class AccountController {
 //    @PreAuthorize("hasAuthority('STAFF')")
     ApiResponse<AccountDTO> create(@RequestBody @Valid AccountCreationRequest request) {
         return ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
+    }
+
+    @GetMapping
+    ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.ok(iAccountService.getAllAccounts());
     }
 
     @PostMapping("/login")
