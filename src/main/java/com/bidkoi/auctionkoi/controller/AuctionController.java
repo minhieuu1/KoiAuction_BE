@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auctions")
+@RequestMapping("/auction")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuctionController {
     IAuctionService iAuctionService;
 
-    @PostMapping("/create")
+    @PostMapping("/creation")
     public ResponseEntity<AuctionDTO> createAuction(@RequestBody AuctionDTO auction){
         return ResponseEntity.ok(iAuctionService.createAuction(auction));
     }
@@ -32,12 +32,13 @@ public class AuctionController {
         return iAuctionService.getAll();
     }
 
-    @PostMapping("/{auctionId}/rooms/{roomId}")
+    @PostMapping("/{auctionId}/room/{roomId}")
     public ApiResponse<RoomDTO> addRoomToAuction(@PathVariable Long auctionId, @PathVariable Long roomId) {
         return ApiResponse.<RoomDTO>builder()
                 .data(iAuctionService.addRoomToAuction(auctionId, roomId))
                 .build();
     }
+
 
     @PutMapping("/update/{auctionId}")
     public ApiResponse<AuctionDTO> updateAuction(@PathVariable Long auctionId, @RequestBody UpdateAuctionRequest request){
@@ -52,15 +53,17 @@ public class AuctionController {
         return "Auction deleted successfully!";
     }
 
+    
+
     @PutMapping("/{auctionId}/active")
-    public ApiResponse<AuctionDTO> activeAuction(@PathVariable Long auctionId) {
+    public ApiResponse<AuctionDTO> activateAuction(@PathVariable Long auctionId){
         return ApiResponse.<AuctionDTO>builder()
                 .data(iAuctionService.updateStatus(auctionId))
                 .build();
     }
 
     @GetMapping("/active")
-    public ApiResponse<AuctionDTO> getAuctionActive() {
+    public ApiResponse<AuctionDTO> getAuctionActive(){
         return ApiResponse.<AuctionDTO>builder()
                 .data(iAuctionService.getAuctionActive())
                 .build();

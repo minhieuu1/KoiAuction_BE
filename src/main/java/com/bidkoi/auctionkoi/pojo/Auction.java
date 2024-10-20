@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,8 +26,10 @@ public class Auction {
     LocalDateTime startTime;
     @Column(name = "EndTime")
     LocalDateTime endTime;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "Status")
-    String status;
+    AuctionStatus status;
 
 
 //    @Column(name = "StartDate")
