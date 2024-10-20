@@ -26,6 +26,12 @@ public class RoomController {
                 .build();
     }
 
+
+    @DeleteMapping("/delete/{roomId}")
+    String deleteRoom(@PathVariable Long roomId) {
+        roomService.deleteRoom(roomId);
+        return "Room deleted successfully!!!";
+
     @GetMapping
     ApiResponse<List<Room>> getAllRooms() {
         return ApiResponse.<List<Room>>builder().data(roomService.getAllRooms()).build();
@@ -34,5 +40,6 @@ public class RoomController {
     @GetMapping("/{auctionId}")
     ApiResponse<List<Room>> getRoomInAuction(@PathVariable Long auctionId) {
         return ApiResponse.<List<Room>>builder().data(roomService.getRoomInAuction(auctionId)).build();
+
     }
 }
