@@ -4,21 +4,23 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+@Entity
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-public class Breeder {
+public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BreederID")
-    Long breederID;
-    @Column(name = "Breeder_name")
-    String name;
-    String address;
-    String logo;
+    @Column(name = "StaffID")
+    Long staffId;
+    @Column(name = "First_name")
+    String firstName;
+    @Column(name = "Last_name")
+    String lastName;
+    String gender;
+
 
     @OneToOne
     @JoinColumn(name = "AccountID", referencedColumnName = "AccountID")
