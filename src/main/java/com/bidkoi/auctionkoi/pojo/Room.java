@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

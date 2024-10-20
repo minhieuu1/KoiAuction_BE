@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,5 +27,8 @@ public class Bid {
     Room room;
 
     Double amount;
+
+//    @Column(name = "Bid_Time")
+//    LocalDateTime bidTime;
 
 }

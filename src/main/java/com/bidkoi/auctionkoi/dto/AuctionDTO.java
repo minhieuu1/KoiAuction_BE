@@ -5,7 +5,9 @@ import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -19,6 +21,7 @@ public class AuctionDTO {
 
     LocalDateTime startTime;
     LocalDateTime endTime;
+
     String status;
 
     List<Room> rooms;

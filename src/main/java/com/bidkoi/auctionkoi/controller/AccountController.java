@@ -50,7 +50,7 @@ public class AccountController {
     }
 
     @PutMapping("/update-profile/{accountId}")
-    public ResponseEntity<BidderDTO> updateProfile(@PathVariable String accountId, @RequestBody BidderDTO bidderDTO) {
+    public ResponseEntity<BidderDTO> updateProfile(@PathVariable String accountId, @Valid @RequestBody BidderDTO bidderDTO) {
         BidderDTO updatedProfile = iAccountService.updateProfile(accountId, bidderDTO);
         return ResponseEntity.ok(updatedProfile);
     }

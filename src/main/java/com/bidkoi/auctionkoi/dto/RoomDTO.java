@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.dto;
 
-import com.bidkoi.auctionkoi.pojo.AuctionStatus;
+
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
