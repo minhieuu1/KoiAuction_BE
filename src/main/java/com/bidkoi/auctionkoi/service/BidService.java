@@ -97,14 +97,14 @@ public class BidService implements IBidService {
         roomRepo.save(room);
 
         bid.setUsername(bidder.getAccount().getUsername());
-        bid.setAmount(Double.parseDouble(placeBid.getPrice()));
+        bid.setAmount(Double.parseDouble(placeBid.getAmount()));
         bid.setDate(new Date(System.currentTimeMillis()));
         bidRepo.save(bid);
 
         return PlaceBid.builder()
                 .userId(bidder.getId())
                 .username(bidder.getAccount().getUsername())
-                .price(placeBid.getPrice())
+                .amount(placeBid.getAmount())
                 .date(new Date(System.currentTimeMillis()))
                 .status("MESSAGE")
                 .build();
