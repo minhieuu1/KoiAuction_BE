@@ -14,8 +14,10 @@ import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.enums.Role;
+import com.bidkoi.auctionkoi.pojo.Wallet;
 import com.bidkoi.auctionkoi.repository.IAccountRepository;
 import com.bidkoi.auctionkoi.repository.IBidderRepository;
+import com.bidkoi.auctionkoi.repository.IWalletRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -45,6 +47,7 @@ public class AccountService implements IAccountService {
     IAccountMapper iAccountMapper;
     IBidderRepository iBidderRepository;
     PasswordEncoder passwordEncoder;
+    IWalletRepository iWalletRepository;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -66,9 +69,13 @@ public class AccountService implements IAccountService {
 
 
 
-//        Bidder bidder = new Bidder();
-//        bidder.setAccount(account);
-//        bidder = iBidderRepository.save(bidder);
+        Bidder bidder = new Bidder();
+        bidder.setAccount(account);
+        bidder = iBidderRepository.save(bidder);
+
+        Wallet wallet = new Wallet();
+        wallet.setAccount(account);
+        iWalletRepository.save(wallet);
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
@@ -98,7 +105,7 @@ public class AccountService implements IAccountService {
     @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USER));
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if(!authenticated) {
@@ -165,6 +172,8 @@ public class AccountService implements IAccountService {
 
         Bidder bidder = iBidderRepository.findByAccountId(account.getId())
                 .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
+
+
 
         // Cập nhật thông tin trong Bidder
         bidder.setFirstname(bidderDTO.getFirstname());
