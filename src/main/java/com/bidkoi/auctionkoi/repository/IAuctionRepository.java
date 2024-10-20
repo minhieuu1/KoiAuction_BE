@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IAuctionRepository extends JpaRepository<Auction,Long> {
     boolean existsByAuctionId(Long auctionId);
+
     List<Room> findByAuctionId(Long auctionId);
     Auction findAuctionByStatus(AuctionStatus status);
+
 }

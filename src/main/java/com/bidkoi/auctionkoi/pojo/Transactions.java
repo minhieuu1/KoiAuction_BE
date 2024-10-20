@@ -4,30 +4,35 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
-
+@Entity
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
 public class Transactions {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "TransactionID")
-    Long id;
-
+    UUID transactionId;
     double amount;
 
     String description;
 
-    Date date;
-
     String type;
+
+    String status;
+
+    Date date;
 
     @ManyToOne
     @JoinColumn(name = "WalletID",referencedColumnName = "WalletID")
     Wallet wallet;
+
+
 }
