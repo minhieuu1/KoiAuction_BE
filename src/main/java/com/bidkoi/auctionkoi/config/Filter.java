@@ -39,7 +39,8 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/account/login",
             "/BidKoi/account/register",
             "/BidKoi/ws/**",
-            "/BidKoi/account/create"
+            "/BidKoi/account/creation",
+            "/BidKoi/account"
     );
 
     public boolean checkIsPublicAPI(String uri) {
@@ -93,6 +94,7 @@ public class Filter extends OncePerRequestFilter {
             }
             // token chuan => cho phep truy cap
             // lưu lại thong tin account
+
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     account,
                     token,

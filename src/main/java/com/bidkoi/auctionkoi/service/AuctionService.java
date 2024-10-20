@@ -34,7 +34,7 @@ public class AuctionService implements IAuctionService {
     @Transactional
     public AuctionDTO createAuction(AuctionDTO auctionDTO) {
         Auction auction = iAuctionMapper.toAuction(auctionDTO);
-        auction.setStatus(String.valueOf(AuctionStatus.PENDING));
+        auction.setStatus(AuctionStatus.PENDING);
         return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
@@ -47,13 +47,13 @@ public class AuctionService implements IAuctionService {
     public AuctionDTO updateStatus(Long auctionId) {
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
-        auction.setStatus(String.valueOf(AuctionStatus.ACTIVE));
+        auction.setStatus(AuctionStatus.ACTIVE);
         return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
     @Override
     public AuctionDTO getAuctionActive() {
-        Auction auction = iAuctionRepository.findAuctionByStatus(String.valueOf(AuctionStatus.ACTIVE));
+        Auction auction = iAuctionRepository.findAuctionByStatus(AuctionStatus.ACTIVE);
         return iAuctionMapper.toAuctionDTO(auction);
     }
 
