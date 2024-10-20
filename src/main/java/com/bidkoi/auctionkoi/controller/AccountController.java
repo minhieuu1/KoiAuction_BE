@@ -8,6 +8,7 @@ import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
+import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.service.IAccountService;
 
@@ -16,14 +17,16 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
 @RequiredArgsConstructor
-@CrossOrigin()
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AccountController {
     IAccountService iAccountService;
@@ -33,9 +36,15 @@ public class AccountController {
         return ApiResponse.<AccountDTO>builder().data(iAccountService.register(request)).build();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/creation")
+//    @PreAuthorize("hasAuthority('STAFF')")
     ApiResponse<AccountDTO> create(@RequestBody @Valid AccountCreationRequest request) {
         return ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
+    }
+
+    @GetMapping
+    ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.ok(iAccountService.getAllAccounts());
     }
 
     @PostMapping("/login")
@@ -43,7 +52,7 @@ public class AccountController {
         return iAccountService.login(request);
     }
 
-    @GetMapping("/view/{accountId}")
+    @GetMapping("/profile/{accountId}")
     public ResponseEntity<Optional<Bidder>> getBidderByID(@PathVariable String accountId){
         Optional<Bidder> account = iAccountService.getBidderById(accountId);
         return ResponseEntity.ok(account);
