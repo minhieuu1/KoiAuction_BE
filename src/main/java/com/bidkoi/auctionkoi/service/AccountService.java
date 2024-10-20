@@ -43,6 +43,7 @@ public class AccountService implements IAccountService {
     IBreederRepository breederRepo;
     IStaffRepository staffRepo;
     PasswordEncoder passwordEncoder;
+
     IWalletRepository wallerRepo;
     TokenService tokenService;
 
@@ -69,6 +70,7 @@ public class AccountService implements IAccountService {
         Wallet wallet = new Wallet();
         wallet.setAccount(account);
         wallerRepo.save(wallet);
+
 
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
@@ -120,8 +122,8 @@ public class AccountService implements IAccountService {
     @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USERNAME));
 
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USERNAME));
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if(!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED_PASSWORD);
@@ -164,6 +166,8 @@ public class AccountService implements IAccountService {
 
         Bidder bidder = iBidderRepository.findByAccountId(account.getId())
                 .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
+
+
 
         // Cập nhật thông tin trong Bidder
         bidder.setAvatar(bidderDTO.getAvatar());
