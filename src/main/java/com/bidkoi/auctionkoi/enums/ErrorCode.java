@@ -12,8 +12,9 @@ public enum ErrorCode {
     USER_NOT_FOUND(404,"User not found"),
     EMAIL_EXISTED(422, "Email already existed!"),
     USERNAME_INVALID(400,"Username must be between 8 and 16 characters"),
-    PHONE_INVALID(400,"Phone number must be 10 characters"),
-    UNAUTHENTICATED(401,"Invalid username or password!"),
+    PHONE_INVALID(400,"Phone number must be 10 characters or must start with '0'!!!"),
+    UNAUTHENTICATED(401,"Invalid username!!!"),
+    UNAUTHENTICATED_PASSWORD(401, "Invalid password!!!"),
     INVALID_EMAIL(401,"Invalid email address!"),
     KOI_NOT_FOUND(404,"Koi not found!"),
     BREEDER_NOT_FOUND(404,"Breeder not found!"),
@@ -26,6 +27,12 @@ public enum ErrorCode {
     ROOM_NOT_FOUND(404, "Room ID not found!!!"),
     BID_ID_NOT_FOUND(404, "Bid ID not found!!!"),
     BIDDER_NOT_FOUND(404, "Bidder not found!!!"),
+    INSUFFICIENT_BALANCE(402, "Insufficient  balance!!!"),
+    INSUFFICIENT_INITIAL_PRICE(402, "The starting price must be greater than the original price!!!"),
+    INVALID_AUCTION_DATE(401, "Start date cannot be in the past!!!"),
+    INVALID_AUCTION_END_DATE(401, "Auction end time cannot be before start time!!!"),
+    WALLET_NOT_FOUND(404, "Wallet not found!!!"),
+    TRANSACTION_NOT_FOUND(404, "Transaction not found!!!"),
     ;
 
     int code;
