@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.dto;
 
+import com.bidkoi.auctionkoi.pojo.Account;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,4 +18,6 @@ public class BreederDTO {
     Long breederID;
     String name;
     String address;
+    String logo;
+    Account account;
 }

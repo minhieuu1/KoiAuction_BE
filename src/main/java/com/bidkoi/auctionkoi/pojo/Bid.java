@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,6 +18,8 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long no;
 
+    String username;
+
     @ManyToOne
     @JoinColumn(name = "BidderID", referencedColumnName = "BidderID")
     Bidder bidder;
@@ -24,6 +28,9 @@ public class Bid {
     @JoinColumn(name = "RoomID",referencedColumnName = "RoomID")
     Room room;
 
-    Double amount;
+    @Builder.Default
+    Double amount = 0.0;
+
+    Date date;
 
 }

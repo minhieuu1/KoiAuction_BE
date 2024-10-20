@@ -37,6 +37,7 @@ public class AuctionService implements IAuctionService {
     public AuctionDTO createAuction(AuctionDTO auctionDTO) {
         Auction auction = iAuctionMapper.toAuction(auctionDTO);
 
+
         LocalDateTime today = LocalDateTime.now();
         if(auction.getStartTime().isBefore(today)){
             throw new AppException(ErrorCode.INVALID_AUCTION_DATE);
@@ -44,7 +45,9 @@ public class AuctionService implements IAuctionService {
         else if (auction.getEndTime().isBefore(auction.getStartTime())){
             throw new AppException(ErrorCode.INVALID_AUCTION_END_DATE);
         }
-        auction.setStatus(String.valueOf(AuctionStatus.PENDING));
+        
+        auction.setStatus(AuctionStatus.PENDING);
+
         return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
@@ -101,6 +104,20 @@ public class AuctionService implements IAuctionService {
 
     //Add Room to Auction
     @Override
+    public AuctionDTO updateStatus(Long auctionId) {
+        Auction auction = iAuctionRepository.findById(auctionId)
+                .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+        auction.setStatus(AuctionStatus.ACTIVE);
+        return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
+    }
+
+    @Override
+    public AuctionDTO getAuctionActive() {
+        Auction auction = iAuctionRepository.findAuctionByStatus(AuctionStatus.ACTIVE);
+        return iAuctionMapper.toAuctionDTO(auction);
+    }
+
+    @Override
     public RoomDTO addRoomToAuction(Long auctionId, Long roomId) {
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(() -> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
@@ -112,5 +129,8 @@ public class AuctionService implements IAuctionService {
 
         return iRoomMapper.toRoomDTO(iRoomRepository.save(room));
     }
+
+
+
 
 }

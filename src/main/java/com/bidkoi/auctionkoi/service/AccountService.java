@@ -11,11 +11,9 @@ import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
-import com.bidkoi.auctionkoi.pojo.Account;
-import com.bidkoi.auctionkoi.pojo.Bidder;
+import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.enums.Role;
-import com.bidkoi.auctionkoi.repository.IAccountRepository;
-import com.bidkoi.auctionkoi.repository.IBidderRepository;
+import com.bidkoi.auctionkoi.repository.*;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -29,9 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -44,11 +40,11 @@ public class AccountService implements IAccountService {
     IAccountRepository iAccountRepository;
     IAccountMapper iAccountMapper;
     IBidderRepository iBidderRepository;
+    IBreederRepository breederRepo;
+    IStaffRepository staffRepo;
     PasswordEncoder passwordEncoder;
-
-    @NonFinal
-    @Value("${jwt.signerKey}")
-    protected String SIGNER_KEY;
+    IWalletRepository wallerRepo;
+    TokenService tokenService;
 
     @Override
     public AccountDTO register(RegisterRequest request) {
@@ -61,54 +57,84 @@ public class AccountService implements IAccountService {
 
         Account account = iAccountMapper.toAccount(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-//        account.setRole(Role.fromValue(request.getRole()));
+        account.setRole(Role.BIDDER);
         account = iAccountRepository.save(account);
 
 
 
-//        Bidder bidder = new Bidder();
-//        bidder.setAccount(account);
-//        bidder = iBidderRepository.save(bidder);
+        Bidder bidder = new Bidder();
+        bidder.setAccount(account);
+        bidder = iBidderRepository.save(bidder);
+
+        Wallet wallet = new Wallet();
+        wallet.setAccount(account);
+        wallerRepo.save(wallet);
+
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        return iAccountRepository.findAll();
     }
 
     @Override
     public AccountDTO createAccount(AccountCreationRequest request) {
+        String role = request.getRole().toUpperCase();
+
+        // Validate role
+        if (!Role.BREEDER.name().equals(role) && !Role.STAFF.name().equals(role)) {
+            throw new AppException(ErrorCode.ROLE_ERROR);
+        }
+
+        // Check if username already exists
         if (iAccountRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
+        // Map request to Account entity and encode the password
         Account account = iAccountMapper.toAccountCreation(request);
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-        account.setRole(Role.fromValue(request.getRole()));
-        account = iAccountRepository.save(account);
 
+        // Save account
+        iAccountRepository.save(account);
+
+        // Set the role and create the appropriate role entity
+        if(Role.BREEDER.name().equals(role)){
+            account.setRole(Role.BREEDER);
+            Breeder breeder = new Breeder();
+            breeder.setAccount(account);
+            breederRepo.save(breeder);
+        }else{
+            account.setRole(Role.STAFF);
+            Staff staff = new Staff();
+            staff.setAccount(account);
+            staffRepo.save(staff);
+        }
 
         return iAccountMapper.toAccountDTO(iAccountRepository.save(account));
     }
 
-//    @Override
-//    public AccountDTO createAccount(AccountCreationRequest request,int role) {
-//        Account account = iAccountMapper.toAccount(request);
-//        account.setPassword(this.passwordEncoder.encode(request.getPassword()));
-//        return null;
-//    }
 
     @Override
     public LoginResponse login(LoginRequest request) {
         var user = iAccountRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USER));
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED_USERNAME));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if(!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED_PASSWORD);
         }
 
-        var token = generateToken(user.getId(), user.getUsername(), user.getEmail(), user.getPhone());
+        var token = tokenService.generateToken(user);
         return LoginResponse.builder()
                 .token(token)
+                .username(user.getUsername())
                 .role(user.getRole())
+                .bidder(iBidderRepository.findBidderByAccount(user))
+                .breeder(breederRepo.findBreederByAccount(user))
+                .staff(staffRepo.findByAccount(user))
                 .build();
     }
 
@@ -118,33 +144,6 @@ public class AccountService implements IAccountService {
     }
 
 
-    String generateToken(String accountId, String username, String email, String phone) {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(accountId)
-                .issuer("BidKoi.com")
-                .issueTime(new Date())
-                .issueTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
-                .claim("username", username)
-                .claim("email", email)
-                .claim("phone", phone)
-                .build();
-        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-
-        JWSObject jwsObject = new JWSObject(header, payload);
-
-        try {
-            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
-            return jwsObject.serialize();
-        } catch (JOSEException e) {
-            log.error("Cannot create token");
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public Optional<Account> getAccountById(String id) {
         return iAccountRepository.findById(id);
@@ -152,8 +151,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public Optional<Bidder> getBidderById(String accountId) {
-//        Account account = iAccountRepository.findById(accountId).
-//                orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
+        Account account = iAccountRepository.findById(accountId).
+                orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
 
         return iBidderRepository.findByAccountId(accountId);
     }
@@ -167,6 +166,7 @@ public class AccountService implements IAccountService {
                 .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
 
         // Cập nhật thông tin trong Bidder
+        bidder.setAvatar(bidderDTO.getAvatar());
         bidder.setFirstname(bidderDTO.getFirstname());
         bidder.setLastname(bidderDTO.getLastname());
         bidder.setGender(bidderDTO.getGender());
@@ -183,6 +183,7 @@ public class AccountService implements IAccountService {
         iBidderRepository.save(bidder);
 
         BidderDTO updatedBidderDTO = BidderDTO.builder()
+                .avatar(bidder.getAvatar())
                 .firstname(bidder.getFirstname())
                 .lastname(bidder.getLastname())
                 .gender(bidder.getGender())
