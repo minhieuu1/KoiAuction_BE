@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
 import java.util.Date;
+
 
 @Data
 @Builder
@@ -32,5 +34,8 @@ public class Bid {
     Double amount = 0.0;
 
     Date date;
+
+//    @Column(name = "Bid_Time")
+//    LocalDateTime bidTime;
 
 }
