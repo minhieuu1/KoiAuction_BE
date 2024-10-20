@@ -4,6 +4,8 @@ import com.bidkoi.auctionkoi.dto.WalletDTO;
 import com.bidkoi.auctionkoi.payload.request.WalletRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Wallet;
+import com.bidkoi.auctionkoi.repository.ITransactionRepository;
+import com.bidkoi.auctionkoi.repository.IWalletRepository;
 import com.bidkoi.auctionkoi.service.IWalletService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class WalletController {
 
     IWalletService walletService;
-
+    IWalletRepository walletRepo;
+    ITransactionRepository transactionRepository;
     @PostMapping("/{accountId}")
     ApiResponse<WalletDTO> createWallet(@RequestBody WalletRequest request, @PathVariable String accountId) {
         return ApiResponse.<WalletDTO>builder()
