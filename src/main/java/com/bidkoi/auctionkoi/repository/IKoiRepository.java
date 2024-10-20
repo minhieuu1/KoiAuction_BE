@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IKoiRepository extends JpaRepository<Koi,String> {
-    boolean existsByKoiId(String koiId);
+public interface IKoiRepository extends JpaRepository<Koi,Long> {
+    boolean existsByKoiId(Long koiId);
     List<Koi> findByBreeder(Breeder breeder);
+
 }

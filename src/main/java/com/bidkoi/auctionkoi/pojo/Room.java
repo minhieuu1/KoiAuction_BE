@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.AuctionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +18,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RoomID")
     Long roomId;
-    String type;
+    String winner;
 
     @OneToOne
     @JoinColumn(name = "KoiID", referencedColumnName = "KoiID")
@@ -26,11 +27,11 @@ public class Room {
     @Column(name = "AuctionID")
     Long auctionId;
 
-    LocalDateTime startTime;
-    LocalDateTime endTime;
-
-    @Enumerated(EnumType.STRING)
-    AuctionStatus status;
+//    LocalDateTime startTime;
+//    LocalDateTime endTime;
+//
+//    @Enumerated(EnumType.STRING)
+//    AuctionStatus status;
 
 
 }

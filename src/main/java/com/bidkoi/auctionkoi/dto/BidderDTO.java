@@ -11,6 +11,7 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BidderDTO {
+    String avatar;
     String firstname;
     String lastname;
     String gender;
