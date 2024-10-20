@@ -3,7 +3,6 @@ package com.bidkoi.auctionkoi.pojo;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.util.List;
 
 @Data
@@ -18,6 +17,7 @@ public class Wallet {
     @Column(name = "WalletID")
     Long walletId;
 
+
     @Builder.Default
     Double balance = 0.0;
 
@@ -27,4 +27,5 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL) //khi mà lưu Wallet thì lưu luôn Transactions
     List<Transactions> transactions;
+
 }

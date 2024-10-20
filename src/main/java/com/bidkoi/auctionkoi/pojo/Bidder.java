@@ -20,6 +20,7 @@ public class Bidder {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "BidderID")
     String id;
+    String avatar;
     @Column(name = "First_name")
     String firstname;
     @Column(name = "Last_name")

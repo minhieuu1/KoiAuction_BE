@@ -17,6 +17,7 @@ import java.util.Optional;
 public interface IAccountService {
    AccountDTO createAccount(AccountCreationRequest request);
    AccountDTO register(RegisterRequest request);
+   List<Account> getAllAccounts();
    LoginResponse login(LoginRequest request);
    List<Bidder> getAll();
    Optional<Account> getAccountById(String id);
