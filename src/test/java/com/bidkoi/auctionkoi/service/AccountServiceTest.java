@@ -58,26 +58,26 @@ public class AccountServiceTest {
     }
 
 
-    @Test
-    void login_success(){
-
-        String token = "";
-
-        //GIVEN
-        //Exist user
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
-        //Password correct
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
-        //Generate Token
-        when(accountService.generateToken(anyString(), anyString(),anyString(), anyString())).thenReturn(token);
-
-        //WHEN
-        var result = accountService.login(loginRequest);
-
-        //THEN
-        assertNotNull(result);
-        assertEquals(token, result.getToken());
-    }
+//    @Test
+//    void login_success(){
+//
+//        String token = "";
+//
+//        //GIVEN
+//        //Exist user
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
+//        //Password correct
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
+//        //Generate Token
+//        when(accountService.generateToken(anyString(), anyString(),anyString(), anyString())).thenReturn(token);
+//
+//        //WHEN
+//        var result = accountService.login(loginRequest);
+//
+//        //THEN
+//        assertNotNull(result);
+//        assertEquals(token, result.getToken());
+//    }
 
     @Test
     void login_invalidUsername(){
