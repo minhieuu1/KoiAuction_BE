@@ -4,6 +4,7 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.dto.BidDTO;
 import com.bidkoi.auctionkoi.dto.PlaceBid;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
+import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.mapper.IBidMapper;
 import com.bidkoi.auctionkoi.payload.response.Winner;
@@ -62,31 +63,32 @@ public class BidService implements IBidService {
                 .amount(deposit)
                 .date(new Date(System.currentTimeMillis()))
                 .description("")
-                .type("Deposit")
+                .type(TransactionsEnum.DEPOSIT)
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
-
-        Bid bid = Bid.builder()
-                .bidder(bidder)
-                .room(room)
-                .amount(request.getAmount())
-                .build();
+        Bid bid = bidRepo.findByBidderAndRoom(bidder, room);
+        if(bid == null) {
+            bid = Bid.builder()
+                    .bidder(bidder)
+                    .room(room)
+                    .build();
+        }else{
+            throw new AppException(ErrorCode.BIDDER_EXISTED);
+        }
         return bidRepo.save(bid);
     }
 
     @Override
-    public List<Bid> joinBids(String bidderID, Long roomID) {
+    public boolean joinBids(String bidderID, Long roomID) {
         Bidder bidder = bidderRepo.findById(bidderID).
                 orElseThrow(()->new AppException(ErrorCode.BIDDER_NOT_FOUND));
 
         Room room = roomRepo.findById(roomID).
                 orElseThrow(()-> new AppException(ErrorCode.ROOM_NOT_FOUND));
 
-        boolean exists = bidRepo.existsByBidderAndRoom(bidder, room);
 
-
-        return bidRepo.findByRoom(room);
+        return bidRepo.existsByBidderAndRoom(bidder, room);
 
     }
 

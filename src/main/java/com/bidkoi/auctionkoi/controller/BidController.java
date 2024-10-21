@@ -37,9 +37,11 @@ public class BidController {
     }
 
     @GetMapping("/{bidderId}/{roomId}")
-    ResponseEntity<List<Bid>> getAllBids(@PathVariable String bidderId, @PathVariable Long roomId) {
+    ResponseEntity<Boolean> existInRoom(@PathVariable String bidderId, @PathVariable Long roomId) {
         return ResponseEntity.ok(service.joinBids(bidderId,roomId));
     }
+
+
 
     @MessageMapping("/bid/{roomId}")
     public ResponseEntity<String> sendBid(@DestinationVariable Long roomId, @Payload PlaceBid bid) {

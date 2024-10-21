@@ -13,7 +13,7 @@ import java.util.List;
 public interface IBidService {
 
     Bid registerBid(String bidderID, Long roomID);
-    List<Bid> joinBids(String bidderID,Long roomID);
+    boolean joinBids(String bidderID,Long roomID);
     PlaceBid updateBid(Long roomID, PlaceBid bid);
     Winner getWinner(Long roomID);
     List<PlaceBid> getBids(Long roomID);
