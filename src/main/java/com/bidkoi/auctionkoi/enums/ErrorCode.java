@@ -26,6 +26,7 @@ public enum ErrorCode {
     ROOM_NOT_FOUND(404, "Room ID not found!!!"),
     BID_ID_NOT_FOUND(404, "Bid ID not found!!!"),
     BIDDER_NOT_FOUND(404, "Bidder not found!!!"),
+    BIDDER_EXISTED(404, "BidderEmail not found!!!"),
     INSUFFICIENT_BALANCE(402, "Insufficient  balance!!!"),
     INSUFFICIENT_INITIAL_PRICE(402, "The starting price must be greater than the original price!!!"),
     INVALID_AUCTION_DATE(401, "Start date cannot be in the past!!!"),
@@ -40,6 +41,9 @@ public enum ErrorCode {
     ERROR_TOKEN(401,"Invalid Token"),
     SHIPPING_ID_NOT_FOUND(404,"SHIPPING ID not found!!!"),
     SHIPPING_EXISTED(422, "Shipping already existed!"),
+    TOKEN_EXPIRED(401, "Token has expired"),
+    TOKEN_ERROR(401, "Invalid token"),
+
     ;
 
     int code;

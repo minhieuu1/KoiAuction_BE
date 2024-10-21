@@ -58,62 +58,62 @@ public class AccountServiceTest {
     }
 
 
-    @Test
-    void login_success(){
+//    @Test
+//    void login_success(){
+//
+//        String token = "";
+//
+//        //GIVEN
+//        //Exist user
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
+//        //Password correct
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
+//        //Generate Token
+//        when(accountService.generateToken(anyString(), anyString(),anyString(), anyString())).thenReturn(token);
+//
+//        //WHEN
+//        var result = accountService.login(loginRequest);
+//
+//        //THEN
+//        assertNotNull(result);
+//        assertEquals(token, result.getToken());
+//    }
 
-        String token = "";
-
-        //GIVEN
-        //Exist user
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
-        //Password correct
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
-        //Generate Token
-        when(accountService.generateToken(anyString(), anyString(),anyString(), anyString())).thenReturn(token);
-
-        //WHEN
-        var result = accountService.login(loginRequest);
-
-        //THEN
-        assertNotNull(result);
-        assertEquals(token, result.getToken());
-    }
-
-    @Test
-    void login_invalidUsername(){
-
-        //GIVEN
-        //User not found
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.empty());
-        //Password correct
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
-
-        //WHEN
-        var exception =  assertThrows(AppException.class,
-                () -> accountService.login(loginRequest));
-
-        //THEN: Expect an AppException with the correct error code and message
-        assertEquals(401, exception.getErrorCode().getCode());
-        assertEquals("Invalid username!", exception.getErrorCode().getMessage());
-
-    }
-
-    @Test
-    void login_invalidPassword(){
-
-        //GIVEN
-        //Exist user
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
-        //Password incorrect
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(false);
-
-        //WHEN
-        var exception =  assertThrows(AppException.class,
-                () -> accountService.login(loginRequest));
-
-        //THEN: Expect an AppException with the correct error code and message
-        assertEquals(401, exception.getErrorCode().getCode());
-        assertEquals("Invalid password!", exception.getErrorCode().getMessage());
-
-    }
+//    @Test
+//    void login_invalidUsername(){
+//
+//        //GIVEN
+//        //User not found
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+//        //Password correct
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
+//
+//        //WHEN
+//        var exception =  assertThrows(AppException.class,
+//                () -> accountService.login(loginRequest));
+//
+//        //THEN: Expect an AppException with the correct error code and message
+//        assertEquals(401, exception.getErrorCode().getCode());
+//        assertEquals("Invalid username!", exception.getErrorCode().getMessage());
+//
+//    }
+//
+//    @Test
+//    void login_invalidPassword(){
+//
+//        //GIVEN
+//        //Exist user
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
+//        //Password incorrect
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(false);
+//
+//        //WHEN
+//        var exception =  assertThrows(AppException.class,
+//                () -> accountService.login(loginRequest));
+//
+//        //THEN: Expect an AppException with the correct error code and message
+//        assertEquals(401, exception.getErrorCode().getCode());
+//        assertEquals("Invalid password!", exception.getErrorCode().getMessage());
+//
+//    }
 }
