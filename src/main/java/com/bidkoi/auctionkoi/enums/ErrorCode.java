@@ -19,7 +19,6 @@ public enum ErrorCode {
     BREEDER_NOT_FOUND(404,"Breeder not found!"),
     STATUS_ERROR(401,"Koi status is not PENDING!"),
     ROLE_ERROR(401,"Role Error!"),
-    KOI_ID_EXISTED(422,"Koi ID already existed!"),
     INVALID_CURRENT_PASSWORD(401, "Invalid current password!!!"),  //Bad Request
     SENDMAIL_FAILED(405, "Can not send email!!!"),
     AUCTION_ID_EXISTED(422, "AuctionID already existed!!!"),
@@ -37,8 +36,14 @@ public enum ErrorCode {
     WINNER_EXISTED(422, "Winner already existed!"),
     EMPTY_TOKEN(400, "Empty token!"),
     BALANCE_NOT_ENOUGH(400, "Balance not enough!"),
+    BIDDER_EXISTED(422, "Bidder already existed!"),
+    EXPIRE_TOKEN(401, "Token has expired"),
+    ERROR_TOKEN(401,"Invalid Token"),
+    SHIPPING_ID_NOT_FOUND(404,"SHIPPING ID not found!!!"),
+    SHIPPING_EXISTED(422, "Shipping already existed!"),
     TOKEN_EXPIRED(401, "Token has expired"),
     TOKEN_ERROR(401, "Invalid token"),
+
     ;
 
     int code;
