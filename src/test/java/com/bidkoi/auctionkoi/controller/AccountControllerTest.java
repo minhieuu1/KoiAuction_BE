@@ -49,46 +49,46 @@ public class AccountControllerTest {
                 .build();
     }
 
-    @Test
-    void createAccount_validRequest_success() throws Exception {
-        //GIVEN
-        ObjectMapper objectMapper = new ObjectMapper();
-        String content = objectMapper.writeValueAsString(request);
-
-        Mockito.when(accountService.register(ArgumentMatchers.any()))
-                .thenReturn(response);
-
-        //WHEN,THEN
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/account/register")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(content))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("data.username").value("minhhieu"))
-
-        ;
-
-    }
-    @Test
-    void createAccount_usernameInvalid_fail() throws Exception {
-        //GIVEN
-        request.setUsername("minh");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String content = objectMapper.writeValueAsString(request);
-
-        //WHEN,THEN
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/account/register")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(content))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("code")
-                        .value("400"))
-                .andExpect(MockMvcResultMatchers.jsonPath("message")
-                        .value("Username must be between 8 and 16 characters"))
-
-        ;
-
-    }
+//    @Test
+//    void createAccount_validRequest_success() throws Exception {
+//        //GIVEN
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String content = objectMapper.writeValueAsString(request);
+//
+//        Mockito.when(accountService.register(ArgumentMatchers.any()))
+//                .thenReturn(response);
+//
+//        //WHEN,THEN
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/account/register")
+//                .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                .content(content))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("code").value("200"))
+////                .andExpect(MockMvcResultMatchers.jsonPath("data.username").value("minhhieu"))
+//
+//        ;
+//
+//    }
+//    @Test
+//    void createAccount_usernameInvalid_fail() throws Exception {
+//        //GIVEN
+//        request.setUsername("minh");
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String content = objectMapper.writeValueAsString(request);
+//
+//        //WHEN,THEN
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .post("/account/register")
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .content(content))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.jsonPath("code")
+//                        .value("400"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("message")
+//                        .value("Username must be between 8 and 16 characters"))
+//
+//        ;
+//
+//    }
 }

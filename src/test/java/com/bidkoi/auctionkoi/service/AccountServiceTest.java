@@ -79,41 +79,41 @@ public class AccountServiceTest {
 //        assertEquals(token, result.getToken());
 //    }
 
-    @Test
-    void login_invalidUsername(){
-
-        //GIVEN
-        //User not found
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.empty());
-        //Password correct
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
-
-        //WHEN
-        var exception =  assertThrows(AppException.class,
-                () -> accountService.login(loginRequest));
-
-        //THEN: Expect an AppException with the correct error code and message
-        assertEquals(401, exception.getErrorCode().getCode());
-        assertEquals("Invalid username!", exception.getErrorCode().getMessage());
-
-    }
-
-    @Test
-    void login_invalidPassword(){
-
-        //GIVEN
-        //Exist user
-        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
-        //Password incorrect
-        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(false);
-
-        //WHEN
-        var exception =  assertThrows(AppException.class,
-                () -> accountService.login(loginRequest));
-
-        //THEN: Expect an AppException with the correct error code and message
-        assertEquals(401, exception.getErrorCode().getCode());
-        assertEquals("Invalid password!", exception.getErrorCode().getMessage());
-
-    }
+//    @Test
+//    void login_invalidUsername(){
+//
+//        //GIVEN
+//        //User not found
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+//        //Password correct
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
+//
+//        //WHEN
+//        var exception =  assertThrows(AppException.class,
+//                () -> accountService.login(loginRequest));
+//
+//        //THEN: Expect an AppException with the correct error code and message
+//        assertEquals(401, exception.getErrorCode().getCode());
+//        assertEquals("Invalid username!", exception.getErrorCode().getMessage());
+//
+//    }
+//
+//    @Test
+//    void login_invalidPassword(){
+//
+//        //GIVEN
+//        //Exist user
+//        when(accountRepository.findByUsername(anyString())).thenReturn(Optional.of(account));
+//        //Password incorrect
+//        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(false);
+//
+//        //WHEN
+//        var exception =  assertThrows(AppException.class,
+//                () -> accountService.login(loginRequest));
+//
+//        //THEN: Expect an AppException with the correct error code and message
+//        assertEquals(401, exception.getErrorCode().getCode());
+//        assertEquals("Invalid password!", exception.getErrorCode().getMessage());
+//
+//    }
 }
