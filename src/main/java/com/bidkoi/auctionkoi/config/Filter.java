@@ -86,11 +86,11 @@ public class Filter extends OncePerRequestFilter {
                 account = tokenService.getAccountByToken(token);
             }catch (ExpiredJwtException e) {
                 // response token het han
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.ERROR_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.TOKEN_EXPIRED));
                 return;
             }catch (MalformedJwtException e) {
                 // response token sai
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.ERROR_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.TOKEN_ERROR));
                 return;
             }
             // token chuan => cho phep truy cap
