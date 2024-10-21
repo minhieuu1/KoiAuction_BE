@@ -11,7 +11,7 @@ public interface IAuctionService {
     AuctionDTO createAuction(AuctionDTO auctionDTO);
     RoomDTO addRoomToAuction(Long auctionId, Long roomId);
     List<Auction> getAll();
-    public List<Auction> getAll();
+
 
     public AuctionDTO updateAuction(Long auctionId, UpdateAuctionRequest request);
 

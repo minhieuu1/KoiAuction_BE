@@ -40,7 +40,8 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/account/register",
             "/BidKoi/ws/**",
             "/BidKoi/account/creation",
-            "/BidKoi/account"
+            "/BidKoi/account",
+            "/BidKoi/shipping/**"
     );
 
     public boolean checkIsPublicAPI(String uri) {
@@ -85,11 +86,11 @@ public class Filter extends OncePerRequestFilter {
                 account = tokenService.getAccountByToken(token);
             }catch (ExpiredJwtException e) {
                 // response token het han
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.EMPTY_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.ERROR_TOKEN));
                 return;
             }catch (MalformedJwtException e) {
                 // response token sai
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.EMPTY_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.ERROR_TOKEN));
                 return;
             }
             // token chuan => cho phep truy cap

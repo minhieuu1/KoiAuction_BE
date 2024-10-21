@@ -79,7 +79,7 @@ public class WalletService implements IWalletService {
         Transactions transactions = Transactions.builder()
                 .amount(walletRequest.getBalance())
                 .description("Deposit to Wallet")
-                .type(String.valueOf(TransactionsEnum.DEPOSIT))
+                .type(TransactionsEnum.DEPOSIT)
                 .status("PENDING")
                 .date(new Date())
                 .wallet(wallet)
