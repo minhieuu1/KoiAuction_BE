@@ -26,7 +26,6 @@ public enum ErrorCode {
     ROOM_NOT_FOUND(404, "Room ID not found!!!"),
     BID_ID_NOT_FOUND(404, "Bid ID not found!!!"),
     BIDDER_NOT_FOUND(404, "Bidder not found!!!"),
-    BIDDER_EXISTED(404, "BidderEmail not found!!!"),
     INSUFFICIENT_BALANCE(402, "Insufficient  balance!!!"),
     INSUFFICIENT_INITIAL_PRICE(402, "The starting price must be greater than the original price!!!"),
     INVALID_AUCTION_DATE(401, "Start date cannot be in the past!!!"),

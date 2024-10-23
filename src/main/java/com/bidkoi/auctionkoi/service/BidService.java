@@ -32,8 +32,8 @@ public class BidService implements IBidService {
     IBidderRepository bidderRepo;
     IRoomRepository roomRepo;
     IWalletRepository walletRepo;
-
-    ITransactionRepository transactionRepo;
+    IKoiRepository koiRepo;
+    ITransactionsRepository transactionRepo;
     IBidMapper mapper;
 
 
@@ -100,6 +100,9 @@ public class BidService implements IBidService {
         Room room = roomRepo.findById(roomID)
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
 
+        Koi koi = room.getKoi();
+        koi.setFinalPrice(Double.parseDouble(placeBid.getAmount()));
+        koiRepo.save(koi);
         Bid bid = bidRepo.findByBidderAndRoom(bidder,room);
 
         room.setWinner(bidder.getAccount().getUsername());
@@ -137,7 +140,7 @@ public class BidService implements IBidService {
         Room room = roomRepo.findById(roomID)
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
 
-        List<Bid> bis = new ArrayList<>() ;
+        List<Bid> bis = bidRepo.findByRoom(room) ;
         List<PlaceBid> listBids = mapper.toPlaceBids(bis);
 
         return listBids;
