@@ -44,10 +44,10 @@ public class BidController {
 
 
     @MessageMapping("/bid/{roomId}")
-    public ResponseEntity<String> sendBid(@DestinationVariable Long roomId, @Payload PlaceBid bid) {
+    public PlaceBid sendBid(@DestinationVariable Long roomId, @Payload PlaceBid bid) {
         bid = service.updateBid(roomId, bid);
         messagingTemplate.convertAndSend("/bid/"+roomId,bid);
-        return ResponseEntity.ok("done");
+        return bid;
     }
 
     @GetMapping("/{roomId}")

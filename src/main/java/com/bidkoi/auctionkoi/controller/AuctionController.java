@@ -68,4 +68,9 @@ public class AuctionController {
                 .data(iAuctionService.getAuctionActive())
                 .build();
     }
+
+    @GetMapping("/{auctionId}")
+    public ResponseEntity<AuctionDTO> getAuctionById(@PathVariable Long auctionId){
+        return ResponseEntity.ok(iAuctionService.getAuctionById(auctionId));
+    }
 }
