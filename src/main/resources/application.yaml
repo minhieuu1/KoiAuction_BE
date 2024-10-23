@@ -8,6 +8,9 @@ spring:
     url: "jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=AuctionKoi"
     username: "sa"
     password: "12345"
+#    url: "jdbc:sqlserver://auctionkoi-db.database.windows.net:1433;encrypt=true;trustServerCertificate=true;loginTimeout=30;databaseName=AuctionKoi"
+#    username: "AuctionKoi"
+#    password: "bidkoi@123"
   jpa:
     properties:
       hibernate:

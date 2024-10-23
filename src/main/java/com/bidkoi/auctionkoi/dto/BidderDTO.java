@@ -24,5 +24,6 @@ public class BidderDTO {
     String email;
     String address;
 
-    Date birthday;
+    //Date birthday;
+    String birthday;
 }
