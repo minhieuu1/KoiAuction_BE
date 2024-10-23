@@ -86,6 +86,12 @@ public class AuctionService implements IAuctionService {
         iAuctionRepository.deleteById(auctionId);
     }
 
+    @Override
+    public AuctionDTO getAuctionById(Long auctionId) {
+        Auction auction = iAuctionRepository.findById(auctionId)
+                .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+        return iAuctionMapper.toAuctionDTO(auction);
+    }
 
 
     //Add Room to Auction
