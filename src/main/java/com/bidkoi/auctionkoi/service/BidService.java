@@ -70,7 +70,6 @@ public class BidService implements IBidService {
         Bid bid = Bid.builder()
                 .bidder(bidder)
                 .room(room)
-                .amount(request.getAmount())
                 .build();
         return bidRepo.save(bid);
     }
