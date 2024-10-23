@@ -38,9 +38,9 @@ public class StaffService implements IStaffService {
         Account account = accountRepo.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        if(accountRepo.existsByEmail(request.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
-        }
+//        if(accountRepo.existsByEmail(request.getEmail())) {
+//            throw new AppException(ErrorCode.EMAIL_EXISTED);
+//        }
 
         account.setEmail(request.getEmail());
         account.setPhone(request.getPhone());

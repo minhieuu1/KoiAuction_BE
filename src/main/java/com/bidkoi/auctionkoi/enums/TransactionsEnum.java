@@ -4,6 +4,7 @@ public enum TransactionsEnum {
     DEPOSIT,
     WITHDRAW,
     PAYMENT,
+    REFUND,
 
 
 

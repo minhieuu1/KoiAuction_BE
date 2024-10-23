@@ -41,10 +41,14 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/ws/**",
             "/BidKoi/account/creation",
             "/BidKoi/account",
+
             "/BidKoi/swagger-ui/index.html",
             "/BidKoi/v3/api-docs/**",     // Allow OpenAPI docs
             "/BidKoi/swagger-ui/**",       // Allow Swagger UI access
             "/BidKoi/swagger-resources/**" // Allow Swagger resources
+
+            "/BidKoi/shipping/**"
+
     );
 
     public boolean checkIsPublicAPI(String uri) {
@@ -61,7 +65,6 @@ public class Filter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("Request URI: {}", request.getRequestURI());  // Log all incoming requests
 
         response.setHeader("Access-Control-Allow-Origin", "https://auctionkoi.azurewebsites.net"); // Hoặc thay thế "*" bằng nguồn cụ thể nếu muốn bảo mật
         //response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
@@ -95,16 +98,19 @@ public class Filter extends OncePerRequestFilter {
                 account = tokenService.getAccountByToken(token);
             }catch (ExpiredJwtException e) {
                 // response token het han
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.EMPTY_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.TOKEN_EXPIRED));
                 return;
             }catch (MalformedJwtException e) {
                 // response token sai
-                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.EMPTY_TOKEN));
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.TOKEN_ERROR));
                 return;
             }
             // token chuan => cho phep truy cap
             // lưu lại thong tin account
-
+            if(account==null){
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.USER_NOT_FOUND));
+                return;
+            }
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     account,
                     token,

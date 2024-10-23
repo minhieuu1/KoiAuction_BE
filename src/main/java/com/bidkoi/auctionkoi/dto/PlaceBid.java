@@ -19,7 +19,7 @@ public class PlaceBid {
     @JsonProperty("username")
     String username;
     @JsonProperty("price")
-    String price;
+    String amount;
     @JsonProperty("date")
     Date date;
     String status;

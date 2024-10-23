@@ -43,9 +43,8 @@ public class StaffController {
     }
 
     @PutMapping("/update-profile/{accountId}")
-    ApiResponse<StaffDTO> updateBreeder(@PathVariable String accountId, @RequestBody @Valid StaffRequest request) {
-        return ApiResponse.<StaffDTO>builder()
-                .data(service.updateStaff(accountId, request))
-                .build();
+    ResponseEntity<Void> updateBreeder(@PathVariable String accountId, @RequestBody @Valid StaffRequest request) {
+        service.updateStaff(accountId, request);
+        return ResponseEntity.noContent().build();
     }
 }

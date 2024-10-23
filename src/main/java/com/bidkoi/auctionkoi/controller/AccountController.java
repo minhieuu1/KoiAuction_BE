@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,18 @@ public class AccountController {
     IAccountService iAccountService;
 
     @PostMapping("/register")
-    ApiResponse<AccountDTO> register(@RequestBody @Valid RegisterRequest request) {
-        return ApiResponse.<AccountDTO>builder().data(iAccountService.register(request)).build();
+    public ResponseEntity<ApiResponse<AccountDTO>> register(@RequestBody @Valid RegisterRequest request) {
+        AccountDTO accountDTO = iAccountService.register(request);
+        ApiResponse<AccountDTO> response = ApiResponse.<AccountDTO>builder().data(accountDTO).build();
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/creation")
 //    @PreAuthorize("hasAuthority('STAFF')")
-    ApiResponse<AccountDTO> create(@RequestBody @Valid AccountCreationRequest request) {
-        return ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
+    public ResponseEntity<ApiResponse<AccountDTO>> create(@RequestBody @Valid AccountCreationRequest request) {
+        ApiResponse<AccountDTO> response = ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -52,18 +57,36 @@ public class AccountController {
         return iAccountService.login(request);
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
+//        LoginResponse response = iAccountService.login(request);
+//
+//        if (!response.getToken().isEmpty()) {
+//            // Đăng nhập thành công
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//
+//            // Đăng nhập thất bại, có thể do thông tin không chính xác
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//    }
+
     @GetMapping("/profile/{accountId}")
     public ResponseEntity<Optional<Bidder>> getBidderByID(@PathVariable String accountId){
         Optional<Bidder> account = iAccountService.getBidderById(accountId);
         return ResponseEntity.ok(account);
     }
 
+//    @PutMapping("/update-profile/{accountId}")
+//    public ResponseEntity<BidderDTO> updateProfile(@PathVariable String accountId, @Valid @RequestBody BidderDTO bidderDTO) {
+//        BidderDTO updatedProfile = iAccountService.updateProfile(accountId, bidderDTO);
+//        return ResponseEntity.ok(updatedProfile);
+//    }
     @PutMapping("/update-profile/{accountId}")
-    public ResponseEntity<BidderDTO> updateProfile(@PathVariable String accountId, @Valid @RequestBody BidderDTO bidderDTO) {
-        BidderDTO updatedProfile = iAccountService.updateProfile(accountId, bidderDTO);
-        return ResponseEntity.ok(updatedProfile);
+    public ResponseEntity<Void> updateProfile(@PathVariable String accountId, @Valid @RequestBody BidderDTO bidderDTO) {
+        iAccountService.updateProfile(accountId, bidderDTO);
+        return ResponseEntity.noContent().build();  // Trả về 204 No Content
     }
-
     @PostMapping("/update-password/{accountId}")
     public ResponseEntity<String> updatePassword(
             @PathVariable String accountId,

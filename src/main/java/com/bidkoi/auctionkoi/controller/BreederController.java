@@ -35,9 +35,8 @@ public class BreederController {
     }
 
     @PutMapping("/update-profile/{accountId}")
-    ApiResponse<BreederDTO> updateBreeder(@PathVariable String accountId,@RequestBody @Valid BreederRequest request) {
-        return ApiResponse.<BreederDTO>builder()
-                .data(service.updateBreeder(accountId,request))
-                .build();
+    ResponseEntity<Void> updateBreeder(@PathVariable String accountId,@RequestBody @Valid BreederRequest request) {
+        service.updateBreeder(accountId,request);
+        return ResponseEntity.noContent().build();
     }
 }

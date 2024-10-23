@@ -9,6 +9,8 @@ import com.bidkoi.auctionkoi.service.IKoiService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +24,13 @@ public class KoiController {
     IKoiService service;
 
     @PostMapping("/creation/{breederId}")
-    ApiResponse<KoiDTO> create(@RequestBody KoiRequest request, @PathVariable Long breederId) {
-        return ApiResponse.<KoiDTO>builder()
-                .data(service.createKoi(request,breederId))
+    public ResponseEntity<ApiResponse<KoiDTO>> create(@RequestBody KoiRequest request, @PathVariable Long breederId) {
+        KoiDTO createdKoi = service.createKoi(request, breederId);
+        ApiResponse<KoiDTO> response = ApiResponse.<KoiDTO>builder()
+                .data(createdKoi)
                 .build();
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);  // Trả về 201 Created
     }
 
     @GetMapping
@@ -39,17 +44,16 @@ public class KoiController {
     }
 
     @PutMapping("/update/{koiId}")
-    ApiResponse<KoiDTO> update(@PathVariable Long koiId , @RequestBody KoiRequest request){
-        return ApiResponse.<KoiDTO>builder()
-                .data(service.updateKoi(koiId,request))
-                .build();
+    ResponseEntity<Void> update(@PathVariable Long koiId , @RequestBody KoiRequest request){
+        service.updateKoi(koiId,request);
+        return ResponseEntity.noContent().build();
     }
 
 
     //coi lai
     @DeleteMapping("/del/{koiId}")
-    String delete(@PathVariable Long koiId){
+    ResponseEntity<Void> delete(@PathVariable Long koiId){
         service.deleteKoi(koiId);
-        return "Deleted";
+        return ResponseEntity.noContent().build();
     }
 }
