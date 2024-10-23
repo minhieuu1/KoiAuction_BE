@@ -13,4 +13,5 @@ public interface IAuctionRepository extends JpaRepository<Auction,Long> {
     List<Room> findByAuctionId(Long auctionId);
     Auction findAuctionByStatus(AuctionStatus status);
 
+
 }

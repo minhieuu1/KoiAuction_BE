@@ -58,7 +58,7 @@ public class Filter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Hoặc thay thế "*" bằng nguồn cụ thể nếu muốn bảo mật
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
@@ -95,7 +95,10 @@ public class Filter extends OncePerRequestFilter {
             }
             // token chuan => cho phep truy cap
             // lưu lại thong tin account
-
+            if(account==null){
+                handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.USER_NOT_FOUND));
+                return;
+            }
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     account,
                     token,
