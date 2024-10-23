@@ -79,7 +79,7 @@ public class WalletService implements IWalletService {
         Transactions transactions = Transactions.builder()
                 .amount(walletRequest.getBalance())
                 .description("Deposit to Wallet")
-                .type(String.valueOf(TransactionsEnum.DEPOSIT))
+                .type(TransactionsEnum.DEPOSIT)
                 .status("PENDING")
                 .date(new Date())
                 .wallet(wallet)
@@ -98,7 +98,7 @@ public class WalletService implements IWalletService {
 
         // Return URL after payment
         //String returnUrl = "https://blearning.vn/guide/swp/docker-local?walletId=" + wallet.getWalletId(); // Adjust this if necessary
-        String returnUrl = "https://blearning.vn/guide/swp/docker-local?transactionId=" + transactionId;
+        String returnUrl = "http://localhost:5173/success?transactionId=" + transactionId;
         String currCode = "VND";
 
         // Create payment parameters map

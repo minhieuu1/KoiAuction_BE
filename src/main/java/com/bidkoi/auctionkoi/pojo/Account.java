@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.pojo;
 
 
 import com.bidkoi.auctionkoi.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +28,7 @@ public class Account implements Serializable, UserDetails {
     @Column(name = "AccountID")
     String id;
     String username;
+    @JsonIgnore
     String password;
     String email;
     @Column(name = "Phone_number")
@@ -35,6 +37,7 @@ public class Account implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { // getAuthorities: lấy danh sách quyền
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -44,21 +47,25 @@ public class Account implements Serializable, UserDetails {
         return authorities;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

@@ -50,7 +50,6 @@ public class RoomService implements IRoomService {
     public void deleteRoom(Long roomId) {
         iroomRepo.deleteById(roomId);
     }
-
     public List<Room> getRoomInAuction(Long auctionId) {
         return iroomRepo.findByAuctionId(auctionId);
     }

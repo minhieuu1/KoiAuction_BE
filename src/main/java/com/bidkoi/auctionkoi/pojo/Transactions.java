@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.pojo;
 
+import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +25,8 @@ public class Transactions {
 
     String description;
 
-    String type;
+    @Enumerated(EnumType.STRING)
+    TransactionsEnum type;
 
     String status;
 

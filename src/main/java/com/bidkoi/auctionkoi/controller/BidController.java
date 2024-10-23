@@ -37,15 +37,17 @@ public class BidController {
     }
 
     @GetMapping("/{bidderId}/{roomId}")
-    ResponseEntity<List<Bid>> getAllBids(@PathVariable String bidderId, @PathVariable Long roomId) {
+    ResponseEntity<Boolean> existInRoom(@PathVariable String bidderId, @PathVariable Long roomId) {
         return ResponseEntity.ok(service.joinBids(bidderId,roomId));
     }
 
+
+
     @MessageMapping("/bid/{roomId}")
-    public ResponseEntity<String> sendBid(@DestinationVariable Long roomId, @Payload PlaceBid bid) {
+    public PlaceBid sendBid(@DestinationVariable Long roomId, @Payload PlaceBid bid) {
         bid = service.updateBid(roomId, bid);
         messagingTemplate.convertAndSend("/bid/"+roomId,bid);
-        return ResponseEntity.ok("done");
+        return bid;
     }
 
     @GetMapping("/{roomId}")

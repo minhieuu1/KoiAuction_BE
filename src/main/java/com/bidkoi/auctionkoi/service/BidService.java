@@ -4,6 +4,7 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.dto.BidDTO;
 import com.bidkoi.auctionkoi.dto.PlaceBid;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
+import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.mapper.IBidMapper;
 import com.bidkoi.auctionkoi.payload.response.Winner;
@@ -31,8 +32,8 @@ public class BidService implements IBidService {
     IBidderRepository bidderRepo;
     IRoomRepository roomRepo;
     IWalletRepository walletRepo;
-
-    ITransactionRepository transactionRepo;
+    IKoiRepository koiRepo;
+    ITransactionsRepository transactionRepo;
     IBidMapper mapper;
 
 
@@ -62,30 +63,34 @@ public class BidService implements IBidService {
                 .amount(deposit)
                 .date(new Date(System.currentTimeMillis()))
                 .description("")
-                .type("Deposit")
+                .type(TransactionsEnum.DEPOSIT)
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
 
-        Bid bid = Bid.builder()
-                .bidder(bidder)
-                .room(room)
-                .build();
+        Bid bid = bidRepo.findByBidderAndRoom(bidder, room);
+        if(bid == null) {
+            bid = Bid.builder()
+                    .bidder(bidder)
+                    .room(room)
+                    .build();
+        }else{
+            throw new AppException(ErrorCode.BIDDER_EXISTED);
+        }
+
         return bidRepo.save(bid);
     }
 
     @Override
-    public List<Bid> joinBids(String bidderID, Long roomID) {
+    public boolean joinBids(String bidderID, Long roomID) {
         Bidder bidder = bidderRepo.findById(bidderID).
                 orElseThrow(()->new AppException(ErrorCode.BIDDER_NOT_FOUND));
 
         Room room = roomRepo.findById(roomID).
                 orElseThrow(()-> new AppException(ErrorCode.ROOM_NOT_FOUND));
 
-        boolean exists = bidRepo.existsByBidderAndRoom(bidder, room);
 
-
-        return bidRepo.findByRoom(room);
+        return bidRepo.existsByBidderAndRoom(bidder, room);
 
     }
 
@@ -97,20 +102,23 @@ public class BidService implements IBidService {
         Room room = roomRepo.findById(roomID)
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
 
+        Koi koi = room.getKoi();
+        koi.setFinalPrice(Double.parseDouble(placeBid.getAmount()));
+        koiRepo.save(koi);
         Bid bid = bidRepo.findByBidderAndRoom(bidder,room);
 
         room.setWinner(bidder.getAccount().getUsername());
         roomRepo.save(room);
 
         bid.setUsername(bidder.getAccount().getUsername());
-        bid.setAmount(Double.parseDouble(placeBid.getPrice()));
+        bid.setAmount(Double.parseDouble(placeBid.getAmount()));
         bid.setDate(new Date(System.currentTimeMillis()));
         bidRepo.save(bid);
 
         return PlaceBid.builder()
                 .userId(bidder.getId())
                 .username(bidder.getAccount().getUsername())
-                .price(placeBid.getPrice())
+                .amount(placeBid.getAmount())
                 .date(new Date(System.currentTimeMillis()))
                 .status("MESSAGE")
                 .build();
@@ -134,7 +142,7 @@ public class BidService implements IBidService {
         Room room = roomRepo.findById(roomID)
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
 
-        List<Bid> bis = new ArrayList<>() ;
+        List<Bid> bis = bidRepo.findByRoom(room) ;
         List<PlaceBid> listBids = mapper.toPlaceBids(bis);
 
         return listBids;

@@ -18,6 +18,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RoomID")
     Long roomId;
+
+    @Column(name = "Winner")
     String winner;
 
     @OneToOne

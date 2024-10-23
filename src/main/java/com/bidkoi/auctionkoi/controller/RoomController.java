@@ -33,7 +33,7 @@ public class RoomController {
         return "Room deleted successfully!!!";
 
     }
-    
+
     @GetMapping
     ApiResponse<List<Room>> getAllRooms() {
         return ApiResponse.<List<Room>>builder().data(roomService.getAllRooms()).build();
