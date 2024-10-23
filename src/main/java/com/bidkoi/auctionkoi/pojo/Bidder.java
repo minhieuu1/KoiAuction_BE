@@ -29,8 +29,11 @@ public class Bidder {
 //    String phone;
 //    String email;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date birthday;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    Date birthday;
+
+    String birthday;
+
     String address;
     @OneToOne
     @JoinColumn(name = "AccountID", referencedColumnName = "AccountID")

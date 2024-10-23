@@ -31,7 +31,9 @@ public class RoomController {
     String deleteRoom(@PathVariable Long roomId) {
         roomService.deleteRoom(roomId);
         return "Room deleted successfully!!!";
+
     }
+
     @GetMapping
     ApiResponse<List<Room>> getAllRooms() {
         return ApiResponse.<List<Room>>builder().data(roomService.getAllRooms()).build();

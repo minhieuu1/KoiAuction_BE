@@ -67,6 +67,7 @@ public class BidService implements IBidService {
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
+
         Bid bid = bidRepo.findByBidderAndRoom(bidder, room);
         if(bid == null) {
             bid = Bid.builder()
@@ -76,6 +77,7 @@ public class BidService implements IBidService {
         }else{
             throw new AppException(ErrorCode.BIDDER_EXISTED);
         }
+
         return bidRepo.save(bid);
     }
 
