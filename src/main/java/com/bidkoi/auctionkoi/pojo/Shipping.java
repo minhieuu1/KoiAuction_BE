@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,8 +23,8 @@ public class Shipping {
     Long shippingId;
 
     @ManyToOne
-    @JoinColumn(name = "BreederID", referencedColumnName = "BreederID")
-    Breeder breeder;
+    @JoinColumn(name = "KoiID", referencedColumnName = "KoiID")
+    Koi koi;
 
     @ManyToOne
     @JoinColumn(name = "BidderID", referencedColumnName = "BidderID")
@@ -32,11 +33,23 @@ public class Shipping {
     @Column(name = "Breeder_Confirm_Img")
     String imgBreeder;
 
+//    @Enumerated(EnumType.STRING)
+    @Column(name = "Breeder_Confirm")
+    String breederConfirm;
+
     @Column(name = "Bidder_Confirm_Img")
     String imgBidder;
 
-    LocalDateTime date;
+    @Column(name = "Bidder_Confirm")
+    String bidderConfirm;
+
+    String name;
+    String address;
+    String phone;
+
 
     String status;
-
+    @Column(name = "Staff_Confirm")
+    String staffConfirm;
+    String description;
 }
