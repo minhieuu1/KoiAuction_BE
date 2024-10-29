@@ -5,5 +5,7 @@ import com.bidkoi.auctionkoi.pojo.Bid;
 import java.util.List;
 
 public interface ITransactionService {
-    List<Bid> rollBack(Long roomId);
+    void rollBack(Long roomId);
+    void rollbackToWinner(String bidderId,Long koiId);
+    void rollbackToBreeder(Long koiId);
 }
