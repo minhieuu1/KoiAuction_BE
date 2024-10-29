@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.enums.ErrorCode;
+import com.bidkoi.auctionkoi.enums.KoiStatus;
 import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.pojo.*;
@@ -124,5 +125,40 @@ public class TransactionService implements ITransactionService {
                 .build();
         transactionRepo.save(transaction);
 
+    }
+
+
+    @Override
+    public void rollbackToBreeder(Long koiId) {
+        Koi koi = koiRepo.findById(koiId)
+                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+
+
+
+        if(koi.getStatus().equals(KoiStatus.REJECTED)){
+            double deposit = koi.getInitialPrice() * 0.5;
+            Breeder breeder = koi.getBreeder();
+            Account account = breeder.getAccount();
+            Wallet wallet = walletRepo.findWalletByAccount(account);
+            wallet.setBalance(wallet.getBalance() + deposit);
+            walletRepo.save(wallet);
+            Transactions transaction = Transactions.builder()
+                    .amount(deposit)
+                    .date(new Date(System.currentTimeMillis()))
+                    .description("Refund for breederId: " + breeder.getBreederID())
+                    .type(TransactionsEnum.REFUND)
+                    .status("COMPLETED")
+                    .wallet(wallet)
+                    .build();
+            transactionRepo.save(transaction);
+
+            if(transaction.getStatus().equals("COMPLETED")) {
+                throw new AppException(ErrorCode.TRANSACTION_COMPLETED);
+            }
+
+        }
+        else {
+            throw new AppException(ErrorCode.ROLLBACK_ERROR);
+        }
     }
 }

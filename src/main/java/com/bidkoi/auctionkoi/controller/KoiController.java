@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.payload.request.KoiRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.service.IKoiService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/koi")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class KoiController {
     IKoiService service;

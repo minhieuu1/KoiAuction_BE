@@ -7,6 +7,7 @@ import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.Winner;
 import com.bidkoi.auctionkoi.pojo.Bid;
 import com.bidkoi.auctionkoi.service.IBidService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequestMapping("/placeBid")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BidController {
     IBidService service;

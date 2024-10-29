@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.pojo.Bid;
 import com.bidkoi.auctionkoi.service.ITransactionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/transaction")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TransactionController {
 
@@ -32,5 +34,12 @@ public class TransactionController {
     ResponseEntity<Void> refundToBreeder(@PathVariable Long koiId) {
         service.rollbackToBreeder(koiId);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping("/rollback-to-breeder/{koiId}")
+    ResponseEntity<String> rollbackToBreeder(@PathVariable Long koiId) {
+        service.rollbackToBreeder(koiId);
+        return ResponseEntity.ok("Rollback to breeder successful");
     }
 }
