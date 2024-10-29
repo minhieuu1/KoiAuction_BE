@@ -48,6 +48,12 @@ public class WalletController {
 //    }
 
 
+    @PutMapping("/deposit/{accountId}")
+    public ResponseEntity<Void> deposit(@PathVariable("accountId") String accountId, @RequestBody WalletRequest request) {
+        walletService.deposit(accountId,request);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{accountId}")
     public ResponseEntity createWallet(@RequestBody WalletRequest request, @PathVariable String accountId) throws Exception {
 

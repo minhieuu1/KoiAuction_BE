@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.BreederDTO;
+import com.bidkoi.auctionkoi.dto.KoiDTO;
 import com.bidkoi.auctionkoi.dto.StaffDTO;
 import com.bidkoi.auctionkoi.payload.request.StaffRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
@@ -25,16 +26,15 @@ public class StaffController {
     IKoiService ikoiService;
     IStaffService service;
 
-    @PostMapping("/{koiId}/approve")
-    public ResponseEntity<String> approve(@PathVariable Long koiId) {
-        ikoiService.approveKoi(koiId);
-        return ResponseEntity.ok("Approved");
+    @PutMapping("/{staffId}/approve/{koiId}")
+    public ResponseEntity<KoiDTO> approve(@PathVariable Long koiId, @PathVariable Long staffId) {
+        KoiDTO response = ikoiService.approveKoi(koiId,staffId);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{koiId}/reject")
-    public ResponseEntity<String> reject(@PathVariable Long koiId) {
-        ikoiService.rejectKoi(koiId);
-        return ResponseEntity.ok("Rejected");
+    @PutMapping("/{staffId}/reject/{koiId}")
+    public ResponseEntity<KoiDTO> reject(@PathVariable Long koiId, @PathVariable Long staffId) {
+        return ResponseEntity.ok(ikoiService.rejectKoi(koiId,staffId));
     }
 
     @GetMapping("/profile/{accountId}")

@@ -39,4 +39,8 @@ public class Koi {
     @JoinColumn(name = "BreederID",referencedColumnName = "BreederID")
     Breeder breeder;
 
+    @OneToOne
+    @JoinColumn(name =  "StaffID", referencedColumnName = "StaffID")
+    Staff staff;
+
 }
