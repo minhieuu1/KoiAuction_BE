@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IRoomMapper;
 
+import com.bidkoi.auctionkoi.pojo.Auction;
 import com.bidkoi.auctionkoi.pojo.Room;
 import com.bidkoi.auctionkoi.repository.IAuctionRepository;
 import com.bidkoi.auctionkoi.repository.IKoiRepository;
@@ -51,6 +52,8 @@ public class RoomService implements IRoomService {
         iroomRepo.deleteById(roomId);
     }
     public List<Room> getRoomInAuction(Long auctionId) {
+        Auction auction = iauctionRepo.findById(auctionId)
+                .orElseThrow(() -> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
         return iroomRepo.findByAuctionId(auctionId);
     }
 

@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.pojo.Shipping;
 import com.bidkoi.auctionkoi.service.IShippingService;
 import com.bidkoi.auctionkoi.service.ShippingService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("/shipping")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ShippingController {
     IShippingService service;

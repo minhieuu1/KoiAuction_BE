@@ -14,6 +14,7 @@ import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 
 
 import com.bidkoi.auctionkoi.service.IWalletService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,7 +33,7 @@ import java.util.UUID;
 @RequestMapping("/wallet")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WalletController {
 

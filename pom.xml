@@ -64,15 +64,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Lombok Dependencies -->
         <dependency>
-
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
         </dependency>
 
-
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -109,13 +107,6 @@
             <artifactId>mssql-jdbc</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- SpringDoc OpenAPI -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.3.0</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -124,8 +115,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!-- Tự động tái đóng gói file jar -->
-                    <mainClass>com.BidKoi.AuctionKoiApplication</mainClass> <!-- Thay đổi với main class thực tế của bạn -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

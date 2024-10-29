@@ -5,6 +5,7 @@ public enum TransactionsEnum {
     WITHDRAW,
     PAYMENT,
     REFUND,
+    FEE,
 
 
 
