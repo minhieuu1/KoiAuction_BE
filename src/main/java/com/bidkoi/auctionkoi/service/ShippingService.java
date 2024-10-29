@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.exception.AppException;
+import com.bidkoi.auctionkoi.payload.request.ConfirmImg;
 import com.bidkoi.auctionkoi.payload.request.InformationRequest;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.pojo.Breeder;
@@ -57,25 +58,28 @@ public class ShippingService implements IShippingService {
                 .name(request.getName())
                 .address(request.getAddress())
                 .phone(request.getPhone())
+                .date(LocalDateTime.now())
                 .build();
         return shippingRepo.save(shipping);
     }
 
     @Override
-    public void confirmByBreeder(Long shippingId,String img) {
+    public void confirmByBreeder(Long shippingId,ConfirmImg request) {
         Shipping ship = shippingRepo.findById(shippingId)
                 .orElseThrow(()-> new AppException(ErrorCode.SHIPPING_ID_NOT_FOUND));
 
-        ship.setImgBreeder(img);
+        ship.setImgBreeder(request.getImg());
+        ship.setBreederConfirm(request.getConfirm());
         shippingRepo.save(ship);
     }
 
     @Override
-    public void confirmByBidder(Long shippingId, String img) {
+    public void confirmByBidder(Long shippingId, ConfirmImg request) {
         Shipping ship = shippingRepo.findById(shippingId)
                 .orElseThrow(()-> new AppException(ErrorCode.SHIPPING_ID_NOT_FOUND));
 
-        ship.setImgBidder(img);
+        ship.setImgBidder(request.getImg());
+        ship.setBidderConfirm(request.getConfirm());
         shippingRepo.save(ship);
     }
 

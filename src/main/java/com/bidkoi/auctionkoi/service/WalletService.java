@@ -78,7 +78,7 @@ public class WalletService implements IWalletService {
         Transactions transactions = Transactions.builder()
                 .amount(walletRequest.getBalance())
                 .description("Deposit to Wallet")
-                .type(TransactionsEnum.DEPOSIT)
+                .type(TransactionsEnum.ADD_MONEY)
                 .status("PENDING")
                 .date(new Date())
                 .wallet(wallet)
@@ -97,7 +97,11 @@ public class WalletService implements IWalletService {
 
         // Return URL after payment
         //String returnUrl = "https://blearning.vn/guide/swp/docker-local?walletId=" + wallet.getWalletId(); // Adjust this if necessary
-        String returnUrl = "https://bid-koi-n1yy.vercel.app/success?transactionId=" + transactionId;
+
+
+        String returnUrl = "http://localhost:5173/success?transactionId=" + transactionId;
+//        String returnUrl = "https://oauth.pstmn.io/v1/browser-callback?transactionId=" + transactionId;
+
         String currCode = "VND";
 
         // Create payment parameters map
@@ -203,6 +207,17 @@ public class WalletService implements IWalletService {
         Wallet wallet = walletRepo.findWalletByAccount(account);
 
         return mapper.toWalletDTO(wallet);
+    }
+
+    @Override
+    public void deposit(String accountId, WalletRequest request) {
+        Account account = accountRepo.findById(accountId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        Wallet wallet = walletRepo.findWalletByAccount(account);
+
+        wallet.setBalance(wallet.getBalance() + request.getBalance());
+        walletRepo.save(wallet);
     }
 
 

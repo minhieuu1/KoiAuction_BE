@@ -20,9 +20,20 @@ public class TransactionController {
 
     ITransactionService service;
 
-    @PostMapping("/rollback/{roomId}")
-    ResponseEntity<List<Bid>> refund(@PathVariable Long roomId) {
-        return ResponseEntity.ok(service.rollBack(roomId));
+    @PutMapping("/rollback/{roomId}")
+    ResponseEntity<Void> refund(@PathVariable Long roomId) {
+        service.rollBack(roomId);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/rollback/{bidderId}/{koiId}")
+    ResponseEntity<Void> refundToWinner(@PathVariable String bidderId,@PathVariable Long koiId) {
+        service.rollbackToWinner(bidderId,koiId);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/rollbackToBreeder/{koiId}")
+    ResponseEntity<Void> refundToBreeder(@PathVariable Long koiId) {
+        service.rollbackToBreeder(koiId);
+        return ResponseEntity.noContent().build();
     }
 
 

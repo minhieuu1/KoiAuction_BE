@@ -14,8 +14,8 @@ public interface IKoiService {
     KoiDTO getKoiById(Long koiId);
 //    String updateStatus(String koiId, int status);
     List<Koi> getKoiByBreederId(Long breederId);
-    void approveKoi(Long koiId);
-    void rejectKoi(Long koiId);
+    KoiDTO approveKoi(Long koiId,Long staffId);
+    KoiDTO rejectKoi(Long koiId,Long staffId);
     KoiDTO updateKoi(Long koiId, KoiRequest koiDTO);
     void deleteKoi(Long koiId);
 }
