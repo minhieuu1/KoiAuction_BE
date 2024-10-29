@@ -11,7 +11,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404,"User not found"),
     EMAIL_EXISTED(422, "Email already existed!"),
     USERNAME_INVALID(400,"Username must be between 8 and 16 characters"),
-    PHONE_INVALID(400,"Phone number must be 10 characters or must start with '0'!!!"),
+    PHONE_INVALID(400,"Phone number must be 10 characters!!!"),
     UNAUTHENTICATED_USERNAME(400,"Invalid username!"),
     UNAUTHENTICATED_PASSWORD(401,"Invalid password!"),
     INVALID_EMAIL(401,"Invalid email address!"),
@@ -42,7 +42,9 @@ public enum ErrorCode {
     SHIPPING_EXISTED(422, "Shipping already existed!"),
     TOKEN_EXPIRED(401, "Token has expired"),
     TOKEN_ERROR(401, "Invalid token"),
-
+    TRANSACTION_COMPLETED(401, "Transaction has been completed!"),
+    ROLLBACK_ERROR(401, "Rollback error!"),
+    INVOICE_NOT_FOUND(404, "Invoice not found!!!"),
     ;
 
     int code;

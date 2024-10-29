@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.service.IBreederService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @RequestMapping("/breeder")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BreederController {
     IBreederService service;
@@ -39,4 +41,12 @@ public class BreederController {
         service.updateBreeder(accountId,request);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/request-koi/{breederID}/{koiId}")
+    public ResponseEntity<String> requestKoi(@PathVariable Long breederID, @RequestBody double fee) {
+
+        service.requestKoi(breederID, fee);
+        return ResponseEntity.ok("Request sent successfully");
+    }
+
 }

@@ -7,6 +7,7 @@ import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Staff;
 import com.bidkoi.auctionkoi.service.IKoiService;
 import com.bidkoi.auctionkoi.service.IStaffService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @RequestMapping("/staff")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StaffController {
     IKoiService ikoiService;

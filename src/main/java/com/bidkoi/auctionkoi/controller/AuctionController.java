@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.payload.request.UpdateAuctionRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Auction;
 import com.bidkoi.auctionkoi.service.IAuctionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("/auction")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuctionController {
     IAuctionService iAuctionService;

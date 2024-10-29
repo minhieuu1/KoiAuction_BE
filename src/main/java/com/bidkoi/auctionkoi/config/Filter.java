@@ -45,8 +45,7 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/swagger-ui/index.html",
             "/BidKoi/v3/api-docs/**",     // Allow OpenAPI docs
             "/BidKoi/swagger-ui/**",       // Allow Swagger UI access
-            "/BidKoi/swagger-resources/**" // Allow Swagger resources
-
+            "/BidKoi/swagger-resources/**", // Allow Swagger resources
             "/BidKoi/shipping/**"
 
     );
@@ -66,8 +65,10 @@ public class Filter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
 
-        response.setHeader("Access-Control-Allow-Origin", "https://auctionkoi.azurewebsites.net"); // Hoặc thay thế "*" bằng nguồn cụ thể nếu muốn bảo mật
+        //response.setHeader("Access-Control-Allow-Origin", "https://auctionkoi.azurewebsites.net"); // Hoặc thay thế "*" bằng nguồn cụ thể nếu muốn bảo mật
         //response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Origin", "https://bid-koi-n1yy.vercel.app");
+
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -86,7 +87,7 @@ public class Filter extends OncePerRequestFilter {
             String token = getToken(request);
             if (token == null) {
 
-                log.info("Request URI: {}", request.getRequestURI());
+                //log.info("Request URI: {}", request.getRequestURI());
                 //ko đc phép truy cap
                 handlerExceptionResolver.resolveException(request,response,null,new AppException(ErrorCode.EMPTY_TOKEN));
                 return;
