@@ -52,4 +52,10 @@ public class Shipping {
     @Column(name = "Staff_Confirm")
     String staffConfirm;
     String description;
+
+    LocalDateTime date;
+
+    @OneToOne
+    @JoinColumn(name =  "StaffID", referencedColumnName = "StaffID")
+    Staff staff;
 }

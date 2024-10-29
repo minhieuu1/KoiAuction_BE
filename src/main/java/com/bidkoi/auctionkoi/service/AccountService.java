@@ -108,6 +108,11 @@ public class AccountService implements IAccountService {
             Breeder breeder = new Breeder();
             breeder.setAccount(account);
             breederRepo.save(breeder);
+
+
+            Wallet wallet = new Wallet();
+            wallet.setAccount(account);
+            wallerRepo.save(wallet);
         }else{
             account.setRole(Role.STAFF);
             Staff staff = new Staff();

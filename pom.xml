@@ -72,7 +72,7 @@
             <version>2.5.0</version>
         </dependency>
 
-
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -110,12 +110,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- SpringDoc OpenAPI -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.3.0</version>
-        </dependency>
+
     </dependencies>
 
     <build>

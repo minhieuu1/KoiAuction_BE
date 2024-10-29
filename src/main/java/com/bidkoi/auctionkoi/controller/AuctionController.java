@@ -9,7 +9,9 @@ import com.bidkoi.auctionkoi.service.IAuctionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +24,12 @@ import java.util.List;
 public class AuctionController {
     IAuctionService iAuctionService;
 
+    @PreAuthorize("hasAuthority('STAFF')")
     @PostMapping("/creation")
     public ResponseEntity<AuctionDTO> createAuction(@RequestBody AuctionDTO auction){
-        return ResponseEntity.ok(iAuctionService.createAuction(auction));
+        AuctionDTO response =iAuctionService.createAuction(auction);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//        return ResponseEntity.ok(iAuctionService.createAuction(auction));
     }
 
     @GetMapping
@@ -56,10 +61,15 @@ public class AuctionController {
     
 
     @PutMapping("/{auctionId}/active")
-    public ApiResponse<AuctionDTO> activateAuction(@PathVariable Long auctionId){
-        return ApiResponse.<AuctionDTO>builder()
-                .data(iAuctionService.updateStatus(auctionId))
-                .build();
+    public ResponseEntity<Void> activateAuction(@PathVariable Long auctionId){
+        iAuctionService.activeAuction(auctionId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{auctionId}/closed")
+    public ResponseEntity<Void> closedAuction(@PathVariable Long auctionId){
+        iAuctionService.closeAuction(auctionId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/active")

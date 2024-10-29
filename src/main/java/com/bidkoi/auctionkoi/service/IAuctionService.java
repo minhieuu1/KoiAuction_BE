@@ -18,6 +18,7 @@ public interface IAuctionService {
     public void deleteAuction(Long auctionId);
 
     AuctionDTO getAuctionById(Long auctionId);
-    AuctionDTO updateStatus(Long auctionId);
+    void activeAuction(Long auctionId);
+    void closeAuction(Long auctionId);
     AuctionDTO getAuctionActive();
 }

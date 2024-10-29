@@ -98,11 +98,19 @@ public class AuctionService implements IAuctionService {
 
     //Add Room to Auction
     @Override
-    public AuctionDTO updateStatus(Long auctionId) {
+    public void activeAuction(Long auctionId) {
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
         auction.setStatus(AuctionStatus.ACTIVE);
-        return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
+        iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
+    }
+
+    @Override
+    public void closeAuction(Long auctionId) {
+        Auction auction = iAuctionRepository.findById(auctionId)
+                .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+        auction.setStatus(AuctionStatus.CLOSED);
+        iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
     @Override
