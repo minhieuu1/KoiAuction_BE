@@ -12,5 +12,5 @@ public interface IWalletService {
     void handleVnPayCallback(UUID transactionId, String responseCode, double vnpAmount);
 
     WalletDTO getWallet(String accountId);
-
+    void deposit(String accountId, WalletRequest request);
 }

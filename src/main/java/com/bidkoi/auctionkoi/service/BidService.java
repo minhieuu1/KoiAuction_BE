@@ -1,7 +1,6 @@
 package com.bidkoi.auctionkoi.service;
 
 
-import com.bidkoi.auctionkoi.dto.BidDTO;
 import com.bidkoi.auctionkoi.dto.PlaceBid;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.enums.TransactionsEnum;
@@ -60,10 +59,11 @@ public class BidService implements IBidService {
         walletRepo.save(wallet);
 
         Transactions transaction = Transactions.builder()
-                .amount(deposit)
+                .amount(-deposit)
                 .date(new Date(System.currentTimeMillis()))
                 .description("")
                 .type(TransactionsEnum.DEPOSIT)
+                .status("COMPLETED")
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
@@ -131,6 +131,9 @@ public class BidService implements IBidService {
 
         Room room = roomRepo.findById(roomId)
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
+        if(room.getWinner() == null) {
+            throw new AppException(ErrorCode.WINNER_NOT_EXIST);
+        }
         return Winner.builder()
                 .username(room.getWinner())
                 .koi(room.getKoi())
