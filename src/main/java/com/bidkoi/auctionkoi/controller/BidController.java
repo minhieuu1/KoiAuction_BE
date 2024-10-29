@@ -1,12 +1,11 @@
 package com.bidkoi.auctionkoi.controller;
 
 
-import com.bidkoi.auctionkoi.dto.BidDTO;
+
 import com.bidkoi.auctionkoi.dto.PlaceBid;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.Winner;
 import com.bidkoi.auctionkoi.pojo.Bid;
-import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.service.IBidService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;

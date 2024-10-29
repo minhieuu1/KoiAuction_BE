@@ -16,7 +16,9 @@ public enum ErrorCode {
     UNAUTHENTICATED_PASSWORD(401,"Invalid password!"),
     INVALID_EMAIL(401,"Invalid email address!"),
     KOI_NOT_FOUND(400,"Koi not found!"),
+    KOI_EXISTED(400,"Koi already existed!"),
     BREEDER_NOT_FOUND(404,"Breeder not found!"),
+    STAFF_NOT_FOUND(404,"Staff not found!"),
     STATUS_ERROR(401,"Koi status is not PENDING!"),
     ROLE_ERROR(401,"Role Error!"),
     INVALID_CURRENT_PASSWORD(401, "Invalid current password!!!"),  //Bad Request
@@ -42,9 +44,13 @@ public enum ErrorCode {
     SHIPPING_EXISTED(422, "Shipping already existed!"),
     TOKEN_EXPIRED(401, "Token has expired"),
     TOKEN_ERROR(401, "Invalid token"),
+
     TRANSACTION_COMPLETED(401, "Transaction has been completed!"),
     ROLLBACK_ERROR(401, "Rollback error!"),
     INVOICE_NOT_FOUND(404, "Invoice not found!!!"),
+
+    WINNER_NOT_EXIST(404, "Winner not existed!!!"),
+
     ;
 
     int code;

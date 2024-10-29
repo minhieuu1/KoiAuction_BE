@@ -46,6 +46,7 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/v3/api-docs/**",     // Allow OpenAPI docs
             "/BidKoi/swagger-ui/**",       // Allow Swagger UI access
             "/BidKoi/swagger-resources/**", // Allow Swagger resources
+
             "/BidKoi/shipping/**"
 
     );
@@ -68,6 +69,7 @@ public class Filter extends OncePerRequestFilter {
         //response.setHeader("Access-Control-Allow-Origin", "https://auctionkoi.azurewebsites.net"); // Hoặc thay thế "*" bằng nguồn cụ thể nếu muốn bảo mật
         //response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
         response.setHeader("Access-Control-Allow-Origin", "https://bid-koi-n1yy.vercel.app");
+
 
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");

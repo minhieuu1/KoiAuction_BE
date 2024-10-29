@@ -30,6 +30,10 @@ public class RoomService implements IRoomService {
 
     @Override
     public RoomDTO createRoom(Long koiId) {
+        boolean existKoi = iroomRepo.existsById(koiId);
+        if(existKoi) {
+            throw new AppException(ErrorCode.KOI_EXISTED);
+        }
         Room room = new Room();
         room.setKoi(ikoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND)));
@@ -53,7 +57,9 @@ public class RoomService implements IRoomService {
     }
     public List<Room> getRoomInAuction(Long auctionId) {
         Auction auction = iauctionRepo.findById(auctionId)
-                .orElseThrow(() -> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+
+                .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+
         return iroomRepo.findByAuctionId(auctionId);
     }
 

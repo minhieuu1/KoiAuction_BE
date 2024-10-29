@@ -109,6 +109,7 @@ public class AccountService implements IAccountService {
             breeder.setAccount(account);
             breederRepo.save(breeder);
 
+
             Wallet wallet = new Wallet();
             wallet.setAccount(account);
             wallerRepo.save(wallet);
