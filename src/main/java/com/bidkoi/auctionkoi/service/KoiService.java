@@ -9,8 +9,10 @@ import com.bidkoi.auctionkoi.payload.request.KoiRequest;
 import com.bidkoi.auctionkoi.enums.KoiStatus;
 import com.bidkoi.auctionkoi.pojo.Breeder;
 import com.bidkoi.auctionkoi.pojo.Koi;
+import com.bidkoi.auctionkoi.pojo.Staff;
 import com.bidkoi.auctionkoi.repository.IBreederRepository;
 import com.bidkoi.auctionkoi.repository.IKoiRepository;
+import com.bidkoi.auctionkoi.repository.IStaffRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +28,7 @@ public class KoiService implements IKoiService {
     IKoiRepository KoiRepo;
     IBreederRepository breederRepo;
     IKoiMapper mapper;
+    IStaffRepository staffRepo;
 
     @Override
     public KoiDTO createKoi(KoiRequest request, Long breederId) {
@@ -56,25 +59,32 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public void approveKoi(Long koiId) {
+    public KoiDTO approveKoi(Long koiId,Long staffId) {
         Koi koi = KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+        Staff staff = staffRepo.findById(staffId)
+                .orElseThrow(()->new AppException(ErrorCode.STAFF_NOT_FOUND));
         if(!koi.getStatus().equals(KoiStatus.PENDING)){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
         koi.setStatus(KoiStatus.ACCEPTED);
-        KoiRepo.save(koi);
+        koi.setStaff(staff);
+        return mapper.toKoiDTO(KoiRepo.save(koi));
     }
 
     @Override
-    public void rejectKoi(Long koiId) {
+    public KoiDTO rejectKoi(Long koiId,Long staffId) {
         Koi koi = KoiRepo.findById(koiId)
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+        Staff staff = staffRepo.findById(staffId)
+                .orElseThrow(()->new AppException(ErrorCode.STAFF_NOT_FOUND));
         if(!koi.getStatus().equals(KoiStatus.PENDING)){
             throw new AppException(ErrorCode.STATUS_ERROR);
         }
+
         koi.setStatus(KoiStatus.REJECTED);
-        KoiRepo.save(koi);
+        koi.setStaff(staff);
+        return mapper.toKoiDTO(KoiRepo.save(koi));
     }
 
     @Override

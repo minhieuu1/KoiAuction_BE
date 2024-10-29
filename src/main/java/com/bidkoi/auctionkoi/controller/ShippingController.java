@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.controller;
 
+import com.bidkoi.auctionkoi.payload.request.ConfirmImg;
 import com.bidkoi.auctionkoi.payload.request.InformationRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Koi;
@@ -36,13 +37,13 @@ public class ShippingController {
     }
 
     @PatchMapping("/breeder/{shippingId}")
-    ResponseEntity<Void> confirmByBreeder(@RequestBody String img,@PathVariable Long shippingId) {
+    ResponseEntity<Void> confirmByBreeder(@RequestBody ConfirmImg img, @PathVariable Long shippingId) {
         service.confirmByBreeder(shippingId,img);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/bidder/{shippingId}")
-    ResponseEntity<Void> confirmByBidder(@RequestBody String img,@PathVariable Long shippingId) {
+    ResponseEntity<Void> confirmByBidder(@RequestBody ConfirmImg img,@PathVariable Long shippingId) {
         service.confirmByBidder(shippingId,img);
         return ResponseEntity.noContent().build();
     }

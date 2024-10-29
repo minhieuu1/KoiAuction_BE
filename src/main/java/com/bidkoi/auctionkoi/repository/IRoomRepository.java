@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface IRoomRepository extends JpaRepository<Room, Long> {
+    boolean existsByKoi_KoiId(Long koiId);
     List<Room> findByAuctionId(Long auctionId);
 
 }

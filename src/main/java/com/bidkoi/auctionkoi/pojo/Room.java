@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.pojo;
 
 import com.bidkoi.auctionkoi.enums.AuctionStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

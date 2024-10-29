@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.controller;
 
+import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.RoomDTO;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Room;
@@ -7,6 +8,8 @@ import com.bidkoi.auctionkoi.service.IRoomService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +23,9 @@ public class RoomController {
     IRoomService roomService;
 
     @PostMapping("/creation/{koiId}")
-    ApiResponse<RoomDTO> createRoom(@PathVariable Long koiId) {
-        return ApiResponse.<RoomDTO>builder()
-                .data(roomService.createRoom(koiId))
-                .build();
+    ResponseEntity<ApiResponse<RoomDTO>> createRoom(@PathVariable Long koiId) {
+        ApiResponse<RoomDTO> response = ApiResponse.<RoomDTO>builder().data(roomService.createRoom(koiId)).build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
