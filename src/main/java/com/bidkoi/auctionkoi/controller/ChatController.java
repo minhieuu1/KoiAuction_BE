@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.Message;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -9,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@SecurityRequirement(name = "api")
 public class ChatController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;

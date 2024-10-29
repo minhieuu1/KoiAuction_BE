@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KoiDTO {
-    String koiId;
+    Long koiId;
     Double length;
     String varieties;
     String age;

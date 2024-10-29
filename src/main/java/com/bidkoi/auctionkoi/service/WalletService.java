@@ -32,7 +32,6 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -98,8 +97,11 @@ public class WalletService implements IWalletService {
 
         // Return URL after payment
         //String returnUrl = "https://blearning.vn/guide/swp/docker-local?walletId=" + wallet.getWalletId(); // Adjust this if necessary
+
+
         String returnUrl = "http://localhost:5173/success?transactionId=" + transactionId;
 //        String returnUrl = "https://oauth.pstmn.io/v1/browser-callback?transactionId=" + transactionId;
+
         String currCode = "VND";
 
         // Create payment parameters map
@@ -171,6 +173,11 @@ public class WalletService implements IWalletService {
         // Lấy giao dịch từ ID
         Transactions transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new AppException(ErrorCode.TRANSACTION_NOT_FOUND));
+
+        if(transaction.getStatus().equals("COMPLETED")) {
+            throw new AppException(ErrorCode.TRANSACTION_COMPLETED);
+
+        }
 
         Wallet wallet = transaction.getWallet();
 

@@ -57,7 +57,9 @@ public class RoomService implements IRoomService {
     }
     public List<Room> getRoomInAuction(Long auctionId) {
         Auction auction = iauctionRepo.findById(auctionId)
+
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+
         return iroomRepo.findByAuctionId(auctionId);
     }
 

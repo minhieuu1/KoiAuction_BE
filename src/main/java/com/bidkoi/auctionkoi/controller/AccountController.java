@@ -12,6 +12,7 @@ import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.service.IAccountService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.Optional;
 @RequestMapping("/account")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AccountController {
     IAccountService iAccountService;

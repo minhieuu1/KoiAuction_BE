@@ -14,4 +14,6 @@ public interface IBreederService {
     List<Breeder> getAllBreeders();
     BreederDTO updateBreeder(String accountId,BreederRequest request);
     BreederDTO getBreeder(String accountId);
+
+    BreederDTO requestKoi(Long breederID, double fee);
 }
