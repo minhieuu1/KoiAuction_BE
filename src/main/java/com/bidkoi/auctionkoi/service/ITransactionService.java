@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ITransactionService {
 
-    List<Bid> rollBack(Long roomId);
+//    List<Bid> rollBack(Long roomId);
 
     public void rollbackToBreeder(Long koiId);
 
