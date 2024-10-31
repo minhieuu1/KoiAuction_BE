@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.BreederDTO;
 import com.bidkoi.auctionkoi.payload.request.BreederRequest;
+import com.bidkoi.auctionkoi.payload.request.FeeRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.pojo.Bidder;
 import com.bidkoi.auctionkoi.pojo.Breeder;
@@ -42,8 +43,8 @@ public class BreederController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/request-koi/{breederID}/{koiId}")
-    public ResponseEntity<String> requestKoi(@PathVariable Long breederID, @RequestBody double fee) {
+    @PostMapping("/request-koi/{breederID}")
+    public ResponseEntity<String> requestKoi(@PathVariable Long breederID, @RequestBody FeeRequest fee){
 
         service.requestKoi(breederID, fee);
         return ResponseEntity.ok("Request sent successfully");
