@@ -26,7 +26,7 @@ public class InvoiceController {
 //
 //    }
 
-    @PostMapping("/create{roomId}")
+    @PostMapping("/create/{roomId}")
     public ResponseEntity createInvoice(@PathVariable Long roomId) {
         InvoiceDTO invoice = invoiceService.createInvoice(roomId);
         return ResponseEntity.ok(invoice);

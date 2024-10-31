@@ -6,6 +6,7 @@ import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.mapper.IBreederMapper;
 import com.bidkoi.auctionkoi.payload.request.BreederRequest;
+import com.bidkoi.auctionkoi.payload.request.FeeRequest;
 import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.repository.*;
 import lombok.AccessLevel;
@@ -66,21 +67,21 @@ public class BreederService implements IBreederService {
 
     //Thanh toán phí khi đăng kí cá Koi
     @Override
-    public BreederDTO requestKoi(Long breederID, double fee) {
+    public BreederDTO requestKoi(Long breederID, FeeRequest feeRequest) {
         Breeder breeder = breederRepo.findById(breederID).
                 orElseThrow(()->new AppException(ErrorCode.BREEDER_NOT_FOUND));
 
         Account account = breeder.getAccount();
         Wallet wallet = walletRepo.findWalletByAccount(account);
-        if(wallet.getBalance() <  fee) {
+        if(wallet.getBalance() <  feeRequest.getFee()) {
             throw new AppException(ErrorCode.BALANCE_NOT_ENOUGH);
         }
 
-        wallet.setBalance(wallet.getBalance()- fee);
+        wallet.setBalance(wallet.getBalance()- feeRequest.getFee());
         walletRepo.save(wallet);
 
         Transactions transaction = Transactions.builder()
-                .amount(fee)
+                .amount(feeRequest.getFee())
                 .date(new Date(System.currentTimeMillis()))
                 .description("request fee")
                 .type(TransactionsEnum.FEE)
