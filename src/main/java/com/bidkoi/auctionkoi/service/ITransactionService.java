@@ -12,6 +12,7 @@ public interface ITransactionService {
 
     void rollBack(Long roomId);
     void rollbackToWinner(String bidderId,Long koiId);
+    void transferToBreeder(Long roomId);
     
 
 }

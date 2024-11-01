@@ -2,23 +2,16 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.exception.AppException;
-import com.bidkoi.auctionkoi.payload.request.ConfirmImg;
+import com.bidkoi.auctionkoi.payload.request.ConfirmRequest;
 import com.bidkoi.auctionkoi.payload.request.InformationRequest;
-import com.bidkoi.auctionkoi.pojo.Bidder;
-import com.bidkoi.auctionkoi.pojo.Breeder;
-import com.bidkoi.auctionkoi.pojo.Koi;
-import com.bidkoi.auctionkoi.pojo.Shipping;
-import com.bidkoi.auctionkoi.repository.IBidderRepository;
-import com.bidkoi.auctionkoi.repository.IBreederRepository;
-import com.bidkoi.auctionkoi.repository.IKoiRepository;
-import com.bidkoi.auctionkoi.repository.IShippingRepository;
+import com.bidkoi.auctionkoi.pojo.*;
+import com.bidkoi.auctionkoi.repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +23,7 @@ public class ShippingService implements IShippingService {
     IKoiRepository koiRepo;
     IBidderRepository bidderRepo;
     IBreederRepository breederRepo;
+    IStaffRepository staffRepo;
 
 
     @Override
@@ -64,7 +58,7 @@ public class ShippingService implements IShippingService {
     }
 
     @Override
-    public void confirmByBreeder(Long shippingId,ConfirmImg request) {
+    public void confirmByBreeder(Long shippingId, ConfirmRequest request) {
         Shipping ship = shippingRepo.findById(shippingId)
                 .orElseThrow(()-> new AppException(ErrorCode.SHIPPING_ID_NOT_FOUND));
 
@@ -74,12 +68,25 @@ public class ShippingService implements IShippingService {
     }
 
     @Override
-    public void confirmByBidder(Long shippingId, ConfirmImg request) {
+    public void confirmByBidder(Long shippingId, ConfirmRequest request) {
         Shipping ship = shippingRepo.findById(shippingId)
                 .orElseThrow(()-> new AppException(ErrorCode.SHIPPING_ID_NOT_FOUND));
 
         ship.setImgBidder(request.getImg());
         ship.setBidderConfirm(request.getConfirm());
+        shippingRepo.save(ship);
+    }
+
+    @Override
+    public void confirmByStaff(Long staffId,Long shippingId, ConfirmRequest request) {
+        Shipping ship = shippingRepo.findById(shippingId)
+                .orElseThrow(()-> new AppException(ErrorCode.SHIPPING_ID_NOT_FOUND));
+        Staff staff = staffRepo.findById(staffId)
+                        .orElseThrow(() -> new AppException(ErrorCode.STAFF_NOT_FOUND));
+
+        ship.setStaffConfirm(request.getConfirm());
+        ship.setDescription(request.getDes());
+        ship.setStaff(staff);
         shippingRepo.save(ship);
     }
 
@@ -118,5 +125,10 @@ public class ShippingService implements IShippingService {
     @Override
     public List<Shipping> getByShippingId(Long shippingId) {
         return shippingRepo.findByShippingId(shippingId);
+    }
+
+    @Override
+    public List<Shipping> getAllShipping() {
+        return shippingRepo.findAll();
     }
 }
