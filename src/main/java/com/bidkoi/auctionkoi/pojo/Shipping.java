@@ -55,7 +55,7 @@ public class Shipping {
 
     LocalDateTime date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name =  "StaffID", referencedColumnName = "StaffID")
     Staff staff;
 }

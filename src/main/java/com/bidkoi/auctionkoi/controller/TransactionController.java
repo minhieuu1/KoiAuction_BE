@@ -30,9 +30,9 @@ public class TransactionController {
         service.rollbackToWinner(bidderId,koiId);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/rollbackToBreeder/{koiId}")
+    @PutMapping("/transferToBreeder/{koiId}")
     ResponseEntity<Void> refundToBreeder(@PathVariable Long koiId) {
-        service.rollbackToBreeder(koiId);
+        service.transferToBreeder(koiId);
         return ResponseEntity.noContent().build();
     }
 

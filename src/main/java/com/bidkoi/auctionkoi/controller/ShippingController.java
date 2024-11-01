@@ -1,19 +1,16 @@
 package com.bidkoi.auctionkoi.controller;
 
-import com.bidkoi.auctionkoi.payload.request.ConfirmImg;
+import com.bidkoi.auctionkoi.payload.request.ConfirmRequest;
 import com.bidkoi.auctionkoi.payload.request.InformationRequest;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
-import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.pojo.Shipping;
 import com.bidkoi.auctionkoi.service.IShippingService;
-import com.bidkoi.auctionkoi.service.ShippingService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,14 +36,20 @@ public class ShippingController {
     }
 
     @PatchMapping("/breeder/{shippingId}")
-    ResponseEntity<Void> confirmByBreeder(@RequestBody ConfirmImg img, @PathVariable Long shippingId) {
-        service.confirmByBreeder(shippingId,img);
+    ResponseEntity<Void> confirmByBreeder(@RequestBody ConfirmRequest request, @PathVariable Long shippingId) {
+        service.confirmByBreeder(shippingId,request);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/bidder/{shippingId}")
-    ResponseEntity<Void> confirmByBidder(@RequestBody ConfirmImg img,@PathVariable Long shippingId) {
-        service.confirmByBidder(shippingId,img);
+    ResponseEntity<Void> confirmByBidder(@RequestBody ConfirmRequest request, @PathVariable Long shippingId) {
+        service.confirmByBidder(shippingId,request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/staff/{staffId}/{shippingId}")
+    ResponseEntity<Void> confirmByStaff(@RequestBody ConfirmRequest request, @PathVariable Long shippingId,@PathVariable Long staffId){
+        service.confirmByStaff(staffId,shippingId,request);
         return ResponseEntity.noContent().build();
     }
 
@@ -70,6 +73,12 @@ public class ShippingController {
     ResponseEntity<List<Shipping>> getByShippingId(@PathVariable Long shippingId) {
         return ResponseEntity.ok(service.getByShippingId(shippingId));
     }
+
+    @GetMapping()
+    ResponseEntity<List<Shipping>> getAll() {
+        return ResponseEntity.ok(service.getAllShipping());
+    }
+
 
 
 }
