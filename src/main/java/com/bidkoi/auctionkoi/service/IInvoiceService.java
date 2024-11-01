@@ -7,4 +7,6 @@ public interface IInvoiceService {
     InvoiceDTO createInvoice(Long roomId);
 
     InvoiceDTO getInvoice(Long roomId);
+
+    InvoiceDTO getInvoiceByKoi(Long koiId);
 }
