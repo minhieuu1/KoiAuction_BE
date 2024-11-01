@@ -71,12 +71,26 @@ public class InvoiceService implements IInvoiceService {
         return invoiceMapper.toInvoiceDTO(invoiceRepo.save(invoice));
     }
 
+    @Override
     public InvoiceDTO getInvoice(Long roomId) {
 
         Room room = roomRepo.findById(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
 
         Invoice invoice = invoiceRepo.findByRoom_RoomId(roomId)
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+
+        return invoiceMapper.toInvoiceDTO(invoice);
+    }
+
+
+    @Override
+    public InvoiceDTO getInvoiceByKoi(Long koiId) {
+
+        Koi koi = koiRepo.findById(koiId)
+                .orElseThrow(() -> new AppException(ErrorCode.KOI_NOT_FOUND));
+
+        Invoice invoice = invoiceRepo.findByRoom_Koi_KoiId(koiId)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
 
         return invoiceMapper.toInvoiceDTO(invoice);
