@@ -34,7 +34,7 @@ public class BidService implements IBidService {
     IKoiRepository koiRepo;
     ITransactionsRepository transactionRepo;
     IBidMapper mapper;
-
+    IChatRepository chatRepo;
 
     @Override
     public Bid registerBid(String bidderID, Long roomID) {
@@ -74,6 +74,7 @@ public class BidService implements IBidService {
                     .bidder(bidder)
                     .room(room)
                     .build();
+
         }else{
             throw new AppException(ErrorCode.BIDDER_EXISTED);
         }

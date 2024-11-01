@@ -30,12 +30,6 @@ public class TransactionService implements ITransactionService {
     IBidRepository bidRepo;
     IKoiRepository koiRepo;
 
-//    @Override
-//    public void rollBack(Long roomId) {
-//        Room room = roomRepo.findById(roomId)
-//                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
-//        Bid bid =
-//    }
     @Override
     public void rollBack(Long roomId) {
 
@@ -65,6 +59,24 @@ public class TransactionService implements ITransactionService {
 
     }
 
+    private void refund(Bid bid,double deposit) {
+        Bidder bidder = bid.getBidder();
+        Account account = bidder.getAccount();
+        Wallet wallet = walletRepo.findWalletByAccount(account);
+        wallet.setBalance(wallet.getBalance()+deposit);
+        walletRepo.save(wallet);
+        Transactions transaction = Transactions.builder()
+                .amount(deposit)
+                .date(new Date(System.currentTimeMillis()))
+                .description("")
+                .type(TransactionsEnum.REFUND)
+                .status("COMPLETED")
+                .wallet(wallet)
+                .build();
+        transactionRepo.save(transaction);
+
+    }
+
     @Override
     public void rollbackToWinner(String bidderId,Long koiId) {
         Koi koi = koiRepo.findById(koiId)
@@ -88,30 +100,13 @@ public class TransactionService implements ITransactionService {
         transactionRepo.save(transaction);
     }
 
-//    @Override
-//    public void rollbackToBreeder(Long koiId) {
-//        Koi koi = koiRepo.findById(koiId)
-//                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
-//        double deposit = koi.getInitialPrice()*0.2;
-//        Breeder breeder = koi.getBreeder();
-//        Account account = breeder.getAccount();
-//        Wallet wallet = walletRepo.findWalletByAccount(account);
-//        wallet.setBalance(wallet.getBalance()+deposit);
-//        walletRepo.save(wallet);
-//        Transactions transaction = Transactions.builder()
-//                .amount(deposit)
-//                .date(new Date(System.currentTimeMillis()))
-//                .description("")
-//                .type(TransactionsEnum.REFUND)
-//                .status("COMPLETED")
-//                .wallet(wallet)
-//                .build();
-//        transactionRepo.save(transaction);
-//    }
-
-    private void refund(Bid bid,double deposit) {
-        Bidder bidder = bid.getBidder();
-        Account account = bidder.getAccount();
+    @Override
+    public void transferToBreeder(Long koiId) {
+        Koi koi = koiRepo.findById(koiId)
+                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+        double deposit = koi.getInitialPrice()*0.2;
+        Breeder breeder = koi.getBreeder();
+        Account account = breeder.getAccount();
         Wallet wallet = walletRepo.findWalletByAccount(account);
         wallet.setBalance(wallet.getBalance()+deposit);
         walletRepo.save(wallet);
@@ -124,7 +119,6 @@ public class TransactionService implements ITransactionService {
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
-
     }
 
 
@@ -155,6 +149,7 @@ public class TransactionService implements ITransactionService {
             }
             walletRepo.save(wallet);
             transactionRepo.save(transaction);
+
         }
         else {
             throw new AppException(ErrorCode.ROLLBACK_ERROR);
