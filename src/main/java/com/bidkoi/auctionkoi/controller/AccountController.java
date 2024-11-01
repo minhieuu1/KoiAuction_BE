@@ -42,9 +42,10 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+
     @PostMapping("/creation")
 //    @PreAuthorize("hasAuthority('STAFF')")
-    public ResponseEntity<ApiResponse<AccountDTO>> create(@RequestBody @Valid AccountCreationRequest request) {
+    public ResponseEntity<ApiResponse<AccountDTO>> create(@Valid @RequestBody AccountCreationRequest request) {
         ApiResponse<AccountDTO> response = ApiResponse.<AccountDTO>builder().data(iAccountService.createAccount(request)).build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

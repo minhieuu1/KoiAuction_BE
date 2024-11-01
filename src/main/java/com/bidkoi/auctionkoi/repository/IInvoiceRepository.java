@@ -12,8 +12,8 @@ public interface IInvoiceRepository extends JpaRepository<Invoice, Long> {
 
     //Invoice findByRoom_RoomId(Long roomId);
 
-
-
     Optional<Invoice> findByRoom_RoomId(Long roomId);
+
+    Optional<Invoice> findByRoom_Koi_KoiId(Long koiId);
 
 }
