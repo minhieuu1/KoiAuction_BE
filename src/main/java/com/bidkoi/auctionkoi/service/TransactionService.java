@@ -128,7 +128,6 @@ public class TransactionService implements ITransactionService {
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
 
 
-
         if(koi.getStatus().equals(KoiStatus.REJECTED)){
             double deposit = koi.getInitialPrice() * 0.5;
             Breeder breeder = koi.getBreeder();
@@ -150,8 +149,6 @@ public class TransactionService implements ITransactionService {
             }
             walletRepo.save(wallet);
             transactionRepo.save(transaction);
-
-
 
         }
         else {
