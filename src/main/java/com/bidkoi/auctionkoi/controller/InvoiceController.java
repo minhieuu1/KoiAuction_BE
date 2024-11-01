@@ -38,4 +38,10 @@ public class InvoiceController {
         InvoiceDTO invoice = invoiceService.getInvoice(roomId);
         return ResponseEntity.ok(invoice);
     }
+
+    @GetMapping("/view/{koiId}")
+    public ResponseEntity getInvoiceByKoi(@PathVariable Long koiId) {
+        InvoiceDTO invoice = invoiceService.getInvoiceByKoi(koiId);
+        return ResponseEntity.ok(invoice);
+    }
 }

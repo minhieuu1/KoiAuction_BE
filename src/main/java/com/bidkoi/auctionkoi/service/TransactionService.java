@@ -134,14 +134,13 @@ public class TransactionService implements ITransactionService {
                 .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
 
 
-
         if(koi.getStatus().equals(KoiStatus.REJECTED)){
             double deposit = koi.getInitialPrice() * 0.5;
             Breeder breeder = koi.getBreeder();
             Account account = breeder.getAccount();
             Wallet wallet = walletRepo.findWalletByAccount(account);
             wallet.setBalance(wallet.getBalance() + deposit);
-            walletRepo.save(wallet);
+
             Transactions transaction = Transactions.builder()
                     .amount(deposit)
                     .date(new Date(System.currentTimeMillis()))
@@ -150,12 +149,12 @@ public class TransactionService implements ITransactionService {
                     .status("COMPLETED")
                     .wallet(wallet)
                     .build();
-            transactionRepo.save(transaction);
 
             if(transaction.getStatus().equals("COMPLETED")) {
                 throw new AppException(ErrorCode.TRANSACTION_COMPLETED);
             }
-
+            walletRepo.save(wallet);
+            transactionRepo.save(transaction);
         }
         else {
             throw new AppException(ErrorCode.ROLLBACK_ERROR);
