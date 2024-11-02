@@ -150,9 +150,9 @@ public class TransactionService implements ITransactionService {
                     .wallet(wallet)
                     .build();
 
-            if(transaction.getStatus().equals("COMPLETED")) {
-                throw new AppException(ErrorCode.TRANSACTION_COMPLETED);
-            }
+//            if(transaction.getStatus().equals("COMPLETED")) {
+//                throw new AppException(ErrorCode.TRANSACTION_COMPLETED);
+//            }
             walletRepo.save(wallet);
             transactionRepo.save(transaction);
         }
