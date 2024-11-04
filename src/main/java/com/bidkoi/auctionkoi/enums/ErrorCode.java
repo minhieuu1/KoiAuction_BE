@@ -50,7 +50,8 @@ public enum ErrorCode {
     INVOICE_NOT_FOUND(404, "Invoice not found!!!"),
 
     WINNER_NOT_EXIST(404, "Winner not existed!!!"),
-
+    WITHDRAW_NOT_FOUND(404, "Withdraw not found!!!"),
+    WITHDRAW_ALREADY_APPROVED(401, "Withdraw already approved!!!"),
     ;
 
     int code;
