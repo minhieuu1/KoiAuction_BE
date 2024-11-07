@@ -32,21 +32,6 @@ public class Auction {
     AuctionStatus status;
 
 
-//    @Column(name = "StartDate")
-//    LocalDate startDate;
-//
-//    @Column(name = "StartTime")
-//    LocalTime startTime;
-//
-//    @Column(name = "EndDate")
-//    LocalDate endDate;
-//
-//    @Column(name = "EndTime")
-//    LocalTime endTime;
-//
-//    @Column(name = "Status")
-//    String status;
-
     @OneToMany(mappedBy = "auctionId",cascade = CascadeType.ALL, orphanRemoval = true)
     List<Room> rooms;
 }
