@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,7 +32,7 @@ public class RoomService implements IRoomService {
 
     @Override
     public RoomDTO createRoom(Long koiId) {
-        boolean existKoi = iroomRepo.existsById(koiId);
+        boolean existKoi = iroomRepo.existsByKoi_KoiId(koiId);
         if(existKoi) {
             throw new AppException(ErrorCode.KOI_EXISTED);
         }
@@ -61,6 +63,25 @@ public class RoomService implements IRoomService {
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
 
         return iroomRepo.findByAuctionId(auctionId);
+    }
+
+    @Override
+    public void resetTimeRoom(Long roomId) {
+        Room room = iroomRepo.findById(roomId)
+                .orElseThrow(()-> new AppException(ErrorCode.ROOM_NOT_FOUND));
+
+        Auction auction = iauctionRepo.findByAuctionId(room.getAuctionId());
+
+        LocalDateTime newEndTime = LocalDateTime.now().plusMinutes(30);
+
+        if(newEndTime.isBefore(auction.getEndTime()) ||  newEndTime.isEqual(auction.getEndTime())) {
+            room.setEndTime(newEndTime);
+        }else{
+            room.setEndTime(auction.getEndTime());
+        }
+
+        room.setEndTime(LocalDateTime.now().plusMinutes(30));
+        iroomRepo.save(room);
     }
 
 

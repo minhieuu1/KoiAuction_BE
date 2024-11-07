@@ -1,5 +1,6 @@
 package com.bidkoi.auctionkoi.payload.request;
 
+import com.bidkoi.auctionkoi.enums.KoiStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,6 +19,7 @@ public class KoiRequest {
     String video;
     String description;
     int rating;
+    KoiStatus status;
     Double initialPrice;
-    Double finalPrice;
+    Double finalPrice = 0.0;
 }
