@@ -9,7 +9,7 @@ public interface IWalletService {
 
     String createUrl(WalletRequest walletRequest, String accountId) throws Exception;
 
-    void handleVnPayCallback(UUID transactionId, String responseCode, double vnpAmount);
+    void handleVnPayCallback(String transactionId, String responseCode, double vnpAmount);
 
     WalletDTO getWallet(String accountId);
     void deposit(String accountId, WalletRequest request);

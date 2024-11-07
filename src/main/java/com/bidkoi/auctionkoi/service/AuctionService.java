@@ -35,8 +35,13 @@ public class AuctionService implements IAuctionService {
     @Override
     @Transactional
     public AuctionDTO createAuction(AuctionDTO auctionDTO) {
-        Auction auction = iAuctionMapper.toAuction(auctionDTO);
 
+        List<Auction> overlappingAuctions = iAuctionRepository.findOverlappingAuctions(auctionDTO.getStartTime(), auctionDTO.getEndTime());
+        if (!overlappingAuctions.isEmpty()) {
+            throw new AppException(ErrorCode.AUCTION_SAME_TIME);
+        }
+
+        Auction auction = iAuctionMapper.toAuction(auctionDTO);
 
         LocalDateTime today = LocalDateTime.now();
         if(auction.getStartTime().isBefore(today)){
@@ -61,6 +66,11 @@ public class AuctionService implements IAuctionService {
     @Override
     @Transactional
     public AuctionDTO updateAuction(Long auctionId, UpdateAuctionRequest request) {
+
+        List<Auction> overlappingAuctions = iAuctionRepository.findOverlappingAuctionsIsNotAuctionId(request.getStartTime(), request.getEndTime(),auctionId);
+        if (!overlappingAuctions.isEmpty()) {
+            throw new AppException(ErrorCode.AUCTION_SAME_TIME);
+        }
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(() -> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
 
@@ -68,7 +78,7 @@ public class AuctionService implements IAuctionService {
         if(request.getStartTime().isBefore(today)){
             throw new AppException(ErrorCode.INVALID_AUCTION_DATE);
         }
-        else if (request.getEndTime().isBefore(auction.getStartTime())){
+        else if (request.getEndTime().isBefore(request.getStartTime())){
             throw new AppException(ErrorCode.INVALID_AUCTION_END_DATE);
         }
 
@@ -99,8 +109,18 @@ public class AuctionService implements IAuctionService {
     //Add Room to Auction
     @Override
     public void activeAuction(Long auctionId) {
+
+
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+        boolean exist = iAuctionRepository.existsAuctionByStatus(AuctionStatus.ACTIVE);
+        if(exist){
+            throw new AppException(ErrorCode.HAS_AUCTION_ACTIVE);
+        }
+        List<Room> rooms = iRoomRepository.findByAuctionId(auctionId);
+        for (Room room : rooms) {
+            room.setEndTime(auction.getEndTime());
+        }
         auction.setStatus(AuctionStatus.ACTIVE);
         iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
