@@ -44,11 +44,12 @@ public enum ErrorCode {
     SHIPPING_EXISTED(422, "Shipping already existed!"),
     TOKEN_EXPIRED(401, "Token has expired"),
     TOKEN_ERROR(401, "Invalid token"),
-
+    HAS_AUCTION_ACTIVE(400,"Has auction active already!"),
+    AUCTION_SAME_TIME(400,"Auction same time already existed!"),
     TRANSACTION_COMPLETED(401, "Transaction has been completed!"),
     ROLLBACK_ERROR(401, "Rollback error!"),
     INVOICE_NOT_FOUND(404, "Invoice not found!!!"),
-
+    AMOUNT_TOO_LOW(400, "Amount is lower than current bid!!!"),
     WINNER_NOT_EXIST(404, "Winner not existed!!!"),
     WITHDRAW_NOT_FOUND(404, "Withdraw not found!!!"),
     WITHDRAW_ALREADY_APPROVED(401, "Withdraw already approved!!!"),
