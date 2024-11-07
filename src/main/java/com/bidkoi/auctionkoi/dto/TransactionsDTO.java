@@ -13,7 +13,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TransactionsDTO {
 
-    UUID transactionId;
+
 
     double amount;
 
@@ -22,4 +22,5 @@ public class TransactionsDTO {
     String type;
 
     Date date;
+
 }

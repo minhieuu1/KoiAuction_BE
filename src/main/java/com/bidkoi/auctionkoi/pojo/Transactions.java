@@ -20,7 +20,7 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "TransactionID")
-    UUID transactionId;
+    String transactionId;
     double amount;
 
     String description;

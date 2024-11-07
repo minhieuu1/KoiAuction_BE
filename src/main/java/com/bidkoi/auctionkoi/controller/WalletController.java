@@ -68,9 +68,9 @@ public class WalletController {
                                                  @RequestParam(name = "vnp_Amount") String vnpAmount) {
         try {
 
-            UUID transactionId = UUID.fromString(vnpTxnRef); // Chuyển mã giao dịch từ String sang UUID
+//            UUID transactionId = UUID.fromString(vnpTxnRef); // Chuyển mã giao dịch từ String sang UUID
             double amount = Double.parseDouble(vnpAmount);  // Chuyển số tiền từ chuỗi
-            walletService.handleVnPayCallback(transactionId, responseCode, amount);
+            walletService.handleVnPayCallback(vnpTxnRef, responseCode, amount);
 
             return ResponseEntity.ok("Transaction processed successfully.");
 //            // Kiểm tra nếu các tham số quan trọng tồn tại

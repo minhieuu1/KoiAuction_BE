@@ -35,6 +35,7 @@ public class BidService implements IBidService {
     ITransactionsRepository transactionRepo;
     IBidMapper mapper;
     IChatRepository chatRepo;
+    IAccountRepository accountRepo;
 
     @Override
     public Bid registerBid(String bidderID, Long roomID) {
@@ -64,6 +65,7 @@ public class BidService implements IBidService {
                 .description("")
                 .type(TransactionsEnum.DEPOSIT)
                 .status("COMPLETED")
+                .description("Join room")
                 .wallet(wallet)
                 .build();
         transactionRepo.save(transaction);
@@ -78,8 +80,8 @@ public class BidService implements IBidService {
         }else{
             throw new AppException(ErrorCode.BIDDER_EXISTED);
         }
-
-        return bidRepo.save(bid);
+        bidRepo.save(bid);
+        return bid;
     }
 
     @Override
@@ -104,6 +106,11 @@ public class BidService implements IBidService {
                 .orElseThrow(()->new AppException(ErrorCode.ROOM_NOT_FOUND));
 
         Koi koi = room.getKoi();
+
+        if(Double.parseDouble(placeBid.getAmount())<koi.getFinalPrice()) {
+            throw new AppException(ErrorCode.AMOUNT_TOO_LOW);
+        }
+
         koi.setFinalPrice(Double.parseDouble(placeBid.getAmount()));
         koiRepo.save(koi);
         Bid bid = bidRepo.findByBidderAndRoom(bidder,room);
