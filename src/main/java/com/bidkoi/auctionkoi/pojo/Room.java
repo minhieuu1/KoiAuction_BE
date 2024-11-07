@@ -28,6 +28,9 @@ public class Room {
     @JoinColumn(name = "KoiID", referencedColumnName = "KoiID")
     Koi koi;
 
+    @Column(name = "EndTime")
+    LocalDateTime endTime;
+
     @Column(name = "AuctionID")
     Long auctionId;
 

@@ -169,7 +169,7 @@ public class WalletService implements IWalletService {
 
 
     @Override
-    public void handleVnPayCallback(UUID transactionId, String responseCode, double vnpAmount) {
+    public void handleVnPayCallback(String transactionId, String responseCode, double vnpAmount) {
         // Lấy giao dịch từ ID
         Transactions transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new AppException(ErrorCode.TRANSACTION_NOT_FOUND));

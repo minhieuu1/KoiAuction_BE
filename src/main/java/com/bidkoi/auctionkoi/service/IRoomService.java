@@ -11,5 +11,5 @@ public interface IRoomService {
     RoomDTO createRoom(Long koiId);
     List<Room> getAllRooms();
     List<Room> getRoomInAuction(Long auctionId);
-
+    void resetTimeRoom(Long roomId);
 }
