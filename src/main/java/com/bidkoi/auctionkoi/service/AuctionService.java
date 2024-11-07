@@ -80,10 +80,13 @@ public class AuctionService implements IAuctionService {
         return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
-    //Delete Auction
+
     @Override
     public void deleteAuction(Long auctionId) {
-        iAuctionRepository.deleteById(auctionId);
+        Auction auction = iAuctionRepository.findById(auctionId)
+                .orElseThrow(() -> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
+        auction.setStatus(AuctionStatus.CANCELLED);
+        iAuctionRepository.save(auction);
     }
 
 
