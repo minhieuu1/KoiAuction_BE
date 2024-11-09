@@ -4,7 +4,6 @@ public enum TransactionsEnum {
     ADD_MONEY,
     DEPOSIT,
     WITHDRAW,
-    PAYMENT,
     REFUND,
     FEE,
 

@@ -93,6 +93,10 @@ public class AuctionService implements IAuctionService {
     //Delete Auction
     @Override
     public void deleteAuction(Long auctionId) {
+        List<Room> rooms = iRoomRepository.findByAuctionId(auctionId);
+        for(Room room : rooms){
+            removeRoomFromAuction(room.getRoomId());
+        }
         iAuctionRepository.deleteById(auctionId);
     }
 
@@ -137,6 +141,14 @@ public class AuctionService implements IAuctionService {
     public AuctionDTO getAuctionActive() {
         Auction auction = iAuctionRepository.findAuctionByStatus(AuctionStatus.ACTIVE);
         return iAuctionMapper.toAuctionDTO(auction);
+    }
+
+    @Override
+    public void removeRoomFromAuction(Long roomId) {
+        Room room = iRoomRepository.findById(roomId)
+                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
+        room.setAuctionId(null);
+        iRoomRepository.save(room);
     }
 
     @Override

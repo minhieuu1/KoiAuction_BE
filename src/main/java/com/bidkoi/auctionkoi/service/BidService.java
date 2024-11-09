@@ -142,8 +142,12 @@ public class BidService implements IBidService {
         if(room.getWinner() == null) {
             throw new AppException(ErrorCode.WINNER_NOT_EXIST);
         }
+        Account account = accountRepo.findAccountByUsername(room.getWinner());
+        Bidder bidder = bidderRepo.findBidderByAccount(account);
+
         return Winner.builder()
                 .username(room.getWinner())
+                .bidder(bidder)
                 .koi(room.getKoi())
                 .build();
     }

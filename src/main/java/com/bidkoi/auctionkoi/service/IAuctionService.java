@@ -21,4 +21,5 @@ public interface IAuctionService {
     void activeAuction(Long auctionId);
     void closeAuction(Long auctionId);
     AuctionDTO getAuctionActive();
+    void removeRoomFromAuction(Long roomId);
 }
