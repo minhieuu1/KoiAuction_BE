@@ -90,14 +90,16 @@ public class AuctionService implements IAuctionService {
         return iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }
 
-    //Delete Auction
+
     @Override
     public void deleteAuction(Long auctionId) {
+
         List<Room> rooms = iRoomRepository.findByAuctionId(auctionId);
         for(Room room : rooms){
             removeRoomFromAuction(room.getRoomId());
         }
         iAuctionRepository.deleteById(auctionId);
+
     }
 
 
