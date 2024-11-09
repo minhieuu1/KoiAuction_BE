@@ -22,4 +22,5 @@ public class KoiRequest {
     KoiStatus status;
     Double initialPrice;
     Double finalPrice = 0.0;
+    Double immediatePrice;
 }

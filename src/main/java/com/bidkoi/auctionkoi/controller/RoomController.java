@@ -32,12 +32,12 @@ public class RoomController {
     }
 
 
-    @DeleteMapping("/delete/{roomId}")
-    String deleteRoom(@PathVariable Long roomId) {
-        roomService.deleteRoom(roomId);
-        return "Room deleted successfully!!!";
-
-    }
+//    @DeleteMapping("/delete/{roomId}")
+//    String deleteRoom(@PathVariable Long roomId) {
+//        roomService.deleteRoom(roomId);
+//        return "Room deleted successfully!!!";
+//
+//    }
 
     @GetMapping
     ApiResponse<List<Room>> getAllRooms() {
