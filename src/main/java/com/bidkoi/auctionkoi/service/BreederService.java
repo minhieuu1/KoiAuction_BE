@@ -81,9 +81,9 @@ public class BreederService implements IBreederService {
         walletRepo.save(wallet);
 
         Transactions transaction = Transactions.builder()
-                .amount(feeRequest.getFee())
+                .amount(-feeRequest.getFee())
                 .date(new Date(System.currentTimeMillis()))
-                .description("request fee")
+                .description("Request Fee")
                 .type(TransactionsEnum.FEE)
                 .status("COMPLETED")
                 .wallet(wallet)
