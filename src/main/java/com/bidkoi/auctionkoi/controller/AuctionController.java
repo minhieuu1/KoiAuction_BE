@@ -74,6 +74,12 @@ public class AuctionController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/remove/{roomId}")
+    public ResponseEntity<Void> removeRoomFromAuction(@PathVariable Long roomId){
+        iAuctionService.removeRoomFromAuction(roomId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/active")
     public ApiResponse<AuctionDTO> getAuctionActive(){
         return ApiResponse.<AuctionDTO>builder()

@@ -22,6 +22,7 @@ public class KoiDTO {
     int rating;
     Double initialPrice;
     Double finalPrice;
+    Double immediatePrice;
     Breeder breeder;
     Staff staff;
 }
