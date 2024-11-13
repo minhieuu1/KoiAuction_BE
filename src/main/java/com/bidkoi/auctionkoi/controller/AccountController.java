@@ -2,10 +2,7 @@ package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
-import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
-import com.bidkoi.auctionkoi.payload.request.LoginRequest;
-import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
-import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
+import com.bidkoi.auctionkoi.payload.request.*;
 import com.bidkoi.auctionkoi.payload.response.ApiResponse;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.Account;
@@ -98,4 +95,11 @@ public class AccountController {
         return ResponseEntity.ok("Password updated successfully.");
     }
 
+
+
+    @PatchMapping("/fcm")
+    public ResponseEntity updateFCM(@RequestBody UpdateFCMRequest updateFCMRequest){
+        Account account = iAccountService.updateFCM(updateFCMRequest);
+        return ResponseEntity.ok(account);
+    }
 }
