@@ -32,6 +32,6 @@ public class Auction {
     AuctionStatus status;
 
 
-    @OneToMany(mappedBy = "auctionId",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "auctionId")
     List<Room> rooms;
 }

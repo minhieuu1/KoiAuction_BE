@@ -17,5 +17,6 @@ public interface IKoiService {
     KoiDTO approveKoi(Long koiId,Long staffId);
     KoiDTO rejectKoi(Long koiId,Long staffId);
     KoiDTO updateKoi(Long koiId, KoiRequest koiDTO);
+//    void cancelKoi(Long koiId);
     void deleteKoi(Long koiId);
 }

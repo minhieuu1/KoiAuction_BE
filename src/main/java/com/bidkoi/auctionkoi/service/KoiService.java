@@ -92,8 +92,20 @@ public class KoiService implements IKoiService {
         Koi koi = KoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND));
         mapper.updateKoi(koi, request);
-        return mapper.toKoiDTO(KoiRepo.save(koi));
+        KoiRepo.save(koi);
+        return mapper.toKoiDTO(koi);
     }
+
+//    @Override
+//    public void cancelKoi(Long koiId) {
+//        Koi koi = KoiRepo.findById(koiId)
+//                .orElseThrow(()-> new AppException(ErrorCode.KOI_NOT_FOUND));
+//        if(!koi.getStatus().equals(KoiStatus.PENDING)){
+//            throw new AppException(ErrorCode.STATUS_ERROR);
+//        }
+//        koi.setStatus(KoiStatus.CANCELLED);
+//        KoiRepo.save(koi);
+//    }
 
     @Override
     public void deleteKoi(Long koiId) {
