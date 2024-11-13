@@ -62,21 +62,12 @@ public class AccountService implements IAccountService {
         account.setRole(Role.BIDDER);
         account = iAccountRepository.save(account);
 
+        //gui email ve cho nguoi dung
         EmailDetail emailDetail = new EmailDetail();
         emailDetail.setReceiver(account);
         emailDetail.setSubject("Welcome to BidKoi");
         emailDetail.setLink("http://localhost:5173/login");
         emailService.sendEmail(emailDetail);
-
-
-        //gui email ve cho nguoi dung
-        EmailDetail emailDetail = new EmailDetail();
-        emailDetail.setReceiver(account);
-        emailDetail.setSubject("Welcome to BidKoi");
-        emailDetail.setLink("https://www.google.com");
-        emailService.sendEmail(emailDetail);
-
-
 
         Bidder bidder = new Bidder();
         bidder.setAccount(account);
@@ -211,11 +202,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void bannedUser(String accountId) {
+    public void bannedUser(String accountId, Reason reason) {
         Account account = iAccountRepository.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         account.setRole(Role.BANNED);
+        account.setDescription(reason.getDescription());
         iAccountRepository.save(account);
     }
 
