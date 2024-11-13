@@ -91,23 +91,22 @@ public class WithdrawService implements IWithdrawService {
         Staff staff = staffRepo.findById(staffId)
                 .orElseThrow(()->new AppException(ErrorCode.STAFF_NOT_FOUND));
 
+        Wallet wallet = walletRepo.findWalletByAccount(withdraw.getAccount());
         if(withdraw.getStatus().equals("APPROVED")) {
             throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
         }
-
         withdraw.setStatus("REJECTED");
         withdraw.setDescription(request.getDescription());
         withdraw.setStaff(staff);
-
         Transactions transactions = Transactions.builder()
                 .amount(withdraw.getAmount())
                 .date(LocalDateTime.now())
                 .description(request.getDescription())
                 .type(TransactionsEnum.WITHDRAW)
                 .status("FAIL")
+                .wallet(wallet)
                 .build();
         transactionRepo.save(transactions);
-
         return withdrawMapper.toWithdrawDTO(withdrawRepo.save(withdraw));
     }
 

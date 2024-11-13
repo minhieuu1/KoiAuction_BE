@@ -41,15 +41,31 @@ public class TransactionService implements ITransactionService {
     public void rollBack(Long auctionId) {
         List<Room> rooms = roomRepo.findByAuctionId(auctionId);
         for (Room room : rooms) {
+
+
+//            Room room = roomRepo.findById(auctionId)
+//                    .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
             String winner = room.getWinner();
-            List<Bid> bids = bidRepo.findByUsernameIsNotOrUsernameIsNull(winner);
+            if(winner == null) {
+                List<Bid> bids = bidRepo.findByRoom(room);
+                Koi koi = room.getKoi();
 
-            Koi koi = room.getKoi();
+                double deposit = koi.getInitialPrice() * 0.2;
 
-            double deposit = koi.getInitialPrice()*0.2;
+                for (Bid bid : bids) {
+                    refund(bid, deposit);
+                }
+            }else {
+                List<Bid> bids = bidRepo.findByUsernameIsNotAndRoom(winner,room);
 
-            for(Bid bid : bids) {
-                refund(bid, deposit);
+                Koi koi = room.getKoi();
+
+                double deposit = koi.getInitialPrice() * 0.2;
+
+                for (Bid bid : bids) {
+                    refund(bid, deposit);
+                }
+
             }
         }
 //        Room room = roomRepo.findById(roomId).

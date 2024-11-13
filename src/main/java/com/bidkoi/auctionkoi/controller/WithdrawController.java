@@ -22,12 +22,15 @@ public class WithdrawController {
 
     IWithdrawService withdrawService;
 
+
     @PostMapping("/request-withdraw/{accountId}")
+
     public ResponseEntity<WithdrawDTO> createWithdraw(@RequestBody WithdrawRequest request, @PathVariable String accountId) {
 
         WithdrawDTO withdraw = withdrawService.createWithdraw(request, accountId);
         return ResponseEntity.ok(withdraw);
     }
+
 
     @PutMapping("/approve-withdraw/{withdrawId}/{staffId}")
     public ResponseEntity<WithdrawDTO> approveWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId) {
@@ -35,6 +38,7 @@ public class WithdrawController {
         WithdrawDTO withdraw = withdrawService.approveWithdraw(withdrawId, staffId);
         return ResponseEntity.ok(withdraw);
     }
+
 
     @PutMapping("/reject-withdraw/{withdrawId}/{staffId}")
     public ResponseEntity<WithdrawDTO> rejectWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId, @RequestBody RejectWithdrawRequest request) {
@@ -50,12 +54,14 @@ public class WithdrawController {
 //        return ResponseEntity.ok(withdraw);
 //    }
 
+
     @GetMapping("/get-withdraw/{accountId}")
     public ResponseEntity<WithdrawDTO> getWithdrawByAccountId(@PathVariable String accountId) {
 
         WithdrawDTO withdraw = withdrawService.getWithdrawByAccountId(accountId);
         return ResponseEntity.ok(withdraw);
     }
+
 
     @GetMapping("/get-all-withdraw")
     public ResponseEntity<?> getAllWithdraw() {

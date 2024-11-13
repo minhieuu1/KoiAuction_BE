@@ -74,6 +74,9 @@ public class BidService implements IBidService {
         Bid bid = bidRepo.findByBidderAndRoom(bidder, room);
         if(bid == null) {
             bid = Bid.builder()
+
+                    .username(account.getUsername())
+
                     .bidder(bidder)
                     .room(room)
                     .build();

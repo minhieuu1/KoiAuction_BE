@@ -34,6 +34,10 @@ public class Account implements Serializable, UserDetails {
     @Column(name = "Phone_number")
     String phone;
 
+    @Column(name = "Description")
+    String description;
+
+
     @Enumerated(EnumType.STRING)
     Role role;
 

@@ -49,4 +49,5 @@ public class InvoiceController {
     public ResponseEntity getAllInvoice() {
         return ResponseEntity.ok(invoiceService.getAllInvoice());
     }
+
 }

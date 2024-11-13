@@ -26,6 +26,7 @@ spring:
             client-secret: "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"
 
 
+
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
@@ -49,6 +50,7 @@ spring:
     suffix: .html
     mode: HTML
     encoding: UTF-8
+
 
 
 jwt:
