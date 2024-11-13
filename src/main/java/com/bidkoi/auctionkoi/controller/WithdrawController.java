@@ -1,6 +1,7 @@
 package com.bidkoi.auctionkoi.controller;
 
 import com.bidkoi.auctionkoi.dto.WithdrawDTO;
+import com.bidkoi.auctionkoi.payload.request.RejectWithdrawRequest;
 import com.bidkoi.auctionkoi.payload.request.WithdrawRequest;
 import com.bidkoi.auctionkoi.pojo.Withdraw;
 import com.bidkoi.auctionkoi.service.IWithdrawService;
@@ -36,10 +37,30 @@ public class WithdrawController {
     }
 
     @PutMapping("reject-withdraw/{withdrawId}/{staffId}")
-    public ResponseEntity<WithdrawDTO> rejectWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId) {
+    public ResponseEntity<WithdrawDTO> rejectWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId, @RequestBody RejectWithdrawRequest request) {
 
-        WithdrawDTO withdraw = withdrawService.rejectWithdraw(withdrawId, staffId);
+        WithdrawDTO withdraw = withdrawService.rejectWithdraw(withdrawId, staffId, request);
         return ResponseEntity.ok(withdraw);
+    }
+
+//    @GetMapping("get-withdraw/{withdrawId}")
+//    public ResponseEntity<WithdrawDTO> getWithdrawById(@PathVariable Long withdrawId) {
+//
+//        WithdrawDTO withdraw = withdrawService.getWithdrawById(withdrawId);
+//        return ResponseEntity.ok(withdraw);
+//    }
+
+    @GetMapping("get-withdraw/{accountId}")
+    public ResponseEntity<WithdrawDTO> getWithdrawByAccountId(@PathVariable String accountId) {
+
+        WithdrawDTO withdraw = withdrawService.getWithdrawByAccountId(accountId);
+        return ResponseEntity.ok(withdraw);
+    }
+
+    @GetMapping("get-all-withdraw")
+    public ResponseEntity<?> getAllWithdraw() {
+
+        return ResponseEntity.ok(withdrawService.getAllWithdraw());
     }
 
 }

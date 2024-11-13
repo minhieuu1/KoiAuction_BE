@@ -5,6 +5,7 @@ import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.enums.TransactionsEnum;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.mapper.IWithdrawMapper;
+import com.bidkoi.auctionkoi.payload.request.RejectWithdrawRequest;
 import com.bidkoi.auctionkoi.payload.request.WithdrawRequest;
 import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.repository.*;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +37,9 @@ public class WithdrawService implements IWithdrawService {
 
         Withdraw withdraw = Withdraw.builder()
                 .amount(request.getAmount())
+                .accountName(request.getAccountName())
                 .accountNumber(request.getAccountNumber())
-                .description(request.getDescription())
+                .bankName(request.getBankName())
                 .status("PENDING")
                 .withdrawDate(LocalDateTime.now())
                 .account(account)
@@ -57,11 +60,15 @@ public class WithdrawService implements IWithdrawService {
         if(wallet.getBalance() < withdraw.getAmount()) {
             throw new AppException(ErrorCode.INSUFFICIENT_BALANCE);
         }
+        if(withdraw.getStatus().equals("APPROVED")) {
+            throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
+        }
 
         wallet.setBalance(wallet.getBalance()-withdraw.getAmount());
         walletRepo.save(wallet);
 
         Transactions transactions = Transactions.builder()
+
                 .amount(withdraw.getAmount())
                 .date(LocalDateTime.now())
                 .description("withdraw money to account number: " + withdraw.getAccount().getId())
@@ -71,13 +78,14 @@ public class WithdrawService implements IWithdrawService {
                 .build();
 
         transactionRepo.save(transactions);
+        withdraw.setDescription("Withdraw approved successfully");
         withdraw.setStatus("APPROVED");
         withdraw.setStaff(staff);
         return withdrawMapper.toWithdrawDTO(withdrawRepo.save(withdraw));
     }
 
     @Override
-    public WithdrawDTO rejectWithdraw(Long withdrawId, Long staffId) {
+    public WithdrawDTO rejectWithdraw(Long withdrawId, Long staffId, RejectWithdrawRequest request) {
         Withdraw withdraw = withdrawRepo.findById(withdrawId)
                 .orElseThrow(()->new AppException(ErrorCode.WITHDRAW_NOT_FOUND));
         Staff staff = staffRepo.findById(staffId)
@@ -87,8 +95,30 @@ public class WithdrawService implements IWithdrawService {
             throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
         }
         withdraw.setStatus("REJECTED");
+        withdraw.setDescription(request.getDescription());
         withdraw.setStaff(staff);
         return withdrawMapper.toWithdrawDTO(withdrawRepo.save(withdraw));
+    }
+
+    @Override
+    public List<Withdraw> getAllWithdraw() {
+        return withdrawRepo.findAll();
+    }
+
+//    @Override
+//    public WithdrawDTO getWithdrawById(Long withdrawId) {
+//        Withdraw withdraw = withdrawRepo.findById(withdrawId)
+//                .orElseThrow(()->new AppException(ErrorCode.WITHDRAW_NOT_FOUND));
+//        return withdrawMapper.toWithdrawDTO(withdraw);
+//    }
+
+    @Override
+    public WithdrawDTO getWithdrawByAccountId(String accountId) {
+        Account account = accountRepo.findById(accountId)
+                .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
+        Withdraw withdraw = withdrawRepo.findWithdrawByAccount(account)
+                .orElseThrow(()->new AppException(ErrorCode.WITHDRAW_NOT_FOUND));
+        return withdrawMapper.toWithdrawDTO(withdraw);
     }
 
 
