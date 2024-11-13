@@ -3,6 +3,7 @@ package com.bidkoi.auctionkoi.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,6 +22,6 @@ public class TransactionsDTO {
 
     String type;
 
-    Date date;
+    LocalDateTime date;
 
 }

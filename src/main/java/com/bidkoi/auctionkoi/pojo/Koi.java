@@ -32,6 +32,9 @@ public class Koi {
     @Column(name = "Final_price")
     Double finalPrice;
 
+    @Column(name = "Immediate_price")
+    Double immediatePrice;
+
     @Enumerated(EnumType.STRING)
     KoiStatus status;
 

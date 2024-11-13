@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -47,9 +48,11 @@ public class BreederService implements IBreederService {
         Account account = accountRepo.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-//        if(accountRepo.existsByEmail(request.getEmail())) {
-//            throw new AppException(ErrorCode.EMAIL_EXISTED);
-//        }
+        if(accountRepo.existsByEmailAndIdIsNot(request.getEmail(),accountId)) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }else if(accountRepo.existsByPhoneAndIdIsNot(request.getPhone(),accountId)){
+            throw new AppException(ErrorCode.PHONE_EXISTED);
+        }
 
 
         account.setEmail(request.getEmail());
@@ -81,9 +84,9 @@ public class BreederService implements IBreederService {
         walletRepo.save(wallet);
 
         Transactions transaction = Transactions.builder()
-                .amount(feeRequest.getFee())
-                .date(new Date(System.currentTimeMillis()))
-                .description("request fee")
+                .amount(-feeRequest.getFee())
+                .date(LocalDateTime.now())
+                .description("Request Fee")
                 .type(TransactionsEnum.FEE)
                 .status("COMPLETED")
                 .wallet(wallet)
