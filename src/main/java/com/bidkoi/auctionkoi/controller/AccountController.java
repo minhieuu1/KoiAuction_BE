@@ -123,9 +123,9 @@ public class AccountController {
     }
 
     @PutMapping("/banned/{accountId}")
-    public ResponseEntity<Void> banned(@PathVariable String accountId) {
-        iAccountService.bannedUser(accountId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Reason> banned(@PathVariable String accountId,@RequestBody Reason reason) {
+        iAccountService.bannedUser(accountId,reason);
+        return ResponseEntity.ok(reason);
     }
 
 

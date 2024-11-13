@@ -30,7 +30,7 @@ public interface IAccountService {
    Integer numberOfBidder();
    Integer numberOfBreeder();
    Integer numberOfStaff();
-   void bannedUser(String accountId);
+   void bannedUser(String accountId,Reason reason);
    public BidderDTO updateProfile(String accountID, BidderDTO bidderDTO);
 
    public void updatePassword(String accountId, UpdatePasswordRequest request);

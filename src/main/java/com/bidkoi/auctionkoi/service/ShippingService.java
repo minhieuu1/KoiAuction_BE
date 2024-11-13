@@ -87,6 +87,7 @@ public class ShippingService implements IShippingService {
         ship.setStaffConfirm(request.getConfirm());
         ship.setDescription(request.getDes());
         ship.setStaff(staff);
+        ship.setStatus("CONFIRMED");
         shippingRepo.save(ship);
     }
 
