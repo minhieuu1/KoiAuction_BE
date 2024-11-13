@@ -69,7 +69,7 @@ public class WithdrawService implements IWithdrawService {
 
         Transactions transactions = Transactions.builder()
 
-                .amount(withdraw.getAmount())
+                .amount(-withdraw.getAmount())
                 .date(LocalDateTime.now())
                 .description("withdraw money to account number: " + withdraw.getAccount().getId())
                 .type(TransactionsEnum.WITHDRAW)
@@ -94,9 +94,20 @@ public class WithdrawService implements IWithdrawService {
         if(withdraw.getStatus().equals("APPROVED")) {
             throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
         }
+
         withdraw.setStatus("REJECTED");
         withdraw.setDescription(request.getDescription());
         withdraw.setStaff(staff);
+
+        Transactions transactions = Transactions.builder()
+                .amount(withdraw.getAmount())
+                .date(LocalDateTime.now())
+                .description(request.getDescription())
+                .type(TransactionsEnum.WITHDRAW)
+                .status("FAIL")
+                .build();
+        transactionRepo.save(transactions);
+
         return withdrawMapper.toWithdrawDTO(withdrawRepo.save(withdraw));
     }
 

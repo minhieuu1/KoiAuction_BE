@@ -44,4 +44,9 @@ public class InvoiceController {
         InvoiceDTO invoice = invoiceService.getInvoiceByKoi(koiId);
         return ResponseEntity.ok(invoice);
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity getAllInvoice() {
+        return ResponseEntity.ok(invoiceService.getAllInvoice());
+    }
 }
