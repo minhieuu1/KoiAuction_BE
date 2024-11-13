@@ -52,6 +52,8 @@ public class AccountService implements IAccountService {
         }
         else if(iAccountRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }else if(iAccountRepository.existsByPhone(request.getPhone())) {
+            throw new AppException(ErrorCode.PHONE_EXISTED);
         }
 
         Account account = iAccountMapper.toAccount(request);
@@ -163,13 +165,58 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Integer numberOfBidder() {
+        int count = 0;
+        List<Account> accounts = iAccountRepository.findAllByRole(Role.BIDDER);
+        for (Account account : accounts) {
+            count++;
+        }
+        return count;
+    }
+
+    @Override
+    public Integer numberOfBreeder() {
+        int count = 0;
+        List<Account> accounts = iAccountRepository.findAllByRole(Role.BREEDER);
+        for (Account account : accounts) {
+            count++;
+        }
+        return count;
+    }
+
+    @Override
+    public Integer numberOfStaff() {
+        int count = 0;
+        List<Account> accounts = iAccountRepository.findAllByRole(Role.STAFF);
+        for (Account account : accounts) {
+            count++;
+        }
+        return count;
+    }
+
+    @Override
+    public void bannedUser(String accountId) {
+        Account account = iAccountRepository.findById(accountId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        account.setRole(Role.BANNED);
+        iAccountRepository.save(account);
+    }
+
+    @Override
     public BidderDTO updateProfile(String accountId, BidderDTO bidderDTO) {
         Account account = iAccountRepository.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
+
         Bidder bidder = iBidderRepository.findByAccountId(account.getId())
                 .orElse(new Bidder());  // Nếu không tìm thấy, tạo mới một Bidder
 
+        if(iAccountRepository.existsByEmailAndIdIsNot(bidderDTO.getEmail(),accountId)) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }else if(iAccountRepository.existsByPhoneAndIdIsNot(bidderDTO.getPhone(),accountId)){
+            throw new AppException(ErrorCode.PHONE_EXISTED);
+        }
 
 
         // Cập nhật thông tin trong Bidder

@@ -12,6 +12,7 @@ public enum KoiStatus {
     ACCEPTED,
     REJECTED,
     AVAILABLE,
-    SOLD
+    SOLD,
+    CANCELLED,
     ;
 }
