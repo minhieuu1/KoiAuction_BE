@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountCreationRequest {
-    @Size(min = 8, max = 16,message = "USERNAME_INVALID")
+    @Size(min = 5, max = 16,message = "USERNAME_INVALID")
     String username;
     String password;
     String role;

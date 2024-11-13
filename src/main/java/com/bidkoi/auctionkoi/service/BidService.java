@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class BidService implements IBidService {
 
         Transactions transaction = Transactions.builder()
                 .amount(-deposit)
-                .date(new Date(System.currentTimeMillis()))
+                .date(LocalDateTime.now())
                 .description("")
                 .type(TransactionsEnum.DEPOSIT)
                 .status("COMPLETED")
@@ -142,8 +143,12 @@ public class BidService implements IBidService {
         if(room.getWinner() == null) {
             throw new AppException(ErrorCode.WINNER_NOT_EXIST);
         }
+        Account account = accountRepo.findAccountByUsername(room.getWinner());
+        Bidder bidder = bidderRepo.findBidderByAccount(account);
+
         return Winner.builder()
                 .username(room.getWinner())
+                .bidder(bidder)
                 .koi(room.getKoi())
                 .build();
     }

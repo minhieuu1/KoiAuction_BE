@@ -10,5 +10,6 @@ public enum Role {
     BIDDER,
     BREEDER,
     STAFF,
+    BANNED,
     ;
 }
