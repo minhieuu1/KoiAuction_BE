@@ -63,7 +63,7 @@ public class WithdrawService implements IWithdrawService {
 
         Transactions transactions = Transactions.builder()
                 .amount(withdraw.getAmount())
-                .date(new Date(System.currentTimeMillis()))
+                .date(LocalDateTime.now())
                 .description("withdraw money to account number: " + withdraw.getAccount().getId())
                 .type(TransactionsEnum.WITHDRAW)
                 .status("COMPLETED")
