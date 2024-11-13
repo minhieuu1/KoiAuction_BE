@@ -30,7 +30,7 @@ public class Transactions {
 
     String status;
 
-    Date date;
+    LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "WalletID",referencedColumnName = "WalletID")

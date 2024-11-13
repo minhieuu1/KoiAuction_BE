@@ -80,7 +80,7 @@ public class WalletService implements IWalletService {
                 .description("Deposit to Wallet")
                 .type(TransactionsEnum.ADD_MONEY)
                 .status("PENDING")
-                .date(new Date())
+                .date(LocalDateTime.now())
                 .wallet(wallet)
                 .build();
 
