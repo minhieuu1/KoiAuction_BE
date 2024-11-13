@@ -3,7 +3,11 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.payload.request.EmailDetail;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+
 @Service
 public class EmailService {
 
@@ -42,7 +48,15 @@ public class EmailService {
             helper.setSubject(emailDetail.getSubject());
 
 
+
+            //javaMailSender.send(mimeMessage);
+
+            System.out.println("Sending email to: " + emailDetail.getReceiver().getEmail());
             javaMailSender.send(mimeMessage);
+            System.out.println("Email sent successfully.");
+
+            javaMailSender.send(mimeMessage);
+
 
         }
         catch (MessagingException e){

@@ -42,6 +42,7 @@ public class TransactionService implements ITransactionService {
         List<Room> rooms = roomRepo.findByAuctionId(auctionId);
         for (Room room : rooms) {
 
+
 //            Room room = roomRepo.findById(auctionId)
 //                    .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
             String winner = room.getWinner();
@@ -64,6 +65,7 @@ public class TransactionService implements ITransactionService {
                 for (Bid bid : bids) {
                     refund(bid, deposit);
                 }
+
             }
         }
 //        Room room = roomRepo.findById(roomId).

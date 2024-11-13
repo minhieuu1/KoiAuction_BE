@@ -192,7 +192,9 @@ public class WalletService implements IWalletService {
         } else {
             // Giao dịch thất bại
             transaction.setStatus("FAILED");
+
             transaction.setDescription("Fail Deposit to Wallet");
+
         }
 
         // Lưu giao dịch với trạng thái mới

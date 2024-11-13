@@ -22,21 +22,25 @@ public class WithdrawController {
 
     IWithdrawService withdrawService;
 
-    @PostMapping("request-withdraw/{accountId}")
+
+    @PostMapping("/request-withdraw/{accountId}")
+
     public ResponseEntity<WithdrawDTO> createWithdraw(@RequestBody WithdrawRequest request, @PathVariable String accountId) {
 
         WithdrawDTO withdraw = withdrawService.createWithdraw(request, accountId);
         return ResponseEntity.ok(withdraw);
     }
 
-    @PutMapping("approve-withdraw/{withdrawId}/{staffId}")
+
+    @PutMapping("/approve-withdraw/{withdrawId}/{staffId}")
     public ResponseEntity<WithdrawDTO> approveWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId) {
 
         WithdrawDTO withdraw = withdrawService.approveWithdraw(withdrawId, staffId);
         return ResponseEntity.ok(withdraw);
     }
 
-    @PutMapping("reject-withdraw/{withdrawId}/{staffId}")
+
+    @PutMapping("/reject-withdraw/{withdrawId}/{staffId}")
     public ResponseEntity<WithdrawDTO> rejectWithdraw(@PathVariable Long withdrawId, @PathVariable Long staffId, @RequestBody RejectWithdrawRequest request) {
 
         WithdrawDTO withdraw = withdrawService.rejectWithdraw(withdrawId, staffId, request);
@@ -50,14 +54,16 @@ public class WithdrawController {
 //        return ResponseEntity.ok(withdraw);
 //    }
 
-    @GetMapping("get-withdraw/{accountId}")
+
+    @GetMapping("/get-withdraw/{accountId}")
     public ResponseEntity<WithdrawDTO> getWithdrawByAccountId(@PathVariable String accountId) {
 
         WithdrawDTO withdraw = withdrawService.getWithdrawByAccountId(accountId);
         return ResponseEntity.ok(withdraw);
     }
 
-    @GetMapping("get-all-withdraw")
+
+    @GetMapping("/get-all-withdraw")
     public ResponseEntity<?> getAllWithdraw() {
 
         return ResponseEntity.ok(withdrawService.getAllWithdraw());

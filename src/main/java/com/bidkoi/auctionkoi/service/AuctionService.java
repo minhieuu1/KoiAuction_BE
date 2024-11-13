@@ -3,6 +3,7 @@ package com.bidkoi.auctionkoi.service;
 import com.bidkoi.auctionkoi.dto.AuctionDTO;
 import com.bidkoi.auctionkoi.dto.RoomDTO;
 import com.bidkoi.auctionkoi.enums.KoiStatus;
+
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAuctionMapper;
@@ -10,6 +11,7 @@ import com.bidkoi.auctionkoi.mapper.IRoomMapper;
 import com.bidkoi.auctionkoi.payload.request.UpdateAuctionRequest;
 import com.bidkoi.auctionkoi.pojo.Auction;
 import com.bidkoi.auctionkoi.enums.AuctionStatus;
+
 import com.bidkoi.auctionkoi.pojo.Koi;
 import com.bidkoi.auctionkoi.pojo.Room;
 import com.bidkoi.auctionkoi.repository.IAuctionRepository;
@@ -32,7 +34,9 @@ public class AuctionService implements IAuctionService {
     IAuctionMapper iAuctionMapper;
     IRoomRepository iRoomRepository;
     IRoomMapper iRoomMapper;
+
     IKoiRepository ikoi;
+
 
 
     @Override
@@ -139,6 +143,7 @@ public class AuctionService implements IAuctionService {
         Auction auction = iAuctionRepository.findById(auctionId)
                 .orElseThrow(()-> new AppException(ErrorCode.AUCTION_ID_NOT_FOUND));
         auction.setStatus(AuctionStatus.CLOSED);
+
         List<Room> rooms = iRoomRepository.findByAuctionId(auctionId);
         for (Room room : rooms) {
             if(room.getWinner() == null){
@@ -151,6 +156,7 @@ public class AuctionService implements IAuctionService {
                 ikoi.save(koi);
             }
         }
+
 
         iAuctionMapper.toAuctionDTO(iAuctionRepository.save(auction));
     }

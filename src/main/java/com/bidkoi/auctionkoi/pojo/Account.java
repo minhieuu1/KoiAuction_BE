@@ -33,8 +33,10 @@ public class Account implements Serializable, UserDetails {
     String email;
     @Column(name = "Phone_number")
     String phone;
+
     @Column(name = "Description")
     String description;
+
 
     @Enumerated(EnumType.STRING)
     Role role;

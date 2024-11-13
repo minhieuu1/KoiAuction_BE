@@ -90,6 +90,7 @@ public class WithdrawService implements IWithdrawService {
                 .orElseThrow(()->new AppException(ErrorCode.WITHDRAW_NOT_FOUND));
         Staff staff = staffRepo.findById(staffId)
                 .orElseThrow(()->new AppException(ErrorCode.STAFF_NOT_FOUND));
+
         Wallet wallet = walletRepo.findWalletByAccount(withdraw.getAccount());
         if(withdraw.getStatus().equals("APPROVED")) {
             throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
@@ -98,7 +99,6 @@ public class WithdrawService implements IWithdrawService {
         withdraw.setDescription(request.getDescription());
         withdraw.setStaff(staff);
         Transactions transactions = Transactions.builder()
-
                 .amount(withdraw.getAmount())
                 .date(LocalDateTime.now())
                 .description(request.getDescription())

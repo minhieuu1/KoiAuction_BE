@@ -126,6 +126,7 @@ public class AccountController {
     public ResponseEntity<Reason> banned(@PathVariable String accountId,@RequestBody Reason reason) {
         iAccountService.bannedUser(accountId,reason);
         return ResponseEntity.ok(reason);
+
     }
 
 
