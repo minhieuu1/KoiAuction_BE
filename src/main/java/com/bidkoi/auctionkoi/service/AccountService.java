@@ -42,7 +42,7 @@ public class AccountService implements IAccountService {
     IStaffRepository staffRepo;
     PasswordEncoder passwordEncoder;
 
-    IWalletRepository wallerRepo;
+    IWalletRepository walletRepo;
     TokenService tokenService;
 
     @Override
@@ -69,7 +69,7 @@ public class AccountService implements IAccountService {
 
         Wallet wallet = new Wallet();
         wallet.setAccount(account);
-        wallerRepo.save(wallet);
+        walletRepo.save(wallet);
 
 
 
@@ -78,7 +78,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<Account> getAllAccounts() {
-        return iAccountRepository.findAll();
+
+        return iAccountRepository.findByRoleIsNot(Role.ADMIN);
     }
 
     @Override
@@ -112,7 +113,7 @@ public class AccountService implements IAccountService {
 
             Wallet wallet = new Wallet();
             wallet.setAccount(account);
-            wallerRepo.save(wallet);
+            walletRepo.save(wallet);
         }else{
             account.setRole(Role.STAFF);
             Staff staff = new Staff();

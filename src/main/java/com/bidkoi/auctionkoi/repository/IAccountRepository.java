@@ -19,4 +19,5 @@ public interface IAccountRepository extends JpaRepository<Account,String> {
     Account findAccountById(String id);
     Account findAccountByUsername(String username);
     List<Account> findAllByRole(Role role);
+    List<Account> findByRoleIsNot(Role role);
  }
