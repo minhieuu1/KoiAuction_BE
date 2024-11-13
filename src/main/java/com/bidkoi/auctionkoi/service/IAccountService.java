@@ -3,6 +3,7 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
+import com.bidkoi.auctionkoi.enums.Role;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
@@ -22,7 +23,10 @@ public interface IAccountService {
    List<Bidder> getAll();
    Optional<Account> getAccountById(String id);
    Optional<Bidder> getBidderById(String accountId);
-
+   Integer numberOfBidder();
+   Integer numberOfBreeder();
+   Integer numberOfStaff();
+   void bannedUser(String accountId);
    public BidderDTO updateProfile(String accountID, BidderDTO bidderDTO);
 
    public void updatePassword(String accountId, UpdatePasswordRequest request);
