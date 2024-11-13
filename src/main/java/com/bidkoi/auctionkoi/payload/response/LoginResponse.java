@@ -18,6 +18,7 @@ public class LoginResponse {
     String token;
     String username;
     Role role;
+    String description;
     Bidder bidder;
     Breeder breeder;
     Staff staff;

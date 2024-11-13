@@ -139,6 +139,7 @@ public class AccountService implements IAccountService {
                 .token(token)
                 .username(user.getUsername())
                 .role(user.getRole())
+                .description(user.getDescription())
                 .bidder(iBidderRepository.findBidderByAccount(user))
                 .breeder(breederRepo.findBreederByAccount(user))
                 .staff(staffRepo.findByAccount(user))
@@ -195,11 +196,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void bannedUser(String accountId) {
+    public void bannedUser(String accountId,Reason reason) {
         Account account = iAccountRepository.findById(accountId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         account.setRole(Role.BANNED);
+        account.setDescription(reason.getDescription());
         iAccountRepository.save(account);
     }
 

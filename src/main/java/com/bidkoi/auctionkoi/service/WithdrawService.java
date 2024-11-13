@@ -69,7 +69,7 @@ public class WithdrawService implements IWithdrawService {
 
         Transactions transactions = Transactions.builder()
 
-                .amount(withdraw.getAmount())
+                .amount(-withdraw.getAmount())
                 .date(LocalDateTime.now())
                 .description("withdraw money to account number: " + withdraw.getAccount().getId())
                 .type(TransactionsEnum.WITHDRAW)
@@ -90,13 +90,23 @@ public class WithdrawService implements IWithdrawService {
                 .orElseThrow(()->new AppException(ErrorCode.WITHDRAW_NOT_FOUND));
         Staff staff = staffRepo.findById(staffId)
                 .orElseThrow(()->new AppException(ErrorCode.STAFF_NOT_FOUND));
-
+        Wallet wallet = walletRepo.findWalletByAccount(withdraw.getAccount());
         if(withdraw.getStatus().equals("APPROVED")) {
             throw new AppException(ErrorCode.WITHDRAW_ALREADY_APPROVED);
         }
         withdraw.setStatus("REJECTED");
         withdraw.setDescription(request.getDescription());
         withdraw.setStaff(staff);
+        Transactions transactions = Transactions.builder()
+
+                .amount(withdraw.getAmount())
+                .date(LocalDateTime.now())
+                .description(request.getDescription())
+                .type(TransactionsEnum.WITHDRAW)
+                .status("FAIL")
+                .wallet(wallet)
+                .build();
+        transactionRepo.save(transactions);
         return withdrawMapper.toWithdrawDTO(withdrawRepo.save(withdraw));
     }
 
