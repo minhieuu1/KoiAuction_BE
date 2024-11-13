@@ -26,7 +26,7 @@ import java.util.List;
 @CrossOrigin("*")
 @SecurityRequirement(name = "api")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class BidController {
+public class    BidController {
     IBidService service;
     SimpMessagingTemplate messagingTemplate;
 

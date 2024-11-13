@@ -87,7 +87,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<Account> getAllAccounts() {
-        return iAccountRepository.findAll();
+
+        return iAccountRepository.findByRoleIsNot(Role.ADMIN);
     }
 
     @Override
