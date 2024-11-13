@@ -10,6 +10,7 @@ public enum ErrorCode {
     USER_EXISTED(422,"Username already existed!"),
     USER_NOT_FOUND(404,"User not found"),
     EMAIL_EXISTED(422, "Email already existed!"),
+    PHONE_EXISTED(422, "Phone already existed!"),
     USERNAME_INVALID(400,"Username must be between 8 and 16 characters"),
     PHONE_INVALID(400,"Phone number must be 10 characters!!!"),
     UNAUTHENTICATED_USERNAME(400,"Invalid username!"),
