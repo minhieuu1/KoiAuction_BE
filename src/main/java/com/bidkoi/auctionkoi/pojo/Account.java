@@ -37,6 +37,9 @@ public class Account implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    @Column(name = "Fcm_Token")
+    String fcmToken;
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { // getAuthorities: lấy danh sách quyền

@@ -3,11 +3,15 @@ package com.bidkoi.auctionkoi.service;
 
 import com.bidkoi.auctionkoi.dto.AccountDTO;
 import com.bidkoi.auctionkoi.dto.BidderDTO;
+
+import com.bidkoi.auctionkoi.payload.request.*;
+
 import com.bidkoi.auctionkoi.enums.Role;
 import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
 import com.bidkoi.auctionkoi.payload.request.LoginRequest;
 import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
 import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
+
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.Account;
 import com.bidkoi.auctionkoi.pojo.Bidder;
@@ -30,4 +34,7 @@ public interface IAccountService {
    public BidderDTO updateProfile(String accountID, BidderDTO bidderDTO);
 
    public void updatePassword(String accountId, UpdatePasswordRequest request);
+
+   Account updateFCM(UpdateFCMRequest updateFCMRequest);
+
 }
