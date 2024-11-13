@@ -2,6 +2,7 @@ package com.bidkoi.auctionkoi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
@@ -16,12 +17,12 @@ public class ThymeleafConfig {
         return templateResolver;
     }
 
-//    @Bean
-//    public TemplateEngine templateEngine() {
-//        TemplateEngine templateEngine = new TemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver());
-//        return templateEngine;
-//    }
+    @Bean
+    public TemplateEngine templateEngine() {
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        return templateEngine;
+    }
 
 
 }
