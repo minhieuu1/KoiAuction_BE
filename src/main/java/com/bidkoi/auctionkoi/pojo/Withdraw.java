@@ -21,8 +21,14 @@ public class Withdraw {
     @Column(name = "Amount")
     Double amount;
 
+    @Column(name = "Account_Name")
+    String accountName;
+
     @Column(name = "Account_Number")
     String accountNumber;
+
+    @Column(name = "Bank_Name")
+    String bankName;
 
     @Column(name = "Withdraw_Date")
     LocalDateTime withdrawDate;
