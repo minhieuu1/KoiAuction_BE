@@ -44,6 +44,7 @@ public class AccountService implements IAccountService {
 
     IWalletRepository wallerRepo;
     TokenService tokenService;
+    EmailService emailService;
 
     @Override
     public AccountDTO register(RegisterRequest request) {
@@ -60,6 +61,12 @@ public class AccountService implements IAccountService {
         account.setPassword(this.passwordEncoder.encode(request.getPassword()));
         account.setRole(Role.BIDDER);
         account = iAccountRepository.save(account);
+
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setReceiver(account);
+        emailDetail.setSubject("Welcome to BidKoi");
+        emailDetail.setLink("http://localhost:5173/login");
+        emailService.sendEmail(emailDetail);
 
 
 
