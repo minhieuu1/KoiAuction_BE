@@ -6,10 +6,7 @@ import com.bidkoi.auctionkoi.dto.BidderDTO;
 import com.bidkoi.auctionkoi.exception.AppException;
 import com.bidkoi.auctionkoi.enums.ErrorCode;
 import com.bidkoi.auctionkoi.mapper.IAccountMapper;
-import com.bidkoi.auctionkoi.payload.request.AccountCreationRequest;
-import com.bidkoi.auctionkoi.payload.request.LoginRequest;
-import com.bidkoi.auctionkoi.payload.request.RegisterRequest;
-import com.bidkoi.auctionkoi.payload.request.UpdatePasswordRequest;
+import com.bidkoi.auctionkoi.payload.request.*;
 import com.bidkoi.auctionkoi.payload.response.LoginResponse;
 import com.bidkoi.auctionkoi.pojo.*;
 import com.bidkoi.auctionkoi.enums.Role;
@@ -23,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -220,5 +218,17 @@ public class AccountService implements IAccountService {
         iAccountRepository.save(account);
     }
 
+
+    public Account getCurrentAccount() {
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return iAccountRepository.findAccountById(account.getId());
+    }
+
+    @Override
+    public Account updateFCM(UpdateFCMRequest updateFCMRequest) {
+        Account account = getCurrentAccount();
+        account.setFcmToken(updateFCMRequest.getFcmToken());
+        return iAccountRepository.save(account);
+    }
 
 }

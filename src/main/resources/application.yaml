@@ -26,7 +26,25 @@ spring:
             client-secret: "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"
 
 
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: thanhnguyendc01@gmail.com
+#    password: asolicqaidlawitk
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+
+
 jwt:
   signerKey: "0g0avXnDMtvyD/NQA5jLi3d6/xYtNwMlYsETTarZ6g8smHtHp+p6u2Pa4r1Zpyzr"
 
 
+fcm:
+  credentials:
+    file:
+      path: "./fcm-credentials.json"
