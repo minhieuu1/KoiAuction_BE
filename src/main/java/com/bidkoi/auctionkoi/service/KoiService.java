@@ -92,7 +92,8 @@ public class KoiService implements IKoiService {
         Koi koi = KoiRepo.findById(koiId).
                 orElseThrow(()->new AppException(ErrorCode.KOI_NOT_FOUND));
         mapper.updateKoi(koi, request);
-        return mapper.toKoiDTO(KoiRepo.save(koi));
+        KoiRepo.save(koi);
+        return mapper.toKoiDTO(koi);
     }
 
 //    @Override

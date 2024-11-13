@@ -17,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +42,7 @@ public class TransactionService implements ITransactionService {
         List<Room> rooms = roomRepo.findByAuctionId(auctionId);
         for (Room room : rooms) {
             String winner = room.getWinner();
-            List<Bid> bids = bidRepo.findByUsernameIsNot(winner);
+            List<Bid> bids = bidRepo.findByUsernameIsNotOrUsernameIsNull(winner);
 
             Koi koi = room.getKoi();
 
@@ -84,7 +85,7 @@ public class TransactionService implements ITransactionService {
         walletRepo.save(wallet);
         Transactions transaction = Transactions.builder()
                 .amount(deposit)
-                .date(new Date(System.currentTimeMillis()))
+                .date(LocalDateTime.now())
                 .description("")
                 .type(TransactionsEnum.REFUND)
                 .status("COMPLETED")
@@ -109,7 +110,7 @@ public class TransactionService implements ITransactionService {
         walletRepo.save(wallet);
         Transactions transaction = Transactions.builder()
                 .amount(deposit)
-                .date(new Date(System.currentTimeMillis()))
+                .date(LocalDateTime.now())
                 .description("")
                 .type(TransactionsEnum.REFUND)
                 .status("COMPLETED")
@@ -131,7 +132,7 @@ public class TransactionService implements ITransactionService {
         walletRepo.save(wallet);
         Transactions transaction = Transactions.builder()
                 .amount(deposit)
-                .date(new Date(System.currentTimeMillis()))
+                .date(LocalDateTime.now())
                 .description("")
                 .type(TransactionsEnum.REFUND)
                 .status("COMPLETED")
@@ -173,7 +174,7 @@ public class TransactionService implements ITransactionService {
 
             Transactions transaction = Transactions.builder()
                     .amount(deposit)
-                    .date(new Date(System.currentTimeMillis()))
+                    .date(LocalDateTime.now())
                     .description("Refund for breederId: " + breeder.getBreederID())
                     .type(TransactionsEnum.REFUND)
                     .status("COMPLETED")
