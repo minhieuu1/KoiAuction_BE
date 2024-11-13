@@ -62,6 +62,12 @@ public class AccountService implements IAccountService {
         account.setRole(Role.BIDDER);
         account = iAccountRepository.save(account);
 
+        EmailDetail emailDetail = new EmailDetail();
+        emailDetail.setReceiver(account);
+        emailDetail.setSubject("Welcome to BidKoi");
+        emailDetail.setLink("http://localhost:5173/login");
+        emailService.sendEmail(emailDetail);
+
 
         //gui email ve cho nguoi dung
         EmailDetail emailDetail = new EmailDetail();
