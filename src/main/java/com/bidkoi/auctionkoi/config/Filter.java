@@ -47,7 +47,9 @@ public class Filter extends OncePerRequestFilter {
             "/BidKoi/swagger-ui/**",       // Allow Swagger UI access
             "/BidKoi/swagger-resources/**", // Allow Swagger resources
 
-            "/BidKoi/shipping/**"
+            "/BidKoi/shipping/**",
+            "/BidKoi/account/number/**"
+
 
     );
 

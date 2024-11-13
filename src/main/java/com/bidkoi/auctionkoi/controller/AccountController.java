@@ -98,4 +98,28 @@ public class AccountController {
         return ResponseEntity.ok("Password updated successfully.");
     }
 
+    @GetMapping("/number/bidder")
+     public ResponseEntity<ApiResponse<Integer>> numberOfBidder() {
+        ApiResponse<Integer> response = ApiResponse.<Integer>builder().data(iAccountService.numberOfBidder()).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/number/breeder")
+    public ResponseEntity<ApiResponse<Integer>> numberOfBreeder() {
+        ApiResponse<Integer> response = ApiResponse.<Integer>builder().data(iAccountService.numberOfBreeder()).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/number/staff")
+    public ResponseEntity<ApiResponse<Integer>> numberOfStaff() {
+        ApiResponse<Integer> response = ApiResponse.<Integer>builder().data(iAccountService.numberOfStaff()).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/banned/{accountId}")
+    public ResponseEntity<Void> banned(@PathVariable String accountId) {
+        iAccountService.bannedUser(accountId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
