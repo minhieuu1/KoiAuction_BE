@@ -2,3 +2,6 @@ server:
   port: 8080
   servlet: { context-path: /BidKoi }
 
+spring:
+  datasource:
+    driver-class-name: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
